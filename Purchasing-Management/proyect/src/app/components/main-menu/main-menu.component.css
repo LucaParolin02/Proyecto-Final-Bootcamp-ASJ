@@ -1,0 +1,16 @@
+*{
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+.col{
+    height: 87vh;
+    align-content: center;
+}
+.card{
+    margin-left: 13%;
+    margin-top: 30%;
+}
