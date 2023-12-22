@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ordenes } from '../data/dataPurchase';
+import { ordenes } from '../interfaces/dataPurchase';
 
 @Injectable({
   providedIn: 'root'

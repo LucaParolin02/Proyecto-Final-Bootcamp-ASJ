@@ -1,38 +1,35 @@
 <div class="card mb-5">
     <div class="row g-0 ">
         <div class="col-6 border">
-            <img src="imagenes/proveedores-añadir.webp" class="img-fluid rounded-start w-75" id="imagen" alt="...">
+            <img src="assets/proveedores-añadir.webp" class="img-fluid rounded-start w-75" id="imagen" alt="...">
         </div>
         <div class="col-6">
             <div class="card-body">
                 <h1>Supplier</h1>
                 <p>Add supplier</p>
                 <div class="container-fluid p-2 ">
-                    <div class="row pb-2 ">
-                        <input id="codigo" type="text" class="form-control"
-                            placeholder="Ingrese el codigo de su proveedor">
-                    </div>
-                    <div class="row pb-2 ">
-                        <input id="razon" type="text" class="form-control"
-                            placeholder="Ingrese la razon social de su proveedor">
-                    </div>
-                    <div class="row pb-2 ">
-                        <input id="rubro" type="text" class="form-control"
-                            placeholder="Ingrese el rubro de su proveedor">
-                    </div>
-                    <div class="row pb-2 ">
-                        <input id="email" type="email" class="form-control"
-                            placeholder="Ingrese el email de su proveedor">
-                    </div>
-                    <div class="row pb-2 ">
-                        <input id="direccion" type="text" class="form-control"
-                            placeholder="Ingrese la direccion de su proveedor">
-                    </div>
-                </div>
-                <div class="container-fluid p-2 ">
-                    <button type="submit" class="btn btn-success" id="boton">Add</button>
+                    <form #myForm="ngForm" (ngSubmit)="create(myForm)">
+                        <div class="row pb-2 ">
+                            <input type="text" class="form-control"
+                                placeholder="Ingrese nombre" name="name" [(ngModel)]="supplier.name">
+                        </div>
+                        <div class="row pb-2 ">
+                            <input type="number" class="form-control" placeholder="Ingrese cuit" min="1" name="cuit" [(ngModel)]="supplier.cuit">
+                        </div>
+                        <div class="row pb-2 ">
+                            <input type="email" class="form-control" placeholder="Ingrese el email" name="email" [(ngModel)]="supplier.email">
+                        </div>
+                        <div class="row pb-2 ">
+                            <input type="text" class="form-control" placeholder="Ingrese la direccion" name="addres" [(ngModel)]="supplier.addres">
+                        </div>
+                        <div class="row pb-2 ">
+                            <input type="text" class="form-control" placeholder="FiscalData" name="fiscalData" [(ngModel)]="supplier.fiscalData">
+                        </div>
+                        <div class="container-fluid p-2 ">
+                            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Add</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>

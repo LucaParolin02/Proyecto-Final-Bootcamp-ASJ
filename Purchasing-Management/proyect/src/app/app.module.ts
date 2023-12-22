@@ -12,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CreateSupplierComponent } from './components/create-supplier/create-supplier.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
 import { CreatePurchaseOrderComponent } from './components/create-purchase-order/create-purchase-order.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CreatePurchaseOrderComponent } from './components/create-purchase-order
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
