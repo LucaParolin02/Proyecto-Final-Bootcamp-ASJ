@@ -13,6 +13,7 @@ import { CreateSupplierComponent } from './components/create-supplier/create-sup
 import { CreateProductComponent } from './components/create-product/create-product.component';
 import { CreatePurchaseOrderComponent } from './components/create-purchase-order/create-purchase-order.component';
 import { FormsModule } from '@angular/forms';
+import { CuitPipePipe } from './pipes/cuit-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     CreateSupplierComponent,
     CreateProductComponent,
     CreatePurchaseOrderComponent,
+    CuitPipePipe,
   ],
   imports: [
     BrowserModule,

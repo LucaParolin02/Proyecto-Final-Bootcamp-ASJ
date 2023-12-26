@@ -1,35 +1,65 @@
 <div class="card mb-5">
-    <div class="row g-0 ">
+    <div class="row g-0">
         <div class="col-6 border">
-            <img src="assets/proveedores-añadir.webp" class="img-fluid rounded-start w-75" id="imagen" alt="...">
+            <img src="assets/proveedores-añadir.webp" class="img-fluid rounded-start w-75" id="imagen" alt="..." />
         </div>
         <div class="col-6">
             <div class="card-body">
                 <h1>Supplier</h1>
-                <p>Add supplier</p>
-                <div class="container-fluid p-2 ">
-                    <form #myForm="ngForm" (ngSubmit)="create(myForm)">
-                        <div class="row pb-2 ">
-                            <input type="text" class="form-control"
-                                placeholder="Ingrese nombre" name="name" [(ngModel)]="supplier.name">
+                <p>{{ editMode ? "Edit supplier" : "Add supplier" }}</p>
+                <div class="container-fluid p-2">
+                    <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+                        <div class="row pb-2">
+                            <label class="form-label">Business Name</label>
+                            <input type="text" class="form-control" placeholder="Enter the supplier name" name="name"
+                                [(ngModel)]="supplier.name" required pattern="[a-zA-Z\s]{4,20}" />
                         </div>
-                        <div class="row pb-2 ">
-                            <input type="number" class="form-control" placeholder="Ingrese cuit" min="1" name="cuit" [(ngModel)]="supplier.cuit">
+                        <div class="row pb-2">
+                            <label class="form-label">Field</label>
+                            <input type="text" class="form-control" placeholder="Enter your field to which you belong
+                            " name="field" [(ngModel)]="supplier.field" required pattern="[a-zA-Z\s]{4,20}"/>
                         </div>
-                        <div class="row pb-2 ">
-                            <input type="email" class="form-control" placeholder="Ingrese el email" name="email" [(ngModel)]="supplier.email">
+                        <div class="row pb-2">
+                            <label class="form-label">CUIT</label>
+                            <input type="text" class="form-control" placeholder="Enter CUIT" 
+                                name="cuit" [(ngModel)]="supplier.cuit"  required pattern="[0-9]*"/>
                         </div>
-                        <div class="row pb-2 ">
-                            <input type="text" class="form-control" placeholder="Ingrese la direccion" name="addres" [(ngModel)]="supplier.addres">
+                        <div class="row pb-2">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter Email" name="email"
+                                [(ngModel)]="supplier.email" />
                         </div>
-                        <div class="row pb-2 ">
-                            <input type="text" class="form-control" placeholder="FiscalData" name="fiscalData" [(ngModel)]="supplier.fiscalData">
+                        <div class="row pb-2">
+                            <label class="form-label">Addres</label>
+                            <input type="text" class="form-control" placeholder="Enter the addres" name="addres"
+                                [(ngModel)]="supplier.addres" />
                         </div>
-                        <div class="container-fluid p-2 ">
-                            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Add</button>
+                        <div class="row pb-2">
+                            <label class="form-label">Choose IVA Condition</label>
+                            <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.iva" class="form-select" required>
+                                <option value="IVA Responsable Inscripto">
+                                    IVA Responsable Inscripto
+                                </option>
+                                <option value="IVA Responsable no Inscripto">
+                                    IVA Responsable no Inscripto
+                                </option>
+                                <option value="Monotributista Social">
+                                    Monotributista Social
+                                </option>
+                                <option value="Proveedor del Exterior">
+                                    Proveedor del Exterior
+                                </option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="container-fluid p-2">
+                            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">
+                                {{ editMode ? "Edit" : "Add" }}
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>

@@ -1,1 +1,63 @@
-<p>create-product works!</p>
+<div class="card mb-5">
+    <div class="row g-0 ">
+      <div class="col-6 border">
+        <img src="assets/add-product.png" class="img-fluid rounded-start w-75" id="imagen" alt="...">
+      </div>
+      <div class="col-6">
+        <div class="card-body">
+          <h1>Product</h1>
+          <p>{{ editMode ? 'Edit product' : 'Add product' }}</p>
+          <div class="container-fluid p-2 ">
+            <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+              <div class="row pb-2 ">
+                <label class="form-label ">Name Product</label>
+                <input type="text" class="form-control" placeholder="Enter product name" name="nameProduct" [(ngModel)]="product.nameProduct">
+              </div>
+              <div class="row pb-2">
+                <label class="form-label">Choose supplier</label>
+                <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier">
+                    <option *ngFor="let supplier of suppliersList" [ngValue]="supplier">{{ supplier.name }}</option>
+                </select>
+            </div>
+              <div class="row pb-2">
+                <label class="form-label">Choose category</label>
+                <select name="category" aria-label="Select category" [(ngModel)]="product.category" class="form-select">
+                    <option value="A">
+                        A
+                    </option>
+                    <option value="B">
+                        B
+                    </option>
+                    <option value="C">
+                        C
+                    </option>
+                    <option value="D">
+                        D
+                    </option>
+                    <option value="E">
+                        E
+                    </option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+              <div class="row pb-2 ">
+                <label class="form-label ">Description</label>
+                <input type="text" class="form-control" placeholder="Enter description" name="description" [(ngModel)]="product.description">
+              </div>
+              <div class="row pb-2 ">
+                <label class="form-label ">Amount</label>
+                <input type="number" class="form-control" placeholder="Enter amount" name="amount" [(ngModel)]="product.amount">
+              </div>
+              <div class="row pb-2 ">
+                <label class="form-label ">Price</label>
+                <input type="number" class="form-control" placeholder="Enter price" name="price" [(ngModel)]="product.price">
+              </div>
+              <div class="container-fluid p-2 ">
+                <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">{{ editMode ? 'Edit' : 'Add' }}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

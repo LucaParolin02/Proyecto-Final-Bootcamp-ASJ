@@ -1,49 +1,59 @@
-<div class="container-fluid align-content-center bg-light  text-center p-4">
-    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling">Products options</button>
-
-    <a href="/home" class="btn btn-dark ms-3">Main Menu</a>
-
-    <div class="offcanvas offcanvas-start text-bg-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-        <div class="offcanvas-header">
-            <h4 class="offcanvas-title" id="offcanvasScrollingLabel">Welcome to the products Options Menu</h4>
-        </div>
-        <div class="offcanvas-body">
-            <h2>Select an option</h2>
-            <ul class="text-success ">
-                <li><p class="h5 text-decoration-none text-success" data-bs-dismiss="offcanvas">See the list</p></li>
-                <li><a routerLink="/products/add" class="h5 text-decoration-none text-success">Add product</a></li>
-            </ul>
+<section>
+    <div class="container-fluid align-content-center bg-light  text-center p-4">
+        <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling">Products options</button>
+    
+        <a [routerLink]="['/home']" class="btn btn-dark ms-3">Main Menu</a>
+    
+        <div class="offcanvas offcanvas-start text-bg-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+            id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div class="offcanvas-header">
+                <h4 class="offcanvas-title" id="offcanvasScrollingLabel">Welcome to the products Options Menu</h4>
+            </div>
+            <div class="offcanvas-body">
+                <h2>Select an option</h2>
+                <ul class="text-success ">
+                    <li><p class="h5 text-decoration-none text-success" data-bs-dismiss="offcanvas">See the list</p></li>
+                    <li><a routerLink="/products/add" class="h5 text-decoration-none text-success">Add product</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<div class="container-fluid">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col" class="bg-dark text-light ">Supplier</th>
-                <th scope="col" class="bg-dark text-light ">SKU</th>
-                <th scope="col" class="bg-dark text-light ">Category</th>
-                <th scope="col" class="bg-dark text-light ">Name Product</th>
-                <th scope="col" class="bg-dark text-light ">Description</th>
-                <th scope="col" class="bg-dark text-light ">Price</th>
-                <th scope="col" class="bg-dark text-light ">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of productsList">
-                <td>{{product.supplier}}</td>
-                <td>{{product.sku}}</td>
-                <td>{{product.category}}</td>
-                <td>{{product.nameProduct}}</td>
-                <td>{{product.description}}</td>
-                <td>{{product.price}}</td>
-                <td>
-                    <button class="btn btn-danger mx-2 ">Eliminar</button>
-                    <button class="btn btn-warning">Editar</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+</section>
+<section *ngIf="productsList.length > 0" class="pb-3 rounded">
+    <div class="container-fluid">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-dark text-light ">SKU</th>
+                    <th scope="col" class="bg-dark text-light ">Name Product</th>
+                    <th scope="col" class="bg-dark text-light ">Supplier</th>
+                    <th scope="col" class="bg-dark text-light ">Category</th>
+                    <th scope="col" class="bg-dark text-light ">Description</th>
+                    <th scope="col" class="bg-dark text-light ">Price</th>
+                    <th scope="col" class="bg-dark text-light ">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of productsList">
+                    <td>{{product.sku}}</td>
+                    <td>{{product.nameProduct}}</td>
+                    <td>{{product.supplier.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.description}}</td>
+                    <td>{{product.price}}</td>
+                    <td>
+                        <button class="btn btn-danger mx-2" (click)="deleteProduct(product.sku!)">Eliminar</button>
+                        <button class="btn btn-warning" (click)="editProduct(product.sku!)">Editar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section *ngIf="productsList.length == 0" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There is not products on the list!</h3>
+     </div>
+</section>
+

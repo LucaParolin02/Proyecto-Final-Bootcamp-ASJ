@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { supplierInterface } from '../../interfaces/dataSuppliers';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-suppliers',
@@ -10,8 +11,9 @@ import { supplierInterface } from '../../interfaces/dataSuppliers';
 export class SuppliersComponent implements OnInit {
 
   supplierList: supplierInterface[] = [];
+  selectedSupplier: supplierInterface | null = null;
 
-  constructor(private service: SupplierServiceService) {}
+  constructor(private service: SupplierServiceService,private router: Router) {}
 
   ngOnInit(): void {
   this.loadlist();
@@ -26,6 +28,13 @@ export class SuppliersComponent implements OnInit {
     if (isConfirmed) {
       this.service.deleteSupplier(code);
       this.loadlist();
+    }
+  }
+
+  public edit(code:number){
+    const isConfirmed = window.confirm('Are you sure you want edit this supplier?');
+    if (isConfirmed){
+      this.router.navigate(['/suppliers' + '/' + code]);
     }
   }
 }

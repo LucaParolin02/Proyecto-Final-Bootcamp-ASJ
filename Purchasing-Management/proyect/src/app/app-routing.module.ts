@@ -14,18 +14,21 @@ const routes: Routes = [
   {path: 'suppliers',
     children:[
     {path:"", component: SuppliersComponent},
-    {path:'add', component: CreateSupplierComponent}
+    {path:'add', component: CreateSupplierComponent},
+    {path:':id', component: CreateSupplierComponent}
   ]},
   {path:'products',
     children:[
       {path:"", component: ProductsComponent},
-      {path:'add',component:CreateProductComponent}
+      {path:'add',component:CreateProductComponent},
+      {path:':id',component:CreateProductComponent}
     ]
   },
   {path:'purchase-orders',
     children:[
       {path:"", component: PurchaseOrdersComponent},
-      {path:'add', component: CreatePurchaseOrderComponent}
+      {path:'add', component: CreatePurchaseOrderComponent},
+      {path:':id',component: CreatePurchaseOrderComponent}
     ]
   },
   {path:'**', pathMatch: 'full', redirectTo: 'home'}
