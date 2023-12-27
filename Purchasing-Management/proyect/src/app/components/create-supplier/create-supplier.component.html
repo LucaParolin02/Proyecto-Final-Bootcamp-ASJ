@@ -5,38 +5,117 @@
         </div>
         <div class="col-6">
             <div class="card-body">
-                <h1>Supplier</h1>
-                <p>{{ editMode ? "Edit supplier" : "Add supplier" }}</p>
                 <div class="container-fluid p-2">
                     <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
                         <div class="row pb-2">
-                            <label class="form-label">Business Name</label>
-                            <input type="text" class="form-control" placeholder="Enter the supplier name" name="name"
-                                [(ngModel)]="supplier.name" required pattern="[a-zA-Z\s]{4,20}" />
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>Provider Data</h3>
+                                    </div>
+                                    <div class="col d-flex text-end  ">
+                                            <a routerLink="../" class="btn btn-dark btn-light  justify-content-end ">Come Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Business Name</label>
+                                <input type="text" class="form-control" placeholder="Enter the supplier name"
+                                    name="name" [(ngModel)]="supplier.name" required pattern="[a-zA-Z\s]{4,20}" />
+                            </div>
+                            <div>
+                                <label class="form-label">Supplier Code</label>
+                                <input type="text" class="form-control" placeholder="Enter your code" name="codeSupp"
+                                    [(ngModel)]="supplier.codeSupp" required pattern=".{3,7}">
+                            </div>
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">Field</label>
-                            <input type="text" class="form-control" placeholder="Enter your field to which you belong
-                            " name="field" [(ngModel)]="supplier.field" required pattern="[a-zA-Z\s]{4,20}"/>
+                            <label class="form-label">Address</label>
+                            <div class="row pb-2">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Street" name="street"
+                                        [(ngModel)]="supplier.street" required />
+                                </div>
+                                <div class="col">
+                                    <select type="text" #country="ngModel" name="country" class="form-select"
+                                        [(ngModel)]="supplier.country" required (change)="selectCountry()">
+                                        <option *ngFor="let country of countries" value="{{country.name}}">
+                                            {{country.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row pb-2">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Postal Code" name="postalCode"
+                                        [(ngModel)]="supplier.postalCode" required />
+                                </div>
+                                <div class="col">
+                                    <select type="text" #province="ngModel" name="province" class="form-select"
+                                        [(ngModel)]="supplier.province" required (change)="selectState()">
+                                        <option *ngFor="let state of states" value="{{state.name}}">{{state.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Number" name="number"
+                                        [(ngModel)]="supplier.number" required />
+                                </div>
+                                <div class="col">
+                                    <select type="text" #city="ngModel" name="city" class="form-select"
+                                        [(ngModel)]="supplier.city" required>
+                                        <option *ngFor="let city of cities" value="{{city.name}}">{{city.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">CUIT</label>
-                            <input type="text" class="form-control" placeholder="Enter CUIT" 
-                                name="cuit" [(ngModel)]="supplier.cuit"  required pattern="[0-9]*"/>
+                            <label class="form-label">Choose Field</label>
+                            <select name="field" aria-label="Select Field" [(ngModel)]="supplier.field"
+                                class="form-select" required>
+                                <option value="Food">Food</option>
+                                <option value="Electronic">Electronic</option>
+                                <option value="Tools">Tools</option>
+                                <option value="Jewelry">Jewelry</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div class="row pb-2">
+                            <div>
+                                <h3>Contact Data</h3>
+                            </div>
                             <label class="form-label">Email</label>
                             <input type="email" class="form-control" placeholder="Enter Email" name="email"
                                 [(ngModel)]="supplier.email" />
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">Addres</label>
-                            <input type="text" class="form-control" placeholder="Enter the addres" name="addres"
-                                [(ngModel)]="supplier.addres" />
+                            <label class="form-label">Web</label>
+                            <input type="text" class="form-control" placeholder="Enter web site" name="web"
+                                [(ngModel)]="supplier.web" />
+                        </div>
+                        <div class="row pb-2">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" placeholder="Enter your phone" name="phone"
+                                [(ngModel)]="supplier.phone" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" />
+                            <div
+                                *ngIf="myForm.controls['phone']?.hasError('pattern') && myForm.controls['phone'].touched">
+                                <p class="text-danger ">Invalid phone number format. Please use the format
+                                    xxx-xxxx-xxxx.</p>
+                            </div>
+                        </div>
+                        <div class="row pb-2">
+                            <div>
+                                <h3>Fiscal Data</h3>
+                            </div>
+                            <label class="form-label">CUIT</label>
+                            <input type="text" class="form-control" placeholder="Enter CUIT" name="cuit"
+                                [(ngModel)]="supplier.cuit" required pattern="[0-9]*" />
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Choose IVA Condition</label>
-                            <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.iva" class="form-select" required>
+                            <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.iva" class="form-select"
+                                required>
                                 <option value="IVA Responsable Inscripto">
                                     IVA Responsable Inscripto
                                 </option>

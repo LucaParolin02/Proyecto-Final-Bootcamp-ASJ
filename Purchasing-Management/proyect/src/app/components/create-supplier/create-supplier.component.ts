@@ -1,42 +1,59 @@
 import { Component, OnInit } from '@angular/core';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { NgForm } from '@angular/forms';
-import { supplierInterface } from '../../interfaces/dataSuppliers';
 import { ActivatedRoute, Router } from '@angular/router';
+import { supplierInterface } from '../../interfaces/dataSuppliers';
 
 @Component({
   selector: 'app-create-supplier',
   templateUrl: './create-supplier.component.html',
-  styleUrl: './create-supplier.component.css'
+  styleUrls: ['./create-supplier.component.css']
 })
 export class CreateSupplierComponent implements OnInit {
 
   supplier: supplierInterface = {
     name: '',
-    field: '',
+    field: 'Other',
     cuit: '',
     email: '',
-    addres: '',
+    phone: 0,
+    web: '',
+    street: '',
+    number: '',
+    postalCode: '',
+    city: '',
+    province: '',
+    country: '',
     iva: 'Other'
-  }
+  };
+  countries: any[] = [];
+  states: any[] = [];
+  cities: any[] = [];
 
   public editMode: boolean = false;
   private editSupplierCode: number | null = null;
 
-  constructor(private service: SupplierServiceService, private router: Router, private route: ActivatedRoute){}
+  constructor(private service: SupplierServiceService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const codeParam = params['id'];
       if (codeParam) {
         this.editMode = true;
-        this.editSupplierCode = +codeParam; // Convierte el código a número
+        this.editSupplierCode = +codeParam;
         this.loadSupplierData();
+        this.selectCountry();
+        this.selectState();
       }
     });
+
+    this.service.getCountries().subscribe((data: any) => {
+      this.countries = data;
+    });
+
   }
 
-  public submitForm(form: NgForm){
+  public submitForm(form: NgForm) {
     if (this.editMode) {
       const editSupplier: supplierInterface = this.editingSupplier(form);
       this.service.updateSupplier(editSupplier);
@@ -46,11 +63,11 @@ export class CreateSupplierComponent implements OnInit {
     this.router.navigate(['/suppliers']);
   }
 
-  private loadSupplierData(){
+  private loadSupplierData() {
     if (this.editSupplierCode !== null) {
       const currentSupplier = this.service.getSupplier(this.editSupplierCode);
       if (currentSupplier) {
-        this.supplier = { ...currentSupplier }; // spread/rest
+        this.supplier = { ...currentSupplier };
       }
     }
   }
@@ -58,12 +75,32 @@ export class CreateSupplierComponent implements OnInit {
   private editingSupplier(form: NgForm): supplierInterface {
     return {
       code: this.editSupplierCode || 0,
+      codeSupp: form.value.codeSupp,
       name: form.value.name,
       field: form.value.field,
       cuit: form.value.cuit,
       email: form.value.email,
-      addres: form.value.addres,
-      iva: form.value.iva,
+      web: form.value.web,
+      phone: form.value.phone,
+      street: form.value.street,
+      number: form.value.number,
+      postalCode: form.value.postalCode,
+      city: form.value.city,
+      province: form.value.province,
+      country: form.value.country,
+      iva: form.value.iva
     };
+  }
+
+  public selectCountry(){
+    this.service.getStates().subscribe((data: any) => {
+      this.states = data.filter((state: any) => (state.country_name === this.supplier.country));
+    });
+  }
+
+  public selectState(){
+    this.service.getCities().subscribe((data: any) => {
+      this.cities = data.filter((cities: any) => (cities.state_name === this.supplier.province));
+    })
   }
 }

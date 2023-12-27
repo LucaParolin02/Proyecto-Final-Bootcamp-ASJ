@@ -29,10 +29,11 @@
             <thead>
                 <tr>
                     <th scope="col" class="bg-dark text-light ">Code</th>
+                    <th scope="col" class="bg-dark text-light ">CodeS</th>
                     <th scope="col" class="bg-dark text-light ">Business Name</th>
                     <th scope="col" class="bg-dark text-light ">Field</th>
                     <th scope="col" class="bg-dark text-light ">Cuit</th>
-                    <th scope="col" class="bg-dark text-light ">Email</th>
+                    <th scope="col" class="bg-dark text-light ">Email/Phone/Web</th>
                     <th scope="col" class="bg-dark text-light ">Addres</th>
                     <th scope="col" class="bg-dark text-light ">Fiscal Data</th>
                     <th scope="col" class="bg-dark text-light ">Action</th>
@@ -41,15 +42,24 @@
             <tbody>
                 <tr *ngFor="let supplier of supplierList">
                     <td>{{supplier.code}}</td>
+                    <td>{{supplier.codeSupp}}</td>
                     <td>{{supplier.name}}</td>
                     <td>{{supplier.field}}</td>
                     <td>{{supplier.cuit | cuitPipe}}</td>
-                    <td>{{supplier.email}}</td>
-                    <td>{{supplier.addres}}</td>
+                    <td>
+                        <p>{{supplier.email}}</p>
+                        <p>{{supplier.phone}}</p>
+                        <p>{{supplier.web}}</p> 
+                    </td>
+                    <td>
+                       <p>{{supplier.country}} - {{supplier.province}}</p>
+                       <p>{{supplier.city}} -  {{supplier.postalCode}}</p>
+                       <p>{{supplier.street}} - {{supplier.number}}</p> 
+                    </td>
                     <td>{{supplier.iva}}</td>
                     <td>
-                        <button class="btn btn-danger mx-2 " (click)="delete(supplier.code!)">Eliminar</button>
-                        <button class="btn btn-warning" (click)="edit(supplier.code!)">Editar</button>
+                        <button class="btn btn-danger mx-2 " (click)="delete(supplier.code!)">Delete</button>
+                        <button class="btn btn-warning" (click)="edit(supplier.code!)">Edit</button>
                     </td>
                 </tr>
             </tbody>

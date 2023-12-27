@@ -6,6 +6,7 @@ import { supplierInterface } from '../../interfaces/dataSuppliers';
 import { productsInterface } from '../../interfaces/dataProducts';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 
+
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -19,15 +20,21 @@ export class CreateProductComponent implements OnInit {
     supplier: {
       code: 0,
       name: '',
-      field: '',
+      field: 'Other',
       cuit: '',
       email: '',
-      addres: '',
+      web: '',
+      phone: 0,
+      street: '',
+      number: '',
+      postalCode: '',
+      city: '',
+      province: '',
+      country: '',
       iva: 'Other'
     },
     category: 'Other',
     description: '',
-    amount: 0,
     price: 0,
   };
 
@@ -41,7 +48,6 @@ export class CreateProductComponent implements OnInit {
 
     this.suppliersList = this.serviceSuppliers.getSuppliers();
 
-
     this.route.params.subscribe(params => {
       const codeParam = params['id'];
       if (codeParam) {
@@ -54,17 +60,9 @@ export class CreateProductComponent implements OnInit {
 
   submitForm(form: NgForm): void {
     if (this.editMode) {
-      const editProduct: productsInterface = {
-        sku: this.product.sku,
-        nameProduct: form.value.nameProduct,
-        supplier: form.value.supplier,
-        category: form.value.category,
-        description: form.value.description,
-        amount: form.value.amount,
-        price: form.value.price,
-      };
+      const editProduct: productsInterface = this.editingProduct(form);
       this.service.updateProduct(editProduct);
-    } else {
+    }else {
       this.service.addProduct(form.value);
     }
     this.router.navigate(['/products']);
@@ -78,4 +76,16 @@ export class CreateProductComponent implements OnInit {
       }
     }
   }
+
+  private editingProduct(form: NgForm): productsInterface {
+    return {
+      sku: this.product.sku,
+      nameProduct: form.value.nameProduct,
+      supplier: form.value.supplier,
+      category: form.value.category,
+      description: form.value.description,
+      price: form.value.price,
+    };
+  }
+  
 }

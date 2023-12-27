@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { supplierInterface } from '../interfaces/dataSuppliers';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -8,8 +10,12 @@ import { supplierInterface } from '../interfaces/dataSuppliers';
 export class SupplierServiceService {
 
   private suppliers: supplierInterface[] = [];
+  
+  private URL_API_COUNTRIES: string = "assets/data/countries.json";
+  private URL_API_STATES: string = "assets/data/states.json";
+  private URL_API_CITIES: string = "assets/data/cities.json";
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   public getSuppliers(): supplierInterface[] {
     return this.suppliers;
@@ -47,6 +53,19 @@ export class SupplierServiceService {
         break;
       }
     }
+  }
+
+  public getCountries(): Observable<any>{
+    return this.http.get(this.URL_API_COUNTRIES);
+  }
+
+  public getStates(): Observable<any>{
+    return this.http.get(this.URL_API_STATES);
+  }
+
+  public getCities(): Observable<any>{
+    return this.http.get(this.URL_API_CITIES);
+
   }
 
 }

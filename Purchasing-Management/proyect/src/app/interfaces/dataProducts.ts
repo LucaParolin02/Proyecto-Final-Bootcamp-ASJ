@@ -6,10 +6,8 @@ export interface productsInterface  {
     supplier: supplierInterface,
     category: categories,
     description: string,
-    amount: number,
     price: number
 }
-
 
 export type categories =
     | 'A'

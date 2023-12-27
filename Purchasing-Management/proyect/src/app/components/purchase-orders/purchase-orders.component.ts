@@ -7,6 +7,7 @@ import { PurchaseOrderServiceService } from '../../services/purchase-order-servi
   styleUrl: './purchase-orders.component.css'
 })
 export class PurchaseOrdersComponent {
+  
   ordersList: any = [];
 
   constructor(private service: PurchaseOrderServiceService) {}

@@ -14,6 +14,7 @@ import { CreateProductComponent } from './components/create-product/create-produ
 import { CreatePurchaseOrderComponent } from './components/create-purchase-order/create-purchase-order.component';
 import { FormsModule } from '@angular/forms';
 import { CuitPipePipe } from './pipes/cuit-pipe.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CuitPipePipe } from './pipes/cuit-pipe.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
