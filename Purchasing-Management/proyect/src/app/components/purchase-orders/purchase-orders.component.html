@@ -35,14 +35,14 @@
             </thead>
             <tbody>
                 <tr *ngFor="let order of ordersList">
-                    <td>{{order.code}}</td>
-                    <td>{{order.supplier}}</td>
-                    <td>{{order.date | date:'dd-MM-yyyy'}}</td>
-                    <td>{{order.expectedDate | date:'dd-MM-yyyy'}}</td>                    
-                    <td>{{order.totalPrice}}</td>
+                    <td [ngClass]="{'text-decoration-line-through': !order.status}">{{order.code}}</td>
+                    <td [ngClass]="{'text-decoration-line-through': !order.status}">{{order.supplier}}</td>
+                    <td [ngClass]="{'text-decoration-line-through': !order.status}">{{order.date | date:'dd-MM-yyyy'}}</td>
+                    <td [ngClass]="{'text-decoration-line-through': !order.status}">{{order.expectedDate | date:'dd-MM-yyyy'}}</td>                    
+                    <td [ngClass]="{'text-decoration-line-through': !order.status}">{{order.totalPrice}}</td>
                     <td>
-                        <button class="btn btn-danger mx-2" (click)="cancelOrder(order.code!)">Cancel</button>
-                        <button class="btn btn-warning mx-2" (click)="editOrder(order.code!)">Edit</button>
+                        <button *ngIf="order.status" class="btn btn-danger mx-2" (click)="cancelOrder(order.code!)">Cancel</button>
+                        <button *ngIf="order.status" class="btn btn-warning mx-2" (click)="editOrder(order.code!)">Edit</button>
                         <button class="btn btn-primary" (click)="detailsOrder(order.code!)">Details</button>
                     </td>
                 </tr>
