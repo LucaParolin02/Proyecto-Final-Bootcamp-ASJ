@@ -42,7 +42,8 @@ export class CreateProductComponent implements OnInit {
   editMode: boolean = false;
   private editProductCode: number | null = null;
 
-  constructor(private service: ProductServiceService,private serviceSuppliers: SupplierServiceService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private service: ProductServiceService,private serviceSuppliers: SupplierServiceService,
+     private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
 

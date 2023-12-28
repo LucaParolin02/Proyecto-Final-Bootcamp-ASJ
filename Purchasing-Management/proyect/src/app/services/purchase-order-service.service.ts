@@ -12,7 +12,7 @@ export class PurchaseOrderServiceService {
   constructor() { }
 
   public getOrders(): orderInterface[] {
-    return this.orders.filter(order => order.status === true);
+    return this.orders;
   }
 
   public getOrder(code: number): orderInterface | undefined {

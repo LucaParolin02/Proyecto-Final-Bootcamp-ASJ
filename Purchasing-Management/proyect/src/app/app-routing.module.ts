@@ -7,6 +7,7 @@ import { SuppliersComponent } from './components/suppliers/suppliers.component';
 import { CreateSupplierComponent } from './components/create-supplier/create-supplier.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
 import { CreatePurchaseOrderComponent } from './components/create-purchase-order/create-purchase-order.component';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 const routes: Routes = [
   {path:'',component:MainMenuComponent},
@@ -24,11 +25,12 @@ const routes: Routes = [
       {path:':id',component:CreateProductComponent}
     ]
   },
-  {path:'purchase-orders',
+  {path:'orders',
     children:[
       {path:"", component: PurchaseOrdersComponent},
       {path:'add', component: CreatePurchaseOrderComponent},
-      {path:':id',component: CreatePurchaseOrderComponent}
+      {path:':id',component: CreatePurchaseOrderComponent},
+      {path:'details/:id',component: OrderDetailsComponent},
     ]
   },
   {path:'**', pathMatch: 'full', redirectTo: 'home'}

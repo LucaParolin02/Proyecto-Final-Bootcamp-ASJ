@@ -21,12 +21,12 @@
                             <div>
                                 <label class="form-label">Business Name</label>
                                 <input type="text" class="form-control" placeholder="Enter the supplier name"
-                                    name="name" [(ngModel)]="supplier.name" required pattern="[a-zA-Z\s]{4,20}" />
+                                    name="name" [(ngModel)]="supplier.name" required pattern="[a-zA-Z\s]{4,16}"  />
                             </div>
                             <div>
                                 <label class="form-label">Supplier Code</label>
                                 <input type="text" class="form-control" placeholder="Enter your code" name="codeSupp"
-                                    [(ngModel)]="supplier.codeSupp" required pattern=".{3,7}">
+                                    [(ngModel)]="supplier.codeSupp" required pattern=".{3,6}">
                             </div>
                         </div>
                         <div class="row pb-2">
@@ -34,7 +34,7 @@
                             <div class="row pb-2">
                                 <div class="col">
                                     <input type="text" class="form-control" placeholder="Street" name="street"
-                                        [(ngModel)]="supplier.street" required />
+                                        [(ngModel)]="supplier.street" required pattern=".{2,17}"/>
                                 </div>
                                 <div class="col">
                                     <select type="text" #country="ngModel" name="country" class="form-select"

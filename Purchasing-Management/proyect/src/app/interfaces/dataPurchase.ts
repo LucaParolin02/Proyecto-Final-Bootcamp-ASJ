@@ -1,4 +1,4 @@
-import { productsInterface } from "./dataProducts"
+import { supplierInterface } from "./dataSuppliers"
 
 export interface orderInterface {
     code?: number,
@@ -6,7 +6,14 @@ export interface orderInterface {
     expectedDate: Date,
     status: boolean,
     info: string,
-    product: productsInterface,
-    amount: number,
+    supplier: supplierInterface,
+    products: productsList[],
     totalPrice: number
+}
+
+export interface productsList {
+    id: number,
+    name: string,
+    price: number,
+    quantity: number
 }

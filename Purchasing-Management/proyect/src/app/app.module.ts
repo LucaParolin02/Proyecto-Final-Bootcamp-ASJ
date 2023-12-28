@@ -15,6 +15,7 @@ import { CreatePurchaseOrderComponent } from './components/create-purchase-order
 import { FormsModule } from '@angular/forms';
 import { CuitPipePipe } from './pipes/cuit-pipe.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     CreateProductComponent,
     CreatePurchaseOrderComponent,
     CuitPipePipe,
+    OrderDetailsComponent,
   ],
   imports: [
     BrowserModule,

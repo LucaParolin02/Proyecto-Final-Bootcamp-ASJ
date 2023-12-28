@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
 export class ProductsComponent implements OnInit {
 
   productsList: productsInterface[] = [];
-  selectedProduct: productsInterface | null = null;
-
+  
   constructor(private service: ProductServiceService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadlist();
+    this.sortProducts();
   }
 
   private loadlist() {
@@ -37,4 +37,9 @@ export class ProductsComponent implements OnInit {
       this.router.navigate(['/products' + '/' + code]);
     }
   }
+
+  public sortProducts() {
+    this.productsList.sort((a, b) => a.nameProduct.localeCompare(b.nameProduct));
+  }
+
 }
