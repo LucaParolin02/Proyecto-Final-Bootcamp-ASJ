@@ -54,7 +54,7 @@ CREATE TABLE suppliers (
 	supp_cuit VARCHAR(11) NOT NULL,
 	supp_web VARCHAR(1024),
 	supp_email VARCHAR(1024),
-	supp_phone INT,
+	supp_phone BIGINT,
 	supp_street VARCHAR(25) NOT NULL,
 	supp_snumber INT NOT NULL,
 	supp_zip VARCHAR(15) NOT NULL,
@@ -150,9 +150,9 @@ INSERT INTO provinces VALUES
 	('Sao Paulo', 2),
 	('Rio de Janeiro', 2),
 	('La Paz', 3),
-	('Asunci�n', 4),
-	('Regi�n Metropolitana de Santiago', 5),
-	('Regi�n de Valpara�so', 5),
+	('Asuncion', 4),
+	('Region Metropolitana de Santiago', 5),
+	('Region de Valparaiso', 5),
 	('Montevideo', 6);
 
 INSERT INTO cities VALUES
@@ -198,7 +198,7 @@ INSERT INTO categories VALUES
 	('Other', '2023-05-11 10:20:00', NULL);
 
 INSERT INTO products VALUES
-	('SKU001', 'Mouse Gamer', 2, 3, 'Mouse de alta precisi�n para juegos', 49.99,20, '2024-01-10 12:30:00', NULL),
+	('SKU001', 'Mouse Gamer', 2, 3, 'Mouse de alta precision para juegos', 49.99,20, '2024-01-10 12:30:00', NULL),
 	('SKU002', 'Alfajor de Chocolate', 1, 1, 'Delicioso alfajor con relleno de dulce de leche', 2.50,30, '2023-05-11 10:20:00', NULL),
 	('SKU003', 'Laptop de Alta Gama', 3, 2, 'Potente laptop para profesionales y gamers', 1500.00,10, '2010-01-10 08:20:00', NULL),
 	('SKU004', 'Fernet', 5, 5, 'Bebida mas preciada del mundo', 29.99,12, '2024-01-10 10:40:00', NULL),
@@ -221,7 +221,7 @@ INSERT INTO statuses VALUES
 
 
 INSERT INTO orders VALUES
-	(1, '2024-01-10 12:30:00', '2024-01-15 15:00:00', 1, 'Pedido de productos de confiter�a', 49.99, '2024-01-10 12:30:00', NULL),
+	(1, '2024-01-10 12:30:00', '2024-01-15 15:00:00', 1, 'Pedido de productos de confiteria', 49.99, '2024-01-10 12:30:00', NULL),
 	(2, '2023-05-11 10:20:00', '2023-05-20 14:30:00', 2, 'Pedido de mouses', 2.50, '2023-05-11 10:20:00', NULL),
 	(3, '2010-01-10 08:20:00', '2010-01-20 12:00:00', 3, 'Pedido de laptops para el departamento de IT', 3000.00, '2010-01-10 08:20:00', NULL),
 	(4, '2024-01-10 10:40:00', '2024-01-18 11:45:00', 4, 'Pedido de fernets evento corporativo', 29.99, '2024-01-10 10:40:00', NULL),

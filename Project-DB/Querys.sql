@@ -1,4 +1,4 @@
--- 1) Obtener todos los productos, mostrando nombre del producto, categoría, proveedor (razón social y codigo proveedor), precio.
+-- 1) Obtener todos los productos, mostrando nombre del producto, categorï¿½a, proveedor (razon social y codigo proveedor), precio.
 
 SELECT p.prod_name as 'Product Name',
 c.cat_name as category,
@@ -9,7 +9,7 @@ FROM products p
 INNER JOIN categories c on c.id_category = p.id_category
 INNER JOIN suppliers s on s.id_supplier = p.id_supplier
 
--- 2) En el listado anterior, además de los datos mostrados, traer el campo imagen aunque el producto NO tenga una. Sino tiene imagen, mostrar "-".
+-- 2) En el listado anterior, ademas de los datos mostrados, traer el campo imagen aunque el producto NO tenga una. Sino tiene imagen, mostrar "-".
 
 SELECT p.prod_name as 'Product Name',
 c.cat_name as category,
@@ -34,7 +34,7 @@ INNER JOIN categories c on c.id_category = p.id_category
 INNER JOIN suppliers s on s.id_supplier = p.id_supplier
 WHERE p.id_product = 2
 
--- 4) Listar todo los proveedores cuyo teléfono tenga la característica de Córdoba o que la provincia sea igual a alguna de las 3 con más proveedores.
+-- 4) Listar todo los proveedores cuyo telefono tenga la caracteristica de Cordoba o que la provincia sea igual a alguna de las 3 con mas proveedores.
 
 SELECT s.supp_code as 'Supp Code',
 s.supp_name as 'Supp Name',
@@ -55,7 +55,7 @@ INNER JOIN cities c on c.id_city = s.id_city
 WHERE CONVERT(VARCHAR(25), s.supp_phone) LIKE '54351%';
 
 --5) Traer un listado de todos los proveedores que no hayan sido eliminados , y ordenados por razon social, codigo proveedor y 
---fecha en que se dió de alta ASC. De este listado mostrar los datos que correspondan con su tabla del front.
+--fecha en que se dia de alta ASC. De este listado mostrar los datos que correspondan con su tabla del front.
 
 SELECT s.supp_code as 'Supp Code',
 s.supp_logo as 'Supp logo',
@@ -76,7 +76,7 @@ INNER JOIN vat_conditions v on v.id_vat = s.id_vat
 INNER JOIN cities c on c.id_city = s.id_city
 ORDER BY sec.sector_name ASC,s.supp_code ASC,s.created_at ASC
 
--- 6) Obtener razon social, codigo proveedor, imagen, web, email, teléfono y los datos del contacto del proveedor con más ordenes de compra cargadas.
+-- 6) Obtener razon social, codigo proveedor, imagen, web, email, telefono y los datos del contacto del proveedor con mas ordenes de compra cargadas.
 
 SELECT s.supp_code as 'Supp Code',
 s.supp_logo as 'Supp logo',
@@ -93,19 +93,19 @@ INNER JOIN vat_conditions v on v.id_vat = s.id_vat
 INNER JOIN cities c on c.id_city = s.id_city
 WHERE s.id_supplier = ( SELECT TOP 1 id_supplier FROM orders GROUP BY id_supplier ORDER BY COUNT (*) DESC);
 
--- 7) Mostrar la fecha emisión, nº de orden, razon social y codigo de proveedor, y la cantidad de productos de cada orden.
+-- 7) Mostrar la fecha emision, n de orden, razon social y codigo de proveedor, y la cantidad de productos de cada orden.
 
-SELECT o.order_created as 'created date',o.id_order as 'N° Order', s.supp_name as 'Supp name', s.supp_code as 'Supp code',COUNT(od.id_order) AS 'Products quantity'
+SELECT o.order_created as 'created date',o.id_order as 'Nï¿½ Order', s.supp_name as 'Supp name', s.supp_code as 'Supp code',COUNT(od.id_order) AS 'Products quantity'
 FROM orders o
 INNER JOIN suppliers s on s.id_supplier = o.id_supplier
 INNER JOIN orders_details od on od.id_order = o.id_order
 GROUP BY 
 o.order_created, o.id_order, s.supp_name, s.supp_code
 
--- 8) En el listado anterior, diferenciar cuando una orden está Cancelada o no, y el total de la misma.
+-- 8) En el listado anterior, diferenciar cuando una orden esta Cancelada o no, y el total de la misma.
 
 SELECT o.order_created as 'created date',
-o.id_order as 'N° Order',
+o.id_order as 'N Order',
 s.supp_name as 'Supp name', 
 s.supp_code as 'Supp code',
 o.order_total as 'Total',
@@ -129,7 +129,7 @@ INNER JOIN orders_details od on od.id_product = p.id_product
 INNER JOIN orders o on o.id_order = od.id_order
 WHERE o.id_supplier = 3
 
---10) Cambiar el estado a Cancelada y la fecha de modificación a la orden de compra con ID = 4.
+--10) Cambiar el estado a Cancelada y la fecha de modificacion a la orden de compra con ID = 4.
 
 UPDATE orders
 SET 
@@ -138,6 +138,6 @@ SET
 WHERE 
     id_order = 4;
 
---11) Escribir la sentencia para eliminar el producto con id = 1 (NO EJECUTAR, SÓLO MOSTRAR SENTENCIA)
+--11) Escribir la sentencia para eliminar el producto con id = 1 (NO EJECUTAR, SOLO MOSTRAR SENTENCIA)
 
 DELETE FROM products WHERE id_product = 1;
