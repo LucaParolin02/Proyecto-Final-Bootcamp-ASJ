@@ -1,8 +1,10 @@
+import { sectorInterface } from "./dataSectors";
+
 export interface supplierInterface {
     code?: number;
     codeSupp?: string; 
     name: string;
-    sectors: items;
+    sectors: sectorInterface;
     cuit: string;
     web?: string; 
     email: string;
@@ -22,10 +24,3 @@ export interface supplierInterface {
     | 'Monotributista Social'
     | 'Proveedor del Exterior'
     | 'Other';
-
-  export type items = 
-    | 'Food'
-    | 'Electronic'
-    | 'Tools'
-    | 'Jewelry'
-    | 'Other'

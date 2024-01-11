@@ -3,6 +3,8 @@ import { SupplierServiceService } from '../../services/supplier-service.service'
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { supplierInterface } from '../../interfaces/dataSuppliers';
+import { sectorInterface } from '../../interfaces/dataSectors';
+import { SectorServiceService } from '../../services/sector-service.service';
 
 @Component({
   selector: 'app-create-supplier',
@@ -13,7 +15,10 @@ export class CreateSupplierComponent implements OnInit {
 
   supplier: supplierInterface = {
     name: '',
-    sectors: 'Other',
+    sectors: {
+      sectorName: '',
+      created: new Date()
+    },
     cuit: '',
     email: '',
     phone: undefined,
@@ -29,13 +34,19 @@ export class CreateSupplierComponent implements OnInit {
   countries: any[] = [];
   states: any[] = [];
   cities: any[] = [];
+  sectorsList: sectorInterface[] = [];
 
   public editMode: boolean = false;
   private editSupplierCode: number | null = null;
 
-  constructor(private service: SupplierServiceService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private service: SupplierServiceService, private router: Router, private route: ActivatedRoute,private serviceSector: SectorServiceService ) {}
 
   ngOnInit(): void {
+
+    this.serviceSector.getSectors().subscribe ((res)=>{
+      this.sectorsList = res;
+    })
+
     this.route.params.subscribe((params) => {
       const codeParam = params['id'];
       if (codeParam) {
@@ -77,7 +88,7 @@ export class CreateSupplierComponent implements OnInit {
       code: this.editSupplierCode || 0,
       codeSupp: form.value.codeSupp,
       name: form.value.name,
-      sectors: form.value.field,
+      sectors: form.value.sector,
       cuit: form.value.cuit,
       email: form.value.email,
       web: form.value.web,

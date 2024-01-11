@@ -71,14 +71,10 @@
                             </div>
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">Choose Field</label>
-                            <select name="field" aria-label="Select Field" [(ngModel)]="supplier.sectors"
+                            <label class="form-label">Choose Sector</label>
+                            <select name="sector" aria-label="Select Sector" [(ngModel)]="supplier.sectors"
                                 class="form-select" required>
-                                <option value="Food">Food</option>
-                                <option value="Electronic">Electronic</option>
-                                <option value="Tools">Tools</option>
-                                <option value="Jewelry">Jewelry</option>
-                                <option value="Other">Other</option>
+                                <option *ngFor="let sector of sectorsList" [ngValue]="sector">{{ sector.sectorName }}</option>
                             </select>
                         </div>
                         <div class="row pb-2">

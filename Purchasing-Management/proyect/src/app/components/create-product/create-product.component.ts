@@ -20,7 +20,10 @@ export class CreateProductComponent implements OnInit {
     supplier: {
       code: 0,
       name: '',
-      sectors: 'Other',
+      sectors: {
+        sectorName: '',
+        created: new Date()
+      },
       cuit: '',
       email: '',
       web: '',

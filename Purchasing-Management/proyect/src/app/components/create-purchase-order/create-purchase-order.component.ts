@@ -23,7 +23,10 @@ export class CreatePurchaseOrderComponent implements OnInit{
     supplier: {
       code: 0,
       name: '',
-      field: 'Other',
+      sectors: {
+        sectorName: '',
+        created: new Date()
+      },
       cuit: '',
       email: '',
       web: '',
