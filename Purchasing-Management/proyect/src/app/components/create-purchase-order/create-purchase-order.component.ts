@@ -29,7 +29,7 @@ export class CreatePurchaseOrderComponent implements OnInit{
       web: '',
       phone: 0,
       street: '',
-      number: '',
+      number: 0,
       postalCode: '',
       city: '',
       province: '',

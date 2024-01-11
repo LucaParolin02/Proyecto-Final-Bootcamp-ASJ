@@ -59,7 +59,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Number" name="number"
+                                    <input type="number" class="form-control" placeholder="Number" name="number"
                                         [(ngModel)]="supplier.number" required />
                                 </div>
                                 <div class="col">
@@ -72,7 +72,7 @@
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Choose Field</label>
-                            <select name="field" aria-label="Select Field" [(ngModel)]="supplier.field"
+                            <select name="field" aria-label="Select Field" [(ngModel)]="supplier.sectors"
                                 class="form-select" required>
                                 <option value="Food">Food</option>
                                 <option value="Electronic">Electronic</option>
@@ -96,8 +96,8 @@
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Phone</label>
-                            <input type="tel" class="form-control" placeholder="Enter your phone" name="phone"
-                                [(ngModel)]="supplier.phone" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" />
+                            <input type="tel" class="form-control" placeholder="Enter your phone" name="phone" #phone="ngModel"
+                                [(ngModel)]="supplier.phone"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" [ngClass]="phone.errors ? 'is-invalid' : 'is-valid'" />
                             <div
                                 *ngIf="myForm.controls['phone']?.hasError('pattern') && myForm.controls['phone'].touched">
                                 <p class="text-danger ">Invalid phone number format. Please use the format
@@ -110,7 +110,7 @@
                             </div>
                             <label class="form-label">CUIT</label>
                             <input type="text" class="form-control" placeholder="Enter CUIT" name="cuit"
-                                [(ngModel)]="supplier.cuit" required pattern="[0-9]*" />
+                                [(ngModel)]="supplier.cuit" required pattern="[0-9]*" maxlength="11" />
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Choose IVA Condition</label>

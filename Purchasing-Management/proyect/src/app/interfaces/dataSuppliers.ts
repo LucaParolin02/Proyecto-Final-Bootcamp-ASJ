@@ -2,13 +2,13 @@ export interface supplierInterface {
     code?: number;
     codeSupp?: string; 
     name: string;
-    field: items;
+    sectors: items;
     cuit: string;
     web?: string; 
     email: string;
-    phone?: number; 
+    phone?: number | undefined; 
     street: string;
-    number: string;
+    number: number;
     postalCode: string;
     city: string;
     province: string;

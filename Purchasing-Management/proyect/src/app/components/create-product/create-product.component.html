@@ -21,11 +21,11 @@
             <div class="row pb-2 ">
               <label class="form-label ">Name Product</label>
               <input type="text" class="form-control" placeholder="Enter product name" name="nameProduct"
-                [(ngModel)]="product.nameProduct">
+                [(ngModel)]="product.nameProduct" required>
             </div>
             <div class="row pb-2">
               <label class="form-label">Choose supplier</label>
-              <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier">
+              <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier" required>
                 <option *ngFor="let supplier of suppliersList" [ngValue]="supplier">{{ supplier.name }}</option>
               </select>
             </div>
