@@ -1,5 +1,5 @@
 --Create database in case an error appears, first execute create database and then go down
-CREATE DATABASE project_asj;
+--CREATE DATABASE project_asj;
 
 GO
 --use database
@@ -7,37 +7,37 @@ USE project_asj;
 
 --Table countries
 CREATE TABLE countries (
-	id_country INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	count_name VARCHAR(60) NOT NULL
+    country_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    country_name VARCHAR(60) NOT NULL UNIQUE
 );
 
 --Table provinces
 CREATE TABLE provinces (
-	id_province INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	prov_name VARCHAR(60) NOT NULL,
-	id_country INT NOT NULL,
-	FOREIGN KEY(id_country) REFERENCES countries (id_country)
+    province_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    province_name VARCHAR(60) NOT NULL UNIQUE,
+    country_id INT NOT NULL,
+    FOREIGN KEY(country_id) REFERENCES countries (country_id)
 );
 
 --Table cities
 CREATE TABLE cities (
-	id_city INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	city_name VARCHAR(60) NOT NULL,
-	id_province INT NOT NULL,
-	FOREIGN KEY(id_province) REFERENCES provinces (id_province)
+    city_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    city_name VARCHAR(60) NOT NULL UNIQUE,
+    province_id INT NOT NULL,
+    FOREIGN KEY(province_id) REFERENCES provinces (province_id)
 );
 
 --Table vat_conditions
 CREATE TABLE vat_conditions (
-	id_vat INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	vat_condition VARCHAR(50) NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME
+    vat_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    vat_condition VARCHAR(50) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 --Table sectors
 CREATE TABLE sectors (
-	id_sector INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	sector_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	sector_name VARCHAR(30) NOT NULL,
 	created_at DATETIME NOT NULL,
 	updated_at DATETIME 
@@ -45,56 +45,56 @@ CREATE TABLE sectors (
 
 --Table suppliers
 CREATE TABLE suppliers (
-	id_supplier INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	supp_code VARCHAR(15) NOT NULL,
-	supp_logo VARCHAR(1024),
-	supp_name VARCHAR(30) NOT NULL,
-	id_sector INT NOT NULL,
-	FOREIGN KEY(id_sector) REFERENCES sectors (id_sector),
-	supp_cuit VARCHAR(11) NOT NULL,
-	supp_web VARCHAR(1024),
-	supp_email VARCHAR(1024),
-	supp_phone BIGINT,
-	supp_street VARCHAR(25) NOT NULL,
-	supp_snumber INT NOT NULL,
-	supp_zip VARCHAR(15) NOT NULL,
-	id_city INT NOT NULL,
-	FOREIGN KEY (id_city) REFERENCES cities (id_city),
-	id_vat INT NOT NULL,
-	FOREIGN KEY (id_vat) REFERENCES vat_conditions (id_vat),
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME
+    supplier_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    supp_code VARCHAR(15) NOT NULL UNIQUE,
+    supp_logo VARCHAR(1024),
+    supp_name VARCHAR(30) NOT NULL,
+    sector_id INT NOT NULL,
+    FOREIGN KEY(sector_id) REFERENCES sectors (sector_id),
+    supp_cuit VARCHAR(11) NOT NULL UNIQUE,
+    supp_web VARCHAR(1024),
+    supp_email VARCHAR(1024),
+    supp_phone VARCHAR(15) NOT NULL,
+    supp_street VARCHAR(25) NOT NULL,
+    supp_snumber VARCHAR(100) NOT NULL,
+    supp_zip VARCHAR(15) NOT NULL,
+    city_id INT NOT NULL,
+    FOREIGN KEY (city_id) REFERENCES cities (city_id),
+    vat_id INT NOT NULL,
+    FOREIGN KEY (vat_id) REFERENCES vat_conditions (vat_id),
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 --Table categories
 CREATE TABLE categories (
-	id_category INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cat_name VARCHAR(40) NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME 
+    category_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    cat_name VARCHAR(40) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME 
 );
 
 --Table products
 CREATE TABLE products (
-	id_product INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	prod_sku VARCHAR(60) NOT NULL,
-	prod_name VARCHAR(30) NOT NULL,
-	id_supplier INT NOT NULL,
-	FOREIGN KEY (id_supplier) REFERENCES suppliers (id_supplier),
-	id_category INT NOT NULL,
-	FOREIGN KEY (id_category) REFERENCES categories (id_category),
-	prod_desc VARCHAR(1024) NOT NULL,
-	prod_price FLOAT NOT NULL,
-	prod_stock INT NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME
+    product_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    prod_sku VARCHAR(60) NOT NULL UNIQUE,
+    prod_name VARCHAR(30) NOT NULL,
+    supplier_id INT NOT NULL,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers (supplier_id),
+    category_id INT NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories (category_id),
+    prod_desc VARCHAR(1024) NOT NULL,
+    prod_price FLOAT NOT NULL,
+    prod_stock INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 --Table products_images
 CREATE TABLE product_images (
-    id_image INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    id_product INT NOT NULL,
-	FOREIGN KEY (id_product) REFERENCES products (id_product),
+    image_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products (product_id),
     image_path VARCHAR(1024) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
@@ -102,38 +102,38 @@ CREATE TABLE product_images (
 
 --Table statuses
 CREATE TABLE statuses (
-	id_status INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	status_name VARCHAR(20) NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME
+    status_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    status_name VARCHAR(20) NOT NULL UNIQUE,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 --Table orders
 CREATE TABLE orders (
-	id_order INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	id_supplier INT NOT NULL,
-	FOREIGN KEY (id_supplier) REFERENCES suppliers (id_supplier),
-	order_created DATETIME NOT NULL,
-	order_expected DATETIME NOT NULL,
-	id_status INT NOT NULL,
-	FOREIGN KEY (id_status) REFERENCES statuses (id_status),
-	order_info VARCHAR(1024) NOT NULL,
-	order_total FLOAT NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME
+    order_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    supplier_id INT NOT NULL,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers (supplier_id),
+    order_created DATETIME NOT NULL,
+    order_expected DATETIME NOT NULL,
+    status_id INT NOT NULL,
+    FOREIGN KEY (status_id) REFERENCES statuses (status_id),
+    order_info VARCHAR(1024) NOT NULL,
+    order_total FLOAT NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 --Table orders_details
 CREATE TABLE orders_details (
-	id_details INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	id_order INT NOT NULL,
-	FOREIGN KEY (id_order) REFERENCES orders (id_order),
-	id_product INT NOT NULL,
-	FOREIGN KEY (id_product) REFERENCES products (id_product),
-	det_quantity INT NOT NULL,
-	det_price FLOAT NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME
+    details_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    order_id INT NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders (order_id),
+    product_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products (product_id),
+    det_quantity INT NOT NULL,
+    det_price FLOAT NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME
 );
 
 INSERT INTO countries VALUES 
@@ -182,12 +182,12 @@ INSERT INTO sectors VALUES
 	('Clothes','2022-09-14 15:18:00',null),
 	('Others','2022-02-14 15:17:00',null);
 
-INSERT INTO suppliers VALUES
-	('SUP001','www.logoGolosinas.com', 'El rey Golosina', 3, '20445042774', 'www.proveedor2.com', 'rey@gmail.com', 123456789, 'Almagro', 12, 'B0011', 1, 1, '2024-01-10 12:30:00', NULL),
-	('SUP002',null, 'Nvdia', 1, '20505042974', 'www.nvidia.com', 'nvdia@gmail.com', 123456789, 'Irigoin', 940, 'B1663', 2, 4, '2024-01-10 12:30:00', NULL),
-	('SUP003','www.logoamd.com', 'AMD', 1, '20245342774', null, 'amd@gmail.com', 543516856118, 'Calen', 23, 'SIP004', 3, 4, '2024-01-10 12:30:00', NULL),
-	('SUP004',null, 'Ferrari', 2, '20445042574', 'www.proveedor4.com', 'ferrari@gmail.com', 123456789, 'Avellaneda', 10, 'T020', 1, 4, '2024-01-10 12:30:00', NULL),
-	('SUP005',null, 'Fernet Branca', 4, '20345032774', null, 'fernet@proveedor1.com', 123456789, 'Rivadavia', 10, 'B992', 4, 4, '2024-01-10 12:30:00', NULL);
+INSERT INTO suppliers VALUES 
+    ('SUP001', 'www.logoGolosinas.com', 'El rey Golosina', 3, '20445042774', 'www.proveedor2.com', 'rey@gmail.com', '123456789', 'Almagro', 12, 'B0011', 1, 1, '2024-01-10 12:30:00', NULL),
+    ('SUP002', NULL, 'Nvdia', 1, '20505042974', 'www.nvidia.com', 'nvdia@gmail.com', '123456789', 'Irigoin', 940, 'B1663', 2, 4, '2024-01-10 12:30:00', NULL),
+    ('SUP003', 'www.logoamd.com', 'AMD', 1, '20245342774', NULL, 'amd@gmail.com', '543516856118', 'Calen', 23, 'SIP004', 3, 4, '2024-01-10 12:30:00', NULL),
+    ('SUP004', NULL, 'Ferrari', 2, '20445042574', 'www.proveedor4.com', 'ferrari@gmail.com', '123456789', 'Avellaneda', 10, 'T020', 1, 4, '2024-01-10 12:30:00', NULL),
+    ('SUP005', NULL, 'Fernet Branca', 4, '20345032774', NULL, 'fernet@proveedor1.com', '123456789', 'Rivadavia', 10, 'B992', 4, 4, '2024-01-10 12:30:00', NULL);
 
 INSERT INTO categories VALUES
 	('Alfajores', '2024-01-10 12:30:00', NULL),
