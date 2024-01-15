@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { supplierInterface } from '../interfaces/dataSuppliers';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,of } from 'rxjs';
 
 
 @Injectable({
@@ -17,42 +17,41 @@ export class SupplierServiceService {
 
   constructor(private http: HttpClient) { }
 
-  public getSuppliers(): supplierInterface[] {
-    return this.suppliers;
+  public getSuppliers(): Observable<supplierInterface[]> {
+    return of(this.suppliers);
   }
 
-  public getSupplier(code: number): supplierInterface | undefined {
-    return this.suppliers.find(supplier => supplier.code === code);
+  public getSupplier(code: number): Observable<supplierInterface> {
+    return of(this.suppliers.find(supplier => supplier.code === code) || {} as supplierInterface);
   }
 
-  public addSupplier(supplier: supplierInterface) {
+  public addSupplier(supplier: supplierInterface): Observable<void> {
     if (this.suppliers.length > 0) {
       const lastSupplier = this.suppliers[this.suppliers.length - 1];
       if (lastSupplier.code !== undefined){
         supplier.code = lastSupplier.code + 1;
       }
-    }else {
+    } else {
       supplier.code = 0;
     }
     this.suppliers.push(supplier);
+    return of(undefined);
   }
 
-  public deleteSupplier(code: number): void {
-    for (let i = 0; i < this.suppliers.length; i++) {
-      if (this.suppliers[i].code === code) {
-        this.suppliers.splice(i, 1);
-        break;
-      }
+  public deleteSupplier(code: number): Observable<void> {
+    const index = this.suppliers.findIndex(supplier => supplier.code === code);
+    if (index !== -1) {
+      this.suppliers.splice(index, 1);
     }
+    return of(undefined);
   }
 
-  public updateSupplier(updatedSupplier: supplierInterface): void {
-    for (let i = 0; i < this.suppliers.length; i++) {
-      if (this.suppliers[i].code === updatedSupplier.code) {
-        this.suppliers[i] = updatedSupplier;
-        break;
-      }
+  public updateSupplier(updatedSupplier: supplierInterface): Observable<void> {
+    const index = this.suppliers.findIndex(supplier => supplier.code === updatedSupplier.code);
+    if (index !== -1) {
+      this.suppliers[index] = updatedSupplier;
     }
+    return of(undefined);
   }
 
   public getCountries(): Observable<any>{

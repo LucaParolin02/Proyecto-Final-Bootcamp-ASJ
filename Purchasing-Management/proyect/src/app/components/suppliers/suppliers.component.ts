@@ -22,7 +22,10 @@ export class SuppliersComponent implements OnInit {
   }
 
   private loadlist() {
-    this.supplierList = this.service.getSuppliers();
+    this.service.getSuppliers().subscribe((res)=>{
+      console.log(res);
+      this.supplierList = res;
+    })
   }
 
   public delete(code: number) {

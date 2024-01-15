@@ -14,102 +14,125 @@
                                         <h3>Provider Data</h3>
                                     </div>
                                     <div class="col d-flex text-end  ">
-                                            <a routerLink="../" class="btn btn-dark btn-light  justify-content-end ">Come Back</a>
+                                        <a routerLink="../" class="btn btn-dark btn-light  justify-content-end ">Come
+                                            Back</a>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <label class="form-label">Business Name</label>
+                                <label class="form-label  d-flex">Business Name<h4 class="text-danger"> *</h4></label>
                                 <input type="text" class="form-control" placeholder="Enter the supplier name"
-                                    name="name" [(ngModel)]="supplier.name" required pattern="[a-zA-Z\s]{4,16}"  />
+                                    #name="ngModel" name="name" [(ngModel)]="supplier.name" required
+                                    pattern="[a-zA-Z\s]{4,25}" [ngClass]="name.errors ? 'is-invalid' : 'is-valid'" />
+                                <div
+                                    *ngIf="myForm.controls['name']?.hasError('pattern') && myForm.controls['name'].touched">
+                                    <p class="text-danger ">The name must be between 4 and 25 characters</p>
+                                </div>
                             </div>
                             <div>
-                                <label class="form-label">Supplier Code</label>
+                                <label class="form-label d-flex">Supplier Code<h4 class="text-danger"> *</h4></label>
                                 <input type="text" class="form-control" placeholder="Enter your code" name="codeSupp"
-                                    [(ngModel)]="supplier.codeSupp" required pattern=".{3,6}">
+                                    #codeSupp="ngModel" [(ngModel)]="supplier.codeSupp" required pattern=".{3,15}"
+                                    [ngClass]="codeSupp.errors ? 'is-invalid' : 'is-valid'">
+                                <div *ngIf="myForm.controls['codeSupp']?.hasError('pattern') && myForm.controls['codeSupp'].touched">
+                                    <p class="text-danger">The code must be between 3 and 15 characters</p>
+                                </div>
                             </div>
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">Address</label>
                             <div class="row pb-2">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Street" name="street"
-                                        [(ngModel)]="supplier.street" required pattern=".{2,17}"/>
-                                </div>
-                                <div class="col">
+                                    <label class="form-label d-flex">Country<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #country="ngModel" name="country" class="form-select"
                                         [(ngModel)]="supplier.country" required (change)="selectCountry()">
                                         <option *ngFor="let country of countries" value="{{country.name}}">
                                             {{country.name}}</option>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <label class="form-label d-flex">Street<h4 class="text-danger"> *</h4></label>
+                                    <input type="text" class="form-control" placeholder="Street" name="street"
+                                        #street="ngModel" [(ngModel)]="supplier.street" required
+                                        pattern="[a-zA-Z\s]{2,17}"
+                                        [ngClass]="street.errors ? 'is-invalid' : 'is-valid'" />
+                                    <div
+                                        *ngIf="myForm.controls['street']?.hasError('pattern') && myForm.controls['street'].touched">
+                                        <p class="text-danger">The street must contain only letters and be between 2 and
+                                            17 characters long</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row pb-2">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Postal Code" name="postalCode"
-                                        [(ngModel)]="supplier.postalCode" required />
-                                </div>
-                                <div class="col">
+                                    <label class="form-label d-flex">Province<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #province="ngModel" name="province" class="form-select"
                                         [(ngModel)]="supplier.province" required (change)="selectState()">
                                         <option *ngFor="let state of states" value="{{state.name}}">{{state.name}}
                                         </option>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <label class="form-label d-flex">Postal code<h4 class="text-danger"> *</h4></label>
+                                    <input type="text" class="form-control" placeholder="Postal Code" name="postalCode"
+                                        [(ngModel)]="supplier.postalCode" required />
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <input type="number" class="form-control" placeholder="Number" name="number"
-                                        [(ngModel)]="supplier.number" required />
-                                </div>
-                                <div class="col">
+                                    <label class="form-label d-flex">City<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #city="ngModel" name="city" class="form-select"
                                         [(ngModel)]="supplier.city" required>
                                         <option *ngFor="let city of cities" value="{{city.name}}">{{city.name}}</option>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <label class="form-label d-flex">Number<h4 class="text-danger"> *</h4></label>
+                                    <input type="number" class="form-control" placeholder="Number" name="number"
+                                        [(ngModel)]="supplier.number" required />
+                                </div>
                             </div>
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">Choose Sector</label>
-                            <select name="sector" aria-label="Select Sector" [(ngModel)]="supplier.sectors"
-                                class="form-select" required>
-                                <option *ngFor="let sector of sectorsList" [ngValue]="sector">{{ sector.sectorName }}</option>
+                            <label class="form-label d-flex">Choose Sector <h4 class="text-danger"> *</h4></label>
+                            <select name="sectors" aria-label="Select Sector" [(ngModel)]="supplier.sectors" class="form-select" required>
+                               <option *ngFor="let sector of sectorsList" [ngValue]="sector">{{ sector.sectorName }}</option>
                             </select>
-                        </div>
+                         </div>
                         <div class="row pb-2">
                             <div>
                                 <h3>Contact Data</h3>
                             </div>
-                            <label class="form-label">Email</label>
+                            <label class="form-label d-flex ">Email <h4 class="text-danger"> *</h4></label>
                             <input type="email" class="form-control" placeholder="Enter Email" name="email"
                                 [(ngModel)]="supplier.email" />
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Web</label>
                             <input type="text" class="form-control" placeholder="Enter web site" name="web"
-                                [(ngModel)]="supplier.web" />
+                                [(ngModel)]="supplier.web" required />
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Phone</label>
-                            <input type="tel" class="form-control" placeholder="Enter your phone" name="phone" #phone="ngModel"
-                                [(ngModel)]="supplier.phone"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" [ngClass]="phone.errors ? 'is-invalid' : 'is-valid'" />
+                            <input type="tel" class="form-control" placeholder="Enter your phone" name="phone"
+                                #phone="ngModel" [(ngModel)]="supplier.phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                                [ngClass]="phone.errors ? 'is-invalid' : 'is-valid'" />
                             <div
                                 *ngIf="myForm.controls['phone']?.hasError('pattern') && myForm.controls['phone'].touched">
-                                <p class="text-danger ">Invalid phone number format. Please use the format
-                                    xxx-xxxx-xxxx.</p>
+                                <p class="text-danger">Invalid phone number format. Please use the format xxx-xxxx-xxxx.
+                                </p>
                             </div>
                         </div>
                         <div class="row pb-2">
                             <div>
                                 <h3>Fiscal Data</h3>
                             </div>
-                            <label class="form-label">CUIT</label>
+                            <label class="form-label d-flex ">CUIT<h4 class="text-danger"> *</h4></label>
                             <input type="text" class="form-control" placeholder="Enter CUIT" name="cuit"
-                                [(ngModel)]="supplier.cuit" required pattern="[0-9]*" maxlength="11" />
+                                [(ngModel)]="supplier.cuit" required pattern="[0-9]{11}" />
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label">Choose IVA Condition</label>
+                            <label class="form-label d-flex ">Choose IVA Condition<h4 class="text-danger"> *</h4>
+                            </label>
                             <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.iva" class="form-select"
                                 required>
                                 <option value="IVA Responsable Inscripto">

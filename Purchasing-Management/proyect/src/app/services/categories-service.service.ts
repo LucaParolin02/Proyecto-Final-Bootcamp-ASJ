@@ -6,7 +6,12 @@ import { categoryInterface } from '../interfaces/dataCategories';
   providedIn: 'root'
 })
 export class CategoriesServiceService {
-  private categories: categoryInterface[] = [];
+  private categories: categoryInterface[] = [
+    { catName: 'Aperitivo', created: new Date() },
+    { catName: 'Periferico', created: new Date() },
+    { catName: 'Mouse', created: new Date() },
+    { catName: 'Others', created: new Date() }
+  ];
   constructor() { }
 
   public getCategories(): Observable<categoryInterface[]> {

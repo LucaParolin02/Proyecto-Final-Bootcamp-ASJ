@@ -39,13 +39,17 @@ export class CreateSupplierComponent implements OnInit {
   public editMode: boolean = false;
   private editSupplierCode: number | null = null;
 
-  constructor(private service: SupplierServiceService, private router: Router, private route: ActivatedRoute,private serviceSector: SectorServiceService ) {}
+  constructor(
+    private service: SupplierServiceService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private serviceSector: SectorServiceService
+  ) {}
 
   ngOnInit(): void {
-
-    this.serviceSector.getSectors().subscribe ((res)=>{
+    this.serviceSector.getSectors().subscribe((res) => {
       this.sectorsList = res;
-    })
+    });
 
     this.route.params.subscribe((params) => {
       const codeParam = params['id'];
@@ -53,37 +57,44 @@ export class CreateSupplierComponent implements OnInit {
         this.editMode = true;
         this.editSupplierCode = +codeParam;
         this.loadSupplierData();
-        this.selectCountry();
-        this.selectState();
       }
     });
 
     this.service.getCountries().subscribe((data: any) => {
       this.countries = data;
     });
-
   }
 
   public submitForm(form: NgForm) {
     if (this.editMode) {
       const editSupplier: supplierInterface = this.editingSupplier(form);
-      this.service.updateSupplier(editSupplier);
+      editSupplier.sectors = { ...form.value.sectors };
+      this.service.updateSupplier(editSupplier).subscribe(() => {
+        this.router.navigate(['/suppliers']);
+      });
     } else {
-      this.service.addSupplier(form.value);
+      console.log(form.value);
+      this.service.addSupplier(form.value).subscribe(() => {
+        this.router.navigate(['/suppliers']);
+      });
     }
-    this.router.navigate(['/suppliers']);
   }
 
   private loadSupplierData() {
     if (this.editSupplierCode !== null) {
-      const currentSupplier = this.service.getSupplier(this.editSupplierCode);
-      if (currentSupplier) {
-        this.supplier = { ...currentSupplier };
-      }
+      this.service.getSupplier(this.editSupplierCode).subscribe((res) => {
+        const currentSupplier = res;
+        if (currentSupplier) {
+          this.supplier = { ...currentSupplier};
+          this.selectCountry();
+          this.selectState();
+        }
+      });
     }
   }
-  
+
   private editingSupplier(form: NgForm): supplierInterface {
+
     return {
       code: this.editSupplierCode || 0,
       codeSupp: form.value.codeSupp,
@@ -103,15 +114,15 @@ export class CreateSupplierComponent implements OnInit {
     };
   }
 
-  public selectCountry(){
+  public selectCountry() {
     this.service.getStates().subscribe((data: any) => {
-      this.states = data.filter((state: any) => (state.country_name === this.supplier.country));
+      this.states = data.filter((state: any) => state.country_name === this.supplier.country);
     });
   }
 
-  public selectState(){
+  public selectState() {
     this.service.getCities().subscribe((data: any) => {
-      this.cities = data.filter((cities: any) => (cities.state_name === this.supplier.province));
-    })
+      this.cities = data.filter((cities: any) => cities.state_name === this.supplier.province);
+    });
   }
 }

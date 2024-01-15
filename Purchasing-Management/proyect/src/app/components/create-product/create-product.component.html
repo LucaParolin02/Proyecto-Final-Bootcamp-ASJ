@@ -32,22 +32,7 @@
             <div class="row pb-2">
               <label class="form-label">Choose category</label>
               <select name="category" aria-label="Select category" [(ngModel)]="product.category" class="form-select">
-                <option value="A">
-                  A
-                </option>
-                <option value="B">
-                  B
-                </option>
-                <option value="C">
-                  C
-                </option>
-                <option value="D">
-                  D
-                </option>
-                <option value="E">
-                  E
-                </option>
-                <option value="other">Other</option>
+                <option *ngFor="let cat of categoryList" [ngValue]="cat">{{ cat.catName }}</option>
               </select>
             </div>
             <div class="row pb-2 ">

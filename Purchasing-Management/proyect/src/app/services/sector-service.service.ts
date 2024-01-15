@@ -18,7 +18,7 @@ export class SectorServiceService {
     return of(this.sectors);
   }
 
-  public createsector(sectorName: string): Observable<sectorInterface> {
+  public createSector(sectorName: string): Observable<sectorInterface> {
     const newSector: sectorInterface = {
       sectorName: sectorName,
       created: new Date()

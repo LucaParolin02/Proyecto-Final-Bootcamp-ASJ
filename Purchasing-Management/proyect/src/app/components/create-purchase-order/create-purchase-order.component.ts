@@ -63,7 +63,9 @@ export class CreatePurchaseOrderComponent implements OnInit{
 
   ngOnInit(): void {
     
-    this.supplierList = this.serviceSupplier.getSuppliers();
+    this.serviceSupplier.getSuppliers().subscribe((resp)=>{
+      this.supplierList = resp;
+  })
 
     this.route.params.subscribe(params => {
       const codeParam = params['id'];

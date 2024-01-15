@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { supplierInterface } from '../../interfaces/dataSuppliers';
 import { productsInterface } from '../../interfaces/dataProducts';
 import { SupplierServiceService } from '../../services/supplier-service.service';
+import { categoryInterface } from '../../interfaces/dataCategories';
+import { CategoriesServiceService } from '../../services/categories-service.service';
 
 
 @Component({
@@ -36,21 +38,31 @@ export class CreateProductComponent implements OnInit {
       country: '',
       iva: 'Other'
     },
-    category: 'Other',
+    category: {
+      catName: '',
+      created: new Date()
+    },
     description: '',
     price: 0,
   };
 
   suppliersList: supplierInterface[] = [];
+  categoryList: categoryInterface[] = [];
   editMode: boolean = false;
   private editProductCode: number | null = null;
 
   constructor(private service: ProductServiceService,private serviceSuppliers: SupplierServiceService,
-     private router: Router, private route: ActivatedRoute) {}
+     private router: Router, private route: ActivatedRoute,private serviceCategory: CategoriesServiceService) {}
 
   ngOnInit(): void {
 
-    this.suppliersList = this.serviceSuppliers.getSuppliers();
+    this.serviceSuppliers.getSuppliers().subscribe((resp)=>{
+        this.suppliersList = resp;
+    })
+
+    this.serviceCategory.getCategories().subscribe((res)=>{
+      this.categoryList  = res;
+    })
 
     this.route.params.subscribe(params => {
       const codeParam = params['id'];
@@ -86,7 +98,7 @@ export class CreateProductComponent implements OnInit {
       sku: this.product.sku,
       nameProduct: form.value.nameProduct,
       supplier: form.value.supplier,
-      category: form.value.category,
+      category: form.value.cat,
       description: form.value.description,
       price: form.value.price,
     };
