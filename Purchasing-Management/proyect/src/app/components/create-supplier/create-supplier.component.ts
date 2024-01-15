@@ -88,6 +88,7 @@ export class CreateSupplierComponent implements OnInit {
           this.supplier = { ...currentSupplier};
           this.selectCountry();
           this.selectState();
+          this.selectSector();
         }
       });
     }
@@ -124,5 +125,14 @@ export class CreateSupplierComponent implements OnInit {
     this.service.getCities().subscribe((data: any) => {
       this.cities = data.filter((cities: any) => cities.state_name === this.supplier.province);
     });
+  }
+
+  public selectSector() {
+    if (this.supplier.sectors && this.sectorsList) {
+      const selectedSector = this.sectorsList.find(sector => sector.sectorName === this.supplier.sectors.sectorName);
+      if (selectedSector) {
+        this.supplier.sectors = selectedSector;
+      }
+    }
   }
 }
