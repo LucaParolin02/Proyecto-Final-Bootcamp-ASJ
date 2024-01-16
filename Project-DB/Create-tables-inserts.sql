@@ -1,5 +1,5 @@
 --Create database in case an error appears, first execute create database and then go down
---CREATE DATABASE project_asj;
+CREATE DATABASE project_asj;
 
 GO
 --use database
@@ -32,7 +32,8 @@ CREATE TABLE vat_conditions (
     vat_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     vat_condition VARCHAR(50) NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table sectors
@@ -40,7 +41,8 @@ CREATE TABLE sectors (
 	sector_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	sector_name VARCHAR(30) NOT NULL,
 	created_at DATETIME NOT NULL,
-	updated_at DATETIME 
+	updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table suppliers
@@ -63,7 +65,8 @@ CREATE TABLE suppliers (
     vat_id INT NOT NULL,
     FOREIGN KEY (vat_id) REFERENCES vat_conditions (vat_id),
     created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table categories
@@ -71,7 +74,8 @@ CREATE TABLE categories (
     category_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     cat_name VARCHAR(40) NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME 
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table products
@@ -87,7 +91,8 @@ CREATE TABLE products (
     prod_price FLOAT NOT NULL,
     prod_stock INT NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table products_images
@@ -98,6 +103,7 @@ CREATE TABLE product_images (
     image_path VARCHAR(1024) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table statuses
@@ -105,7 +111,8 @@ CREATE TABLE statuses (
     status_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     status_name VARCHAR(20) NOT NULL UNIQUE,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table orders
@@ -120,7 +127,8 @@ CREATE TABLE orders (
     order_info VARCHAR(1024) NOT NULL,
     order_total FLOAT NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 --Table orders_details
@@ -133,7 +141,8 @@ CREATE TABLE orders_details (
     det_quantity INT NOT NULL,
     det_price FLOAT NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    updated_at DATETIME,
+	is_deleted BIT NOT NULL DEFAULT 0
 );
 
 INSERT INTO countries VALUES 
@@ -168,72 +177,72 @@ INSERT INTO cities VALUES
 	('Canelones',9);
 
 INSERT INTO vat_conditions VALUES
-	('IVA Responsable Inscripto','2024-01-10 12:30:00',null),
-	('IVA Responsable no Inscripto','2023-05-11 10:20:00','2023-08-11 12:50:00'),
-	('IVA no Responsable','2010-01-10 08:20:00',null),
-	('Proveedor del Exterior','2024-01-10 10:40:00',null),
-	('Monotributista Social','2022-09-14 15:18:00',null);
+	('IVA Responsable Inscripto','2024-01-10 12:30:00',null,0),
+	('IVA Responsable no Inscripto','2023-05-11 10:20:00','2023-08-11 12:50:00',0),
+	('IVA no Responsable','2010-01-10 08:20:00',null,0),
+	('Proveedor del Exterior','2024-01-10 10:40:00',null,0),
+	('Monotributista Social','2022-09-14 15:18:00',null,0);
 
 INSERT INTO sectors VALUES
-	('Technology','2024-01-10 12:30:00',null),
-	('Vehicles','2023-05-11 10:20:00','2023-08-11 12:50:00'),
-	('Foods','2010-01-10 08:20:00',null),
-	('Drinks','2024-01-10 10:40:00','2024-08-11 16:30:00'),
-	('Clothes','2022-09-14 15:18:00',null),
-	('Others','2022-02-14 15:17:00',null);
+	('Technology','2024-01-10 12:30:00',null,0),
+	('Vehicles','2023-05-11 10:20:00','2023-08-11 12:50:00',0),
+	('Foods','2010-01-10 08:20:00',null,0),
+	('Drinks','2024-01-10 10:40:00','2024-08-11 16:30:00',0),
+	('Clothes','2022-09-14 15:18:00',null,0),
+	('Others','2022-02-14 15:17:00',null,0);
 
 INSERT INTO suppliers VALUES 
-    ('SUP001', 'www.logoGolosinas.com', 'El rey Golosina', 3, '20445042774', 'www.proveedor2.com', 'rey@gmail.com', '123456789', 'Almagro', 12, 'B0011', 1, 1, '2024-01-10 12:30:00', NULL),
-    ('SUP002', NULL, 'Nvdia', 1, '20505042974', 'www.nvidia.com', 'nvdia@gmail.com', '123456789', 'Irigoin', 940, 'B1663', 2, 4, '2024-01-10 12:30:00', NULL),
-    ('SUP003', 'www.logoamd.com', 'AMD', 1, '20245342774', NULL, 'amd@gmail.com', '543516856118', 'Calen', 23, 'SIP004', 3, 4, '2024-01-10 12:30:00', NULL),
-    ('SUP004', NULL, 'Ferrari', 2, '20445042574', 'www.proveedor4.com', 'ferrari@gmail.com', '123456789', 'Avellaneda', 10, 'T020', 1, 4, '2024-01-10 12:30:00', NULL),
-    ('SUP005', NULL, 'Fernet Branca', 4, '20345032774', NULL, 'fernet@proveedor1.com', '123456789', 'Rivadavia', 10, 'B992', 4, 4, '2024-01-10 12:30:00', NULL);
+    ('SUP001', 'www.logoGolosinas.com', 'El rey Golosina', 3, '20445042774', 'www.proveedor2.com', 'rey@gmail.com', '123456789', 'Almagro', 12, 'B0011', 1, 1, '2024-01-10 12:30:00', NULL,0),
+    ('SUP002', NULL, 'Nvdia', 1, '20505042974', 'www.nvidia.com', 'nvdia@gmail.com', '123456789', 'Irigoin', 940, 'B1663', 2, 4, '2024-01-10 12:30:00', NULL,0),
+    ('SUP003', 'www.logoamd.com', 'AMD', 1, '20245342774', NULL, 'amd@gmail.com', '543516856118', 'Calen', 23, 'SIP004', 3, 4, '2024-01-10 12:30:00', NULL,0),
+    ('SUP004', NULL, 'Ferrari', 2, '20445042574', 'www.proveedor4.com', 'ferrari@gmail.com', '123456789', 'Avellaneda', 10, 'T020', 1, 4, '2024-01-10 12:30:00', NULL,0),
+    ('SUP005', NULL, 'Fernet Branca', 4, '20345032774', NULL, 'fernet@proveedor1.com', '123456789', 'Rivadavia', 10, 'B992', 4, 4, '2024-01-10 12:30:00', NULL,0);
 
 INSERT INTO categories VALUES
-	('Alfajores', '2024-01-10 12:30:00', NULL),
-	('Perifericos', '2023-05-11 10:20:00', NULL),
-	('Mouses', '2024-01-10 12:30:00', NULL),
-	('Super carro', '2024-01-10 12:30:00', NULL),
-	('Aperitivo', '2023-05-11 10:20:00', NULL),
-	('Other', '2023-05-11 10:20:00', NULL);
+	('Alfajores', '2024-01-10 12:30:00', NULL,0),
+	('Perifericos', '2023-05-11 10:20:00', NULL,0),
+	('Mouses', '2024-01-10 12:30:00', NULL,0),
+	('Super carro', '2024-01-10 12:30:00', NULL,0),
+	('Aperitivo', '2023-05-11 10:20:00', NULL,0),
+	('Other', '2023-05-11 10:20:00', NULL,0);
 
 INSERT INTO products VALUES
-	('SKU001', 'Mouse Gamer', 2, 3, 'Mouse de alta precision para juegos', 49.99,20, '2024-01-10 12:30:00', NULL),
-	('SKU002', 'Alfajor de Chocolate', 1, 1, 'Delicioso alfajor con relleno de dulce de leche', 2.50,30, '2023-05-11 10:20:00', NULL),
-	('SKU003', 'Laptop de Alta Gama', 3, 2, 'Potente laptop para profesionales y gamers', 1500.00,10, '2010-01-10 08:20:00', NULL),
-	('SKU004', 'Fernet', 5, 5, 'Bebida mas preciada del mundo', 29.99,12, '2024-01-10 10:40:00', NULL),
-	('SKU005', 'Ferrari F40', 4, 4, 'Super auto mega rapido', 1455.99,15, '2022-09-14 15:18:00', NULL),
-	('SKU006', 'Ferrari 910', 4, 4, 'Super auto', 1455598.99,15, '2022-09-14 15:18:00', NULL);
+	('SKU001', 'Mouse Gamer', 2, 3, 'Mouse de alta precision para juegos', 49.99,20, '2024-01-10 12:30:00', NULL,0),
+	('SKU002', 'Alfajor de Chocolate', 1, 1, 'Delicioso alfajor con relleno de dulce de leche', 2.50,30, '2023-05-11 10:20:00', NULL,0),
+	('SKU003', 'Laptop de Alta Gama', 3, 2, 'Potente laptop para profesionales y gamers', 1500.00,10, '2010-01-10 08:20:00', NULL,0),
+	('SKU004', 'Fernet', 5, 5, 'Bebida mas preciada del mundo', 29.99,12, '2024-01-10 10:40:00', NULL,0),
+	('SKU005', 'Ferrari F40', 4, 4, 'Super auto mega rapido', 1455.99,15, '2022-09-14 15:18:00', NULL,0),
+	('SKU006', 'Ferrari 910', 4, 4, 'Super auto', 1455598.99,15, '2022-09-14 15:18:00', NULL,0);
 
 INSERT INTO product_images VALUES
-	(1, '/images/product1/image1.jpg', '2024-01-10 12:30:00', NULL),
-	(1, '/images/product1/image2.jpg', '2024-01-11 09:45:00', NULL),
-	(2, '/images/product2/image1.jpg', '2024-01-11 09:45:00', NULL),
-	(3, '/images/product3/image1.jpg', '2024-01-11 09:45:00', NULL),
-	(4, '/images/product4/image1.jpg', '2024-01-12 14:20:00', NULL);
+	(1, '/images/product1/image1.jpg', '2024-01-10 12:30:00', NULL,0),
+	(1, '/images/product1/image2.jpg', '2024-01-11 09:45:00', NULL,0),
+	(2, '/images/product2/image1.jpg', '2024-01-11 09:45:00', NULL,0),
+	(3, '/images/product3/image1.jpg', '2024-01-11 09:45:00', NULL,0),
+	(4, '/images/product4/image1.jpg', '2024-01-12 14:20:00', NULL,0);
 
 INSERT INTO statuses VALUES
-	('In process', '2024-01-10 12:30:00', NULL),
-	('Pending', '2023-05-11 10:20:00', NULL),
-	('Aprobate', '2010-01-10 08:20:00', NULL),
-	('Cancel', '2024-01-10 10:40:00', NULL),
-	('Delivered', '2022-09-14 15:18:00', NULL);
+	('In process', '2024-01-10 12:30:00', NULL,0),
+	('Pending', '2023-05-11 10:20:00', NULL,0),
+	('Aprobate', '2010-01-10 08:20:00', NULL,0),
+	('Cancel', '2024-01-10 10:40:00', NULL,0),
+	('Delivered', '2022-09-14 15:18:00', NULL,0);
 
 
 INSERT INTO orders VALUES
-	(1, '2024-01-10 12:30:00', '2024-01-15 15:00:00', 1, 'Pedido de productos de confiteria', 49.99, '2024-01-10 12:30:00', NULL),
-	(2, '2023-05-11 10:20:00', '2023-05-20 14:30:00', 2, 'Pedido de mouses', 2.50, '2023-05-11 10:20:00', NULL),
-	(3, '2010-01-10 08:20:00', '2010-01-20 12:00:00', 3, 'Pedido de laptops para el departamento de IT', 3000.00, '2010-01-10 08:20:00', NULL),
-	(4, '2024-01-10 10:40:00', '2024-01-18 11:45:00', 4, 'Pedido de fernets evento corporativo', 29.99, '2024-01-10 10:40:00', NULL),
-	(4, '2024-01-10 10:40:00', '2024-01-18 11:45:00', 4, 'Pedido de fernets para un barco', 29.99, '2024-01-10 10:40:00', NULL),
-	(5, '2022-09-14 15:18:00', '2022-09-20 16:30:00', 5, 'Pedidos de autodep. para concecionaria', 2912653.97, '2022-09-14 15:18:00', NULL);
+	(1, '2024-01-10 12:30:00', '2024-01-15 15:00:00', 1, 'Pedido de productos de confiteria', 49.99, '2024-01-10 12:30:00', NULL,0),
+	(2, '2023-05-11 10:20:00', '2023-05-20 14:30:00', 2, 'Pedido de mouses', 2.50, '2023-05-11 10:20:00', NULL,0),
+	(3, '2010-01-10 08:20:00', '2010-01-20 12:00:00', 3, 'Pedido de laptops para el departamento de IT', 3000.00, '2010-01-10 08:20:00', NULL,0),
+	(4, '2024-01-10 10:40:00', '2024-01-18 11:45:00', 4, 'Pedido de fernets evento corporativo', 29.99, '2024-01-10 10:40:00', NULL,0),
+	(4, '2024-01-10 10:40:00', '2024-01-18 11:45:00', 4, 'Pedido de fernets para un barco', 29.99, '2024-01-10 10:40:00', NULL,0),
+	(5, '2022-09-14 15:18:00', '2022-09-20 16:30:00', 5, 'Pedidos de autodep. para concecionaria', 2912653.97, '2022-09-14 15:18:00', NULL,0);
 
 
 INSERT INTO orders_details VALUES
-	(1, 1, 1, 49.99, '2024-01-10 12:30:00', NULL),
-	(2, 2, 1, 2.50, '2024-01-10 12:30:00', NULL),
-	(3, 3, 2, 3000.00, '2023-05-11 10:20:00', NULL),
-	(4, 4, 1, 29.99, '2010-01-10 08:20:00', NULL),
-	(5, 5, 1, 1455.99, '2024-01-10 12:30:00', NULL),
-	(5, 6, 2, 2911197.98, '2024-01-10 10:40:00', NULL);
+	(1, 1, 1, 49.99, '2024-01-10 12:30:00', NULL,0),
+	(2, 2, 1, 2.50, '2024-01-10 12:30:00', NULL,0),
+	(3, 3, 2, 3000.00, '2023-05-11 10:20:00', NULL,0),
+	(4, 4, 1, 29.99, '2010-01-10 08:20:00', NULL,0),
+	(5, 5, 1, 1455.99, '2024-01-10 12:30:00', NULL,0),
+	(5, 6, 2, 2911197.98, '2024-01-10 10:40:00', NULL,0);
 	
