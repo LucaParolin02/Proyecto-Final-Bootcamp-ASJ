@@ -208,4 +208,6 @@ WHERE
 
 --11) Escribir la sentencia para eliminar el producto con id = 1 (NO EJECUTAR, SOLO MOSTRAR SENTENCIA)
 
---DELETE FROM products WHERE product_id = 1;
+UPDATE products
+SET is_deleted = 1
+WHERE product_id = 1;
