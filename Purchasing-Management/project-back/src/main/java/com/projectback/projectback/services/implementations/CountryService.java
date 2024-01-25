@@ -20,4 +20,9 @@ public class CountryService implements ICountryService {
 		return countryRepository.findAll();
 	}
 	
+	@Override
+	public CountryModel postCountry(CountryModel country) {
+		return countryRepository.save(country);
+	}
+	
 }

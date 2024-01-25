@@ -6,5 +6,7 @@ import com.projectback.projectback.models.CountryModel;
 
 public interface ICountryService {
 	
-	public List<CountryModel> getCountries();
+	 List<CountryModel> getCountries();
+	 
+	 CountryModel postCountry(CountryModel country);
 }

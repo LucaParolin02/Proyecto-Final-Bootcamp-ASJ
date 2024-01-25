@@ -22,5 +22,10 @@ public class ProvinceService implements IProvinceService {
         return provinceRepository.findByCountryId(id);
     }
 	
+	@Override
+	public ProvinceModel postProvince(ProvinceModel province) {
+		return provinceRepository.save(province);
+	}
+	
 
 }
