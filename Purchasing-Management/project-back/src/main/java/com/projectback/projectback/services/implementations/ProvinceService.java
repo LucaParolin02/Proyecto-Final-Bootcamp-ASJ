@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.projectback.projectback.models.CountryModel;
+
 import com.projectback.projectback.models.ProvinceModel;
 import com.projectback.projectback.repositories.ProvinceRepository;
 import com.projectback.projectback.services.IProvinceService;
@@ -18,13 +18,9 @@ public class ProvinceService implements IProvinceService {
 	ProvinceRepository provinceRepository;
 	
 	@Override
-	public List<ProvinceModel> getProvincesByCountry(CountryModel country) {
-        return country.getProvinces();
+	public List<ProvinceModel> getProvincesByCountry(Integer id) {
+        return provinceRepository.findByCountryId(id);
     }
 	
-	@Override
-    public Optional<ProvinceModel> getProvinceById(Integer provinceId) {
-        return provinceRepository.findById(provinceId);
-    }
 
 }

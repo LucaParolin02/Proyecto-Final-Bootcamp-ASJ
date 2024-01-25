@@ -33,18 +33,8 @@ public class SupplierController {
         return ResponseEntity.ok(iCountryService.getCountries());
     }
 
-    @GetMapping("/countries/{id}")
-    public ResponseEntity<Optional<CountryModel>> getCountry(@PathVariable int id) {
-        return ResponseEntity.ok(iCountryService.getCountryById(id));
-    }
-
-    @GetMapping("/provinces")
-    public ResponseEntity<List<ProvinceModel>> getAllProvinces(@RequestBody CountryModel country) {
-        return ResponseEntity.ok(iProvinceService.getProvincesByCountry(country));
-    }
-
     @GetMapping("/provinces/{id}")
-    public ResponseEntity<Optional<ProvinceModel>> getProvince(@PathVariable int id) {
-        return ResponseEntity.ok(iProvinceService.getProvinceById(id));
+    public ResponseEntity<List<ProvinceModel>> getAllProvinces(@PathVariable Integer id) {
+        return ResponseEntity.ok(iProvinceService.getProvincesByCountry(id));
     }
 }
