@@ -2,15 +2,11 @@ package com.projectback.projectback.models;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -40,8 +36,6 @@ public class CategoryModel {
 	private Timestamp updated;
 	@Column(name = "is_deleted")
 	private boolean deleted;
-	@OneToMany(mappedBy = "category")
-	private List<ProductModel> products;
 	
 	public CategoryModel() {
 	}
@@ -52,7 +46,6 @@ public class CategoryModel {
 		this.created = Timestamp.from(Instant.now());
 		this.updated = this.created;
 		this.deleted = false;
-		this.products = new ArrayList<ProductModel>();
 	}
 
 	public Integer getId() {
