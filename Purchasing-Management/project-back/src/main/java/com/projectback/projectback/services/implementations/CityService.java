@@ -19,9 +19,4 @@ public class CityService implements ICityService {
 	public List<CityModel> getCitiesByProvince(Integer id){
 		return cityRepository.findByProvinceId(id);
 	}
-	
-	@Override
-    public CityModel postCity(CityModel cityModel) {
-        return cityRepository.save(cityModel);
-    }
 }

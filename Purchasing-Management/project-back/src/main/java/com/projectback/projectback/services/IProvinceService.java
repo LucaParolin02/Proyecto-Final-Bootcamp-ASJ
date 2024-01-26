@@ -9,5 +9,4 @@ public interface IProvinceService {
 	
 	 List<ProvinceModel> getProvincesByCountry(Integer id);
 	 
-	 ProvinceModel postProvince(ProvinceModel province);
 }

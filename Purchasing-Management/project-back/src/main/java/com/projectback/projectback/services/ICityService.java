@@ -8,5 +8,4 @@ public interface ICityService {
 	
 	List<CityModel> getCitiesByProvince(Integer id);
 	
-	CityModel postCity(CityModel cityModel);
 }
