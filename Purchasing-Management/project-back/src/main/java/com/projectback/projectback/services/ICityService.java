@@ -7,5 +7,5 @@ import com.projectback.projectback.models.CityModel;
 public interface ICityService {
 	
 	List<CityModel> getCitiesByProvince(Integer id);
-	
+	CityModel getCityById(Integer id);
 }

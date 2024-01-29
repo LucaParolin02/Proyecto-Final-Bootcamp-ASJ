@@ -29,7 +29,6 @@ public class CategoryModel {
 	private String name;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp created;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)

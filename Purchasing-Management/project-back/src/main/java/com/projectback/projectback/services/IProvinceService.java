@@ -8,5 +8,6 @@ import com.projectback.projectback.models.ProvinceModel;
 public interface IProvinceService {
 	
 	 List<ProvinceModel> getProvincesByCountry(Integer id);
+	 ProvinceModel getProvinceById(Integer id);
 	 
 }

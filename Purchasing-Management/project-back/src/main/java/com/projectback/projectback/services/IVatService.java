@@ -7,4 +7,5 @@ import com.projectback.projectback.models.VatModel;
 public interface IVatService {
 
 	List<VatModel> getVats();
+	VatModel getVatById(Integer id);
 }

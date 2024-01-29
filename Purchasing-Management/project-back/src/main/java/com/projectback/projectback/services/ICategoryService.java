@@ -7,4 +7,8 @@ import com.projectback.projectback.models.CategoryModel;
 public interface ICategoryService {
 
 	List<CategoryModel> getAllCategories();
+	CategoryModel postCategory(CategoryModel category);
+	CategoryModel deleteCategory(Integer id);
+	CategoryModel getCategoryById(Integer id);
+	
 }
