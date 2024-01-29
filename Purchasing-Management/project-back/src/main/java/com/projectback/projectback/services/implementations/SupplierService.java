@@ -53,7 +53,7 @@ public class SupplierService implements ISupplierService {
 	        throw new DuplicateEntityException("Supplier with phone " + supplier.getPhone() + " already exists");
 	    }
 	    supplier.setCreated(Timestamp.from(Instant.now()));
-	    supplier.setUpdated(supplier.getCreated());
+	    supplier.setUpdated(Timestamp.from(Instant.now()));
 	    supplier.setDeleted(false);
 	    return supplierRepository.save(supplier);
 	}
@@ -64,7 +64,7 @@ public class SupplierService implements ISupplierService {
 		if (optionalSupplier.isPresent()) {
 			SupplierModel supplierToDelete = optionalSupplier.get();
 			supplierToDelete.setDeleted(true);
-			supplierRepository.save(supplierToDelete);
+			return supplierRepository.save(supplierToDelete);
 		}
 		throw new EntityNotFoundException("Supplier with ID " + id + " not found");
 	}

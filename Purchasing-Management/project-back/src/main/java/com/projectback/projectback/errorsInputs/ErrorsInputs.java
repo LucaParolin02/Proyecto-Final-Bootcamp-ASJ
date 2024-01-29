@@ -11,9 +11,9 @@ public class ErrorsInputs {
         Map<String, String> errors = new HashMap<>();
 
         bindingResult.getFieldErrors().forEach((error) -> {
-            String campo = error.getField();
-            String errMsj = error.getDefaultMessage();
-            errors.put(campo, errMsj);
+            String field = error.getField();
+            String errMsg = error.getDefaultMessage();
+            errors.put(field, errMsg);
         });
         return errors;
     }

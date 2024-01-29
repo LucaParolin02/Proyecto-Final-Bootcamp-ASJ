@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,7 +51,6 @@ public class SupplierModel {
 	private String zip;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp created;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -58,13 +59,13 @@ public class SupplierModel {
 	private boolean deleted;
 	@OneToMany(mappedBy = "supplier")
 	private List<ProductModel> products;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vat_id", referencedColumnName = "vat_id")
     private VatModel vatCondition;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sector_id", referencedColumnName = "sector_id")
 	private SectorModel sector;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "city_id", referencedColumnName = "city_id")
 	private CityModel city;
 	@OneToMany(mappedBy = "supplier")

@@ -1,9 +1,9 @@
 package com.projectback.projectback.exceptions;
 
-public class DuplicateEntityException extends RuntimeException{
-	
-	public DuplicateEntityException(String message) {
+@SuppressWarnings("serial")
+public class DuplicateEntityException extends RuntimeException {
+
+    public DuplicateEntityException(String message) {
         super(message);
     }
-
 }
