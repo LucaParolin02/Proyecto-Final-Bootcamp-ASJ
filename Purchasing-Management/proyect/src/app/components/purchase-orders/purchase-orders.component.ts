@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PurchaseOrderServiceService } from '../../services/purchase-order-service.service';
 import { orderInterface } from '../../interfaces/dataPurchase';
 import { Router } from '@angular/router';
@@ -6,42 +6,41 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-purchase-orders',
   templateUrl: './purchase-orders.component.html',
-  styleUrl: './purchase-orders.component.css'
+  styleUrls: ['./purchase-orders.component.css']
 })
-export class PurchaseOrdersComponent {
+export class PurchaseOrdersComponent implements OnInit {
 
   ordersList: orderInterface[] = [];
 
   constructor(private service: PurchaseOrderServiceService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadlist();
-  }
-  
-  private loadlist() {
-    this.ordersList = this.service.getOrders();
-    console.log(this.ordersList);
+    this.service.getOrders().subscribe(
+      (orders: orderInterface[]) => {
+        this.ordersList = orders;
+        console.log(this.ordersList);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
-  public cancelOrder(code:number){
+  public cancelOrder(code: number): void {
     const isConfirmed = window.confirm('Are you sure you want to cancel this order?');
     if (isConfirmed) {
       this.service.cancelOrder(code);
-      this.loadlist();
     }
   }
 
-  public editOrder(code:number){
-    const isConfirmed = window.confirm('Are you sure you want edit this order?');
-    if (isConfirmed){
+  public editOrder(code: number): void {
+    const isConfirmed = window.confirm('Are you sure you want to edit this order?');
+    if (isConfirmed) {
       this.router.navigate(['/orders' + '/' + code]);
     }
   }
 
-  public detailsOrder(code:number){
+  public detailsOrder(code: number): void {
     this.router.navigate(['/orders/details' + '/' + code]);
   }
-
-
-
 }

@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseOrderServiceService } from '../../services/purchase-order-service.service';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { ProductServiceService } from '../../services/product-service.service';
+import { orderInterface } from '../../interfaces/dataPurchase';
 import { supplierInterface } from '../../interfaces/dataSuppliers';
-import { productsInterface } from '../../interfaces/dataProducts';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { orderInterface, productsList } from '../../interfaces/dataPurchase';
+import { Observable } from 'rxjs';
+import { TempProduct, productsInterface } from '../../interfaces/dataProducts';
 
 @Component({
   selector: 'app-create-purchase-order',
   templateUrl: './create-purchase-order.component.html',
-  styleUrl: './create-purchase-order.component.css'
+  styleUrls: ['./create-purchase-order.component.css']
 })
-export class CreatePurchaseOrderComponent implements OnInit{
+export class CreatePurchaseOrderComponent implements OnInit {
 
   Order: orderInterface = {
     date: new Date(),
@@ -41,31 +42,36 @@ export class CreatePurchaseOrderComponent implements OnInit{
     },
     products: [],
     totalPrice: 0
-};
+  };
 
   supplierList: supplierInterface[] = [];
-  productsList: productsInterface[] = [];
-  selectedProductPrice = 0;
   selectedProductsList: productsInterface[] = [];
 
-  product: productsList ={
+  product: TempProduct= {
     id: 0,
-    name: '',
+    nameProduct: '',
+    supplier: ,
+    category: categoryInterface,
+    description:  '',
     price: 0,
     quantity: 1
-  }
+  };
 
   editMode: boolean = false;
   private editOrderCode: number | null = null;
 
-  constructor(private service: PurchaseOrderServiceService, private serviceSupplier: SupplierServiceService,
-     private serviceProducts: ProductServiceService,private router: Router, private route: ActivatedRoute){}
+  constructor(
+    private orderService: PurchaseOrderServiceService,
+    private supplierService: SupplierServiceService,
+    private productService: ProductServiceService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    
-    this.serviceSupplier.getSuppliers().subscribe((resp)=>{
+    this.supplierService.getSuppliers().subscribe((resp) => {
       this.supplierList = resp;
-  })
+    });
 
     this.route.params.subscribe(params => {
       const codeParam = params['id'];
@@ -75,26 +81,29 @@ export class CreatePurchaseOrderComponent implements OnInit{
         this.loadOrderData();
       }
     });
-
-}
+  }
 
   private loadOrderData(): void {
     if (this.editOrderCode !== null) {
-      const currentOrder = this.service.getOrder(this.editOrderCode);
-      if (currentOrder) {
-        this.Order = { ...currentOrder };
-      }
+      this.orderService.getOrder(this.editOrderCode).subscribe((currentOrder) => {
+        if (currentOrder) {
+          this.Order = { ...currentOrder };
+        }
+      });
     }
   }
 
   submitForm(form: NgForm): void {
     if (this.editMode) {
       const editOrder: orderInterface = this.editingOrder(form);
-      this.service.updateOrder(editOrder);
-    }else {
-      this.service.addOrder(form.value);
+      this.orderService.updateOrder(editOrder).subscribe(() => {
+        this.router.navigate(['/orders']);
+      });
+    } else {
+      this.orderService.addOrder(form.value).subscribe(() => {
+        this.router.navigate(['/orders']);
+      });
     }
-    this.router.navigate(['/orders']);
   }
 
   private editingOrder(form: NgForm): orderInterface {
@@ -112,32 +121,36 @@ export class CreatePurchaseOrderComponent implements OnInit{
 
   public selectSupplier(name: string): void {
     const selectedSupplier = this.Order.supplier;
-    console.log('Selected Supplier:', selectedSupplier);
-
+  
     if (selectedSupplier) {
-        this.productsList = this.serviceProducts.getProducts().filter(product =>
-            product.supplier.name === name
-        );
-        this.product.id = this.productsList[0].sku!;
-        this.product.name = this.productsList[0].nameProduct;
-        this.product.price = this.productsList[0].price;
-      
-        console.log('Filtered Products:', this.productsList);
+      this.productService.getProductsBySupplier(name).subscribe(products => {
+        this.selectedProductsList = products;
+        this.product.id = this.selectedProductsList[0]?.id || 0;  
+        this.product.nameProduct = this.selectedProductsList[0]?.nameProduct || '';
+        this.product.price = this.selectedProductsList[0]?.price || 0;
+      });
     }
+  }
+
+  public addProductToOrder(): void {
+    const productToAdd: productsInterface = { 
+        id: this.product.id,
+        nameProduct: this.product.nameProduct,
+        supplier: this.product.supplier,
+        category: this.product.category,
+        description: this.product.description,
+        price: this.product.price
+    };
+
+    productToAdd.price = this.product.price * this.product.quantity;
+    this.Order.totalPrice += productToAdd.price;
+    this.Order.products.push(productToAdd);
+    this.product.quantity = 1;
 }
 
-public addProductToOrder(): void {
-  const productToAdd: productsList = { ...this.product };
-  productToAdd.price = this.product.price * this.product.quantity; 
-  this.Order.totalPrice += productToAdd.price; 
-  this.Order.products.push(productToAdd); 
-  this.product.quantity = 1; 
-}
-
-public loadProduct(selectedProduct: string): void {
-  const productSelected = this.productsList.find((obj) => { obj.sku == parseInt(selectedProduct)});
-  this.product.price = productSelected?.price!;
-  this.product.name = productSelected?.nameProduct!;
-}
-
+  public loadProduct(selectedProduct: string): void {
+    const productSelected = this.selectedProductsList.find((obj) => obj.id === parseInt(selectedProduct));
+    this.product.price = productSelected?.price!;
+    this.product.nameProduct = productSelected?.nameProduct!;
+  }
 }

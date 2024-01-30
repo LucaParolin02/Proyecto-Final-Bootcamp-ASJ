@@ -3,44 +3,45 @@ import { ProductServiceService } from '../../services/product-service.service';
 import { productsInterface } from '../../interfaces/dataProducts';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrl: './products.component.css'
+  styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
 
   productsList: productsInterface[] = [];
-  
-  constructor(private service: ProductServiceService, private router: Router) {}
+
+  constructor(private productService: ProductServiceService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadlist();
+    this.loadList();
     this.sortProducts();
   }
 
-  private loadlist() {
-    this.productsList = this.service.getProducts();
+  private loadList() {
+    this.productService.getProducts().subscribe((products) => {
+      this.productsList = products;
+    });
   }
 
-  public deleteProduct(code:number){
+  public deleteProduct(code: number) {
     const isConfirmed = window.confirm('Are you sure you want to delete this product?');
     if (isConfirmed) {
-      this.service.deleteProduct(code);
-      this.loadlist();
+      this.productService.deleteProduct(code).subscribe(() => {
+        this.loadList();
+      });
     }
   }
 
-  public editProduct(code:number){
-    const isConfirmed = window.confirm('Are you sure you want edit this product?');
-    if (isConfirmed){
-      this.router.navigate(['/products' + '/' + code]);
+  public editProduct(code: number) {
+    const isConfirmed = window.confirm('Are you sure you want to edit this product?');
+    if (isConfirmed) {
+      this.router.navigate(['/products', code]);
     }
   }
 
   public sortProducts() {
     this.productsList.sort((a, b) => a.nameProduct.localeCompare(b.nameProduct));
   }
-
 }

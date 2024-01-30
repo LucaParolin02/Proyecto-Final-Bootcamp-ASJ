@@ -25,7 +25,7 @@ export class SupplierServiceService {
     return of(this.suppliers.find(supplier => supplier.code === code) || {} as supplierInterface);
   }
 
-  public addSupplier(supplier: supplierInterface): Observable<void> {
+  public addSupplier(supplier: supplierInterface): Observable<any> {
     if (this.suppliers.length > 0) {
       const lastSupplier = this.suppliers[this.suppliers.length - 1];
       if (lastSupplier.code !== undefined){
@@ -38,7 +38,7 @@ export class SupplierServiceService {
     return of(undefined);
   }
 
-  public deleteSupplier(code: number): Observable<void> {
+  public deleteSupplier(code: number): Observable<any> {
     const index = this.suppliers.findIndex(supplier => supplier.code === code);
     if (index !== -1) {
       this.suppliers.splice(index, 1);
@@ -46,7 +46,7 @@ export class SupplierServiceService {
     return of(undefined);
   }
 
-  public updateSupplier(updatedSupplier: supplierInterface): Observable<void> {
+  public updateSupplier(updatedSupplier: supplierInterface): Observable<any> {
     const index = this.suppliers.findIndex(supplier => supplier.code === updatedSupplier.code);
     if (index !== -1) {
       this.suppliers[index] = updatedSupplier;

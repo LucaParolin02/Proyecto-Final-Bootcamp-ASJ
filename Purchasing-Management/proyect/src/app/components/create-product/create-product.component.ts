@@ -51,20 +51,24 @@ export class CreateProductComponent implements OnInit {
   editMode: boolean = false;
   private editProductCode: number | null = null;
 
-  constructor(private service: ProductServiceService,private serviceSuppliers: SupplierServiceService,
-     private router: Router, private route: ActivatedRoute,private serviceCategory: CategoriesServiceService) {}
+  constructor(
+    private productService: ProductServiceService,
+    private supplierService: SupplierServiceService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private categoryService: CategoriesServiceService
+  ) {}
 
   ngOnInit(): void {
+    this.supplierService.getSuppliers().subscribe((resp) => {
+      this.suppliersList = resp;
+    });
 
-    this.serviceSuppliers.getSuppliers().subscribe((resp)=>{
-        this.suppliersList = resp;
-    })
+    this.categoryService.getCategories().subscribe((res) => {
+      this.categoryList = res;
+    });
 
-    this.serviceCategory.getCategories().subscribe((res)=>{
-      this.categoryList  = res;
-    })
-
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const codeParam = params['id'];
       if (codeParam) {
         this.editMode = true;
@@ -77,19 +81,23 @@ export class CreateProductComponent implements OnInit {
   submitForm(form: NgForm): void {
     if (this.editMode) {
       const editProduct: productsInterface = this.editingProduct(form);
-      this.service.updateProduct(editProduct);
-    }else {
-      this.service.addProduct(form.value);
+      this.productService.updateProduct(editProduct).subscribe(() => {
+        this.router.navigate(['/products']);
+      });
+    } else {
+      this.productService.addProduct(form.value).subscribe(() => {
+        this.router.navigate(['/products']);
+      });
     }
-    this.router.navigate(['/products']);
   }
 
   private loadProductData(): void {
     if (this.editProductCode !== null) {
-      const currentProduct = this.service.getProduct(this.editProductCode);
-      if (currentProduct) {
-        this.product = { ...currentProduct };
-      }
+      this.productService.getProduct(this.editProductCode).subscribe((currentProduct) => {
+        if (currentProduct) {
+          this.product = { ...currentProduct };
+        }
+      });
     }
   }
 
@@ -103,5 +111,4 @@ export class CreateProductComponent implements OnInit {
       price: form.value.price,
     };
   }
-  
 }

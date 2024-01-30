@@ -15,20 +15,20 @@ const routes: Routes = [
   {path: 'suppliers',
     children:[
     {path:"", component: SuppliersComponent},
-    {path:'add', component: CreateSupplierComponent},
+    {path:'form', component: CreateSupplierComponent},
     {path:':id', component: CreateSupplierComponent}
   ]},
   {path:'products',
     children:[
       {path:"", component: ProductsComponent},
-      {path:'add',component:CreateProductComponent},
+      {path:'form',component:CreateProductComponent},
       {path:':id',component:CreateProductComponent}
     ]
   },
   {path:'orders',
     children:[
       {path:"", component: PurchaseOrdersComponent},
-      {path:'add', component: CreatePurchaseOrderComponent},
+      {path:'form', component: CreatePurchaseOrderComponent},
       {path:':id',component: CreatePurchaseOrderComponent},
       {path:'details/:id',component: OrderDetailsComponent},
     ]

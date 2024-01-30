@@ -6,27 +6,32 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
-  styleUrl: './order-details.component.css'
+  styleUrls: ['./order-details.component.css']
 })
-export class OrderDetailsComponent implements OnInit{
+export class OrderDetailsComponent implements OnInit {
 
-  order: orderInterface[] = []
+  order: orderInterface | undefined;
 
-  constructor(private service: PurchaseOrderServiceService,private route: ActivatedRoute){}
-
+  constructor(private service: PurchaseOrderServiceService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.loadlist();
-
     this.route.params.subscribe(params => {
       const codeParam = params['id'];
       if (codeParam) {
-        
+        const orderCode = +codeParam;
+        this.loadOrderDetails(orderCode);
       }
     });
   }
 
-  public loadlist(){
-    this.order = this.service.getOrders();
+  private loadOrderDetails(code: number): void {
+    this.service.getOrder(code).subscribe(
+      (order: orderInterface | undefined) => {
+        this.order = order;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 }
