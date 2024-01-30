@@ -4,9 +4,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +17,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "suppliers")
@@ -35,10 +35,12 @@ public class SupplierModel {
 	@Column(name="supp_name", unique = true)
 	private String name;
 	@Column(name="supp_cuit",unique = true)
+	@Pattern(regexp = "\\d+", message = "CUIT must contain only numbers")
 	private String cuit;
 	@Column(name="web")
 	private String web;
 	@Column(name = "email", unique = true)
+	@Email(message = "Must be a valid email address")
 	private String email;
 	@Column(name="phone" , unique = true)
 	private String phone;
@@ -57,6 +59,7 @@ public class SupplierModel {
 	@Column(name = "is_deleted")
 	private boolean deleted;
 	@OneToMany(mappedBy = "supplier")
+	@JsonManagedReference
 	private List<ProductModel> products;
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vat_id", referencedColumnName = "vat_id")
@@ -68,6 +71,7 @@ public class SupplierModel {
 	@JoinColumn(name = "city_id", referencedColumnName = "city_id")
 	private CityModel city;
 	@OneToMany(mappedBy = "supplier")
+	@JsonManagedReference
 	private List<OrderModel> orders;
 	
 	public SupplierModel() {

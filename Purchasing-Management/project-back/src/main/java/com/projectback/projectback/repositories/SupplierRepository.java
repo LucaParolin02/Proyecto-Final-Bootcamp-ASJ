@@ -16,6 +16,12 @@ public interface SupplierRepository extends JpaRepository<SupplierModel, Integer
     boolean existsByCuit(String cuit);
     boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
+    boolean existsByCodeAndIdNot(String code, Integer id);
+    boolean existsByNameAndIdNot(String name,Integer id);
+    boolean existsByEmailAndIdNot(String email,Integer id);
+    boolean existsByCuitAndIdNot(String cuit,Integer id);
+    boolean existsByPhoneAndIdNot(String phone,Integer id);
     List<SupplierModel> findBySectorAndDeletedFalse(SectorModel sector);
+    List<SupplierModel> findByDeletedFalse();
     
 }

@@ -15,9 +15,7 @@ import com.projectback.projectback.models.SupplierModel;
 import com.projectback.projectback.repositories.SectorRepository;
 import com.projectback.projectback.repositories.SupplierRepository;
 import com.projectback.projectback.services.ISectorService;
-
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class SectorService implements ISectorService {

@@ -134,5 +134,14 @@ public class SupplierController {
     		return new ResponseEntity<Object>(e.getMessage(),HttpStatus.NOT_FOUND);
     	}
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> editSupplier(@PathVariable Integer id, @Valid @RequestBody SupplierModel supplier, BindingResult bindingResult){
+    	if (bindingResult.hasErrors()) {
+    		Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+    	}
+    	return new ResponseEntity<Object>(iSupplierService.updateSupplier(id, supplier),HttpStatus.OK);
+    }
 }
 

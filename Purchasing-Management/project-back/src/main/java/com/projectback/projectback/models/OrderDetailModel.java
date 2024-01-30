@@ -41,7 +41,7 @@ public class OrderDetailModel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id", referencedColumnName = "order_id")
 	private OrderModel order;
-	@OneToMany
+	@OneToMany //CAMBIAR URGENTE ES MANYTOONE
 	private List<ProductModel> products;
 	
 	public OrderDetailModel() {

@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,8 +37,6 @@ public class ProductModel {
 	private String desc;
 	@Column(name = "prod_price")
 	private double price;
-	@Column(name = "prod_stock")
-	private Integer stock;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull(message = "Date cannot be null")
@@ -48,6 +48,7 @@ public class ProductModel {
 	private boolean deleted;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id", insertable = false, updatable = false)
+	@JsonBackReference
 	private SupplierModel supplier;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -61,14 +62,13 @@ public class ProductModel {
 	public ProductModel() {
 	}
 	
-    public ProductModel(Integer id, String sku, String name, String desc, double price, Integer stock,
+    public ProductModel(Integer id, String sku, String name, String desc, double price,
             Timestamp created, Timestamp updated, boolean deleted, SupplierModel supplier, CategoryModel category) {
         this.id = id;
         this.sku = sku;
         this.name = name;
         this.desc = desc;
         this.price = price;
-        this.stock = stock;
 		this.created = Timestamp.from(Instant.now());
 		this.updated = this.created;
 		this.deleted = false;
@@ -111,14 +111,6 @@ public class ProductModel {
 
 	public void setPrice(double price) {
 		this.price = price;
-	}
-
-	public Integer getStock() {
-		return stock;
-	}
-
-	public void setStock(Integer stock) {
-		this.stock = stock;
 	}
 
 	public Timestamp getCreated() {

@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import com.projectback.projectback.exceptions.DuplicateEntityException;
 import com.projectback.projectback.models.SupplierModel;
 import com.projectback.projectback.repositories.SupplierRepository;
+import com.projectback.projectback.services.ICityService;
+import com.projectback.projectback.services.ISectorService;
 import com.projectback.projectback.services.ISupplierService;
+import com.projectback.projectback.services.IVatService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -20,11 +23,18 @@ public class SupplierService implements ISupplierService {
 	
 	@Autowired
 	SupplierRepository supplierRepository;
+	@Autowired
+	ISectorService iSectorService;
+	@Autowired
+	IVatService iVatService;
+	@Autowired
+	ICityService iCityService;
 	
 	@Override
 	public List<SupplierModel> getSuppliers(){
-		return supplierRepository.findAll();
+		return supplierRepository.findByDeletedFalse();
 	}
+	
 	
 	@Override
 	public SupplierModel getSupplierById(Integer id) {
@@ -37,21 +47,7 @@ public class SupplierService implements ISupplierService {
 	
 	@Override
 	public SupplierModel postSupplier(SupplierModel supplier) {
-	    if (supplierRepository.existsByCode(supplier.getCode())) {
-	        throw new DuplicateEntityException("Supplier with code " + supplier.getCode() + " already exists");
-	    }
-	    if (supplierRepository.existsByName(supplier.getName())) {
-	        throw new DuplicateEntityException("Supplier with name " + supplier.getName() + " already exists");
-	    }
-	    if (supplierRepository.existsByCuit(supplier.getCuit())) {
-	        throw new DuplicateEntityException("Supplier with CUIT " + supplier.getCuit() + " already exists");
-	    }
-	    if (supplierRepository.existsByEmail(supplier.getEmail())) {
-	        throw new DuplicateEntityException("Supplier with email " + supplier.getEmail() + " already exists");
-	    }
-	    if (supplierRepository.existsByPhone(supplier.getPhone())) {
-	        throw new DuplicateEntityException("Supplier with phone " + supplier.getPhone() + " already exists");
-	    }
+		validateUniqueFields(supplier);
 	    supplier.setCreated(Timestamp.from(Instant.now()));
 	    supplier.setUpdated(Timestamp.from(Instant.now()));
 	    supplier.setDeleted(false);
@@ -59,43 +55,96 @@ public class SupplierService implements ISupplierService {
 	}
 	
 	@Override
-	public SupplierModel deleteSupplier(Integer id) {
-		Optional<SupplierModel> optionalSupplier = supplierRepository.findById(id);
-		if (optionalSupplier.isPresent()) {
-			SupplierModel supplierToDelete = optionalSupplier.get();
-			supplierToDelete.setDeleted(true);
-			return supplierRepository.save(supplierToDelete);
-		}
-		throw new EntityNotFoundException("Supplier with ID " + id + " not found");
-	}
+    public SupplierModel deleteSupplier(Integer id) {
+        SupplierModel supplierToDelete = getSupplierById(id);
+        supplierToDelete.setDeleted(true);
+        return supplierRepository.save(supplierToDelete);
+    }
 	
 	@Override
 	public SupplierModel updateSupplier(Integer id,SupplierModel supplier) {
-		Optional<SupplierModel> optionalSupplier = supplierRepository.findById(id);
-		if (optionalSupplier.isPresent()) {
-			SupplierModel supplierEdit = optionalSupplier.get();
-			if (supplier.getName()!=null)
-				supplierEdit.setName(supplier.getName());
-			if (supplier.getCode()!=null)
-				supplierEdit.setCode(supplier.getCode());
-			if (supplier.getLogo()!=null)
-				supplierEdit.setLogo(supplier.getLogo());
-			if (supplier.getWeb()!=null)
-				supplierEdit.setWeb(supplier.getWeb());
-			if (supplier.getEmail()!=null)
-				supplierEdit.setEmail(supplier.getEmail());
-			if (supplier.getPhone()!=null)
-				supplierEdit.setPhone(supplier.getPhone());
-			if (supplier.getStreet()!=null)
-				supplierEdit.setStreet(supplier.getStreet());
-			if (supplier.getSnumber()!=null)
-				supplierEdit.setSnumber(supplier.getSnumber());
-			if (supplier.getZip()!=null)
-				supplierEdit.setZip(supplier.getZip());		
-			supplierEdit.setUpdated(Timestamp.from(Instant.now()));
-			return supplierRepository.save(supplierEdit);
-		}
-		throw new EntityNotFoundException("Supplier with ID " + id + " not found");
+		validateEditUniqueFields(supplier,id);
+		SupplierModel existingSupplier = getSupplierById(id);	
+	    if (supplier.getName() != null) {
+	        existingSupplier.setName(supplier.getName());
+	    }
+	    if (supplier.getCode() != null) {
+	        existingSupplier.setCode(supplier.getCode());
+	    }
+	    if (supplier.getLogo() != null) {
+	        existingSupplier.setLogo(supplier.getLogo());
+	    }
+	    if (supplier.getWeb() != null) {
+	        existingSupplier.setWeb(supplier.getWeb());
+	    }
+	    if (supplier.getEmail() != null) {
+	        existingSupplier.setEmail(supplier.getEmail());
+	    }
+	    if (supplier.getPhone() != null) {
+	        existingSupplier.setPhone(supplier.getPhone());
+	    }
+	    if (supplier.getStreet() != null) {
+	        existingSupplier.setStreet(supplier.getStreet());
+	    }
+	    if (supplier.getSnumber() != null) {
+	        existingSupplier.setSnumber(supplier.getSnumber());
+	    }
+	    if (supplier.getZip() != null) {
+	        existingSupplier.setZip(supplier.getZip());
+	    }
+	    if (supplier.getSector() != null) {
+	    	Integer sectorId = supplier.getSector().getId();
+	    	iSectorService.getSectorById(sectorId);
+	    	existingSupplier.setSector(supplier.getSector());
+	    }
+	    if (supplier.getVatCondition() != null) {
+	    	Integer vatId = supplier.getVatCondition().getId();
+	    	iVatService.getVatById(vatId);
+	    	existingSupplier.setVatCondition(supplier.getVatCondition());
+	    }
+	    if (supplier.getCity() != null) {
+	    	Integer cityId = supplier.getCity().getId();
+	    	iCityService.getCityById(cityId);
+	    	existingSupplier.setCity(supplier.getCity());
+	    }
+	    existingSupplier.setUpdated(Timestamp.from(Instant.now()));
+	    return supplierRepository.save(existingSupplier);
 	}
+	
+    private void validateUniqueFields(SupplierModel supplier) {
+        if (supplierRepository.existsByCode(supplier.getCode())) {
+            throw new DuplicateEntityException("Supplier with code " + supplier.getCode() + " already exists");
+        }
+        if (supplierRepository.existsByName(supplier.getName())) {
+            throw new DuplicateEntityException("Supplier with name " + supplier.getName() + " already exists");
+        }
+        if (supplierRepository.existsByCuit(supplier.getCuit())) {
+            throw new DuplicateEntityException("Supplier with CUIT " + supplier.getCuit() + " already exists");
+        }
+        if (supplierRepository.existsByEmail(supplier.getEmail())) {
+            throw new DuplicateEntityException("Supplier with email " + supplier.getEmail() + " already exists");
+        }
+        if (supplierRepository.existsByPhone(supplier.getPhone())) {
+            throw new DuplicateEntityException("Supplier with phone " + supplier.getPhone() + " already exists");
+        }
+    }
+    
+    private void validateEditUniqueFields(SupplierModel supplier,Integer id) {
+        if (supplierRepository.existsByCodeAndIdNot(supplier.getCode(),id)) {
+            throw new DuplicateEntityException("Supplier with code " + supplier.getCode() + " already exists");
+        }
+        if (supplierRepository.existsByNameAndIdNot(supplier.getName(),id)) {
+            throw new DuplicateEntityException("Supplier with name " + supplier.getName() + " already exists");
+        }
+        if (supplierRepository.existsByCuitAndIdNot(supplier.getCuit(),id)) {
+            throw new DuplicateEntityException("Supplier with CUIT " + supplier.getCuit() + " already exists");
+        }
+        if (supplierRepository.existsByEmailAndIdNot(supplier.getEmail(),id)) {
+            throw new DuplicateEntityException("Supplier with email " + supplier.getEmail() + " already exists");
+        }
+        if (supplierRepository.existsByPhoneAndIdNot(supplier.getPhone(),id)) {
+            throw new DuplicateEntityException("Supplier with phone " + supplier.getPhone() + " already exists");
+        }
+    }
 
 }

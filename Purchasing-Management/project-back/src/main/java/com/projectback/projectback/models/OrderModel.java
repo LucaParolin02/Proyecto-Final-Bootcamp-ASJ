@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -44,6 +46,7 @@ public class OrderModel {
 	@Column(name = "is_deleted")
 	private boolean deleted;
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference
 	@JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
 	private SupplierModel supplier;
 	@OneToMany(mappedBy = "order")
