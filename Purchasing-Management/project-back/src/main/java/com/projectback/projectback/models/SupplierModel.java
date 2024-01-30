@@ -19,7 +19,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "suppliers")
@@ -29,19 +28,19 @@ public class SupplierModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "supplier_id")
 	private Integer id;
-	@Column(name="supp_code")
+	@Column(name="supp_code", unique = true)
 	private String code;
 	@Column(name="supp_logo")
 	private String logo;
-	@Column(name="supp_name")
+	@Column(name="supp_name", unique = true)
 	private String name;
-	@Column(name="supp_cuit")
+	@Column(name="supp_cuit",unique = true)
 	private String cuit;
 	@Column(name="web")
 	private String web;
-	@Column(name = "email")
+	@Column(name = "email", unique = true)
 	private String email;
-	@Column(name="phone")
+	@Column(name="phone" , unique = true)
 	private String phone;
 	@Column(name="street")
 	private String street;

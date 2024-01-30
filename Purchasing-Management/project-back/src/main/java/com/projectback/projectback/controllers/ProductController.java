@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +41,9 @@ public class ProductController {
 	public ResponseEntity<Object> postCategory(@Valid @RequestBody CategoryModel category, BindingResult bindingResult) {
 	    if (bindingResult.hasErrors()) {
 	        Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
-	        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+	        return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
 	    }
-	    return new ResponseEntity<>(iCategoryService.postCategory(category), HttpStatus.CREATED);
+	    return new ResponseEntity<Object>(iCategoryService.postCategory(category), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/categories/{id}")
@@ -52,6 +53,15 @@ public class ProductController {
 	    } catch (EntityNotFoundException e) {
 	        return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_FOUND);
 	    }
+	}
+	
+	@PutMapping("/categories/{id}")
+	public ResponseEntity<Object> editCategory(@PathVariable Integer id,@Valid @RequestBody CategoryModel category, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			Map<String,String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+			return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(iCategoryService.editCategory(id, category), HttpStatus.OK);
 	}
 
 }

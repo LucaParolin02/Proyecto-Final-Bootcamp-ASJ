@@ -18,10 +18,10 @@ public class VatService implements IVatService{
 	@Autowired
 	VatRepository vatRepository;
 	
-	@Override
-	public List<VatModel> getVats(){
-		return vatRepository.findAll();
-	}
+    @Override
+    public List<VatModel> getVats() {
+        return vatRepository.findByDeletedFalse();
+    }
 	
 	@Override
 	public VatModel getVatById(Integer id) {

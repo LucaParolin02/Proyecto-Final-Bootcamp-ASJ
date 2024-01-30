@@ -10,5 +10,6 @@ public interface ICategoryService {
 	CategoryModel postCategory(CategoryModel category);
 	CategoryModel deleteCategory(Integer id);
 	CategoryModel getCategoryById(Integer id);
+	CategoryModel editCategory(Integer id, CategoryModel category);
 	
 }

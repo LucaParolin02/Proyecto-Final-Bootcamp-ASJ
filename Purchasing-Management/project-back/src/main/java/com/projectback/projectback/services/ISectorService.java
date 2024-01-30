@@ -10,4 +10,5 @@ public interface ISectorService {
 	SectorModel postSector(SectorModel sectorModel);
 	SectorModel deleteSector(Integer id);
 	SectorModel getSectorById(Integer id);
+	SectorModel editSector(Integer id,SectorModel sectorModel);
 }
