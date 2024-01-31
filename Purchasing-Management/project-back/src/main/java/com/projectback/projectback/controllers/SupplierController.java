@@ -17,15 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.projectback.projectback.errorsInputs.ErrorsInputs;
-import com.projectback.projectback.exceptions.DuplicateEntityException;
 import com.projectback.projectback.exceptions.OperationNotAllowedException;
-import com.projectback.projectback.models.CityModel;
+import com.projectback.projectback.models.ContactModel;
 import com.projectback.projectback.models.CountryModel;
 import com.projectback.projectback.models.ProvinceModel;
 import com.projectback.projectback.models.SectorModel;
 import com.projectback.projectback.models.SupplierModel;
 import com.projectback.projectback.models.VatModel;
-import com.projectback.projectback.services.ICityService;
+import com.projectback.projectback.services.IContactService;
 import com.projectback.projectback.services.ICountryService;
 import com.projectback.projectback.services.IProvinceService;
 import com.projectback.projectback.services.ISectorService;
@@ -47,11 +46,16 @@ public class SupplierController {
 	@Autowired
 	IProvinceService iProvinceService;
 	@Autowired
-	ICityService iCityService;
-	@Autowired
 	IVatService iVatService;
 	@Autowired
 	ISectorService iSectorService;
+	@Autowired
+	IContactService iContactService;
+	
+	@PostMapping("/vats/add")
+	public ResponseEntity<VatModel> addVat(@RequestBody VatModel vat){
+		return ResponseEntity.ok(iVatService.addVat(vat));
+	}
 	
     @GetMapping("/countries")
     public ResponseEntity<List<CountryModel>> getAllCountries() {
@@ -62,13 +66,7 @@ public class SupplierController {
     public ResponseEntity<List<ProvinceModel>> getAllProvinces(@PathVariable Integer id) {
         return ResponseEntity.ok(iProvinceService.getProvincesByCountry(id));
     }
-    
-    
-    @GetMapping("/cities/{id}")
-    public ResponseEntity<List<CityModel>> getAllCities(@PathVariable Integer id){
-    	return ResponseEntity.ok(iCityService.getCitiesByProvince(id));
-    }
-    
+     
     @GetMapping("/vats")
     public ResponseEntity<List<VatModel>> getAllVats(){
     	return ResponseEntity.ok(iVatService.getVats());
@@ -124,15 +122,41 @@ public class SupplierController {
     	}
     	return new ResponseEntity<>(iSupplierService.postSupplier(supplier), HttpStatus.CREATED);
     }
-    
+      
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteSupplier(@PathVariable Integer id){
     	try {
     		return new ResponseEntity<Object>(iSupplierService.deleteSupplier(id), HttpStatus.NO_CONTENT);
+    	} catch (EntityNotFoundException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (OperationNotAllowedException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }  	
+    }
+    
+    @GetMapping("/contact/{id}")
+    public ResponseEntity<ContactModel> getContact(@PathVariable Integer id){
+    	return new ResponseEntity<ContactModel>(iContactService.getContactById(id), HttpStatus.OK);
+    }
+    
+    @PostMapping("/contact/add")
+    public ResponseEntity<Object> addContact(@Valid @RequestBody ContactModel contact,BindingResult bindingResult){
+    	if (bindingResult.hasErrors()) {
+    		Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     	}
-    	catch (Exception e) {
-    		return new ResponseEntity<Object>(e.getMessage(),HttpStatus.NOT_FOUND);
+    	return new ResponseEntity<Object>(iContactService.postContact(contact), HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/contact/edit/{id}")
+    public ResponseEntity<Object> editContact(@Valid @RequestBody ContactModel contact,@PathVariable Integer id, BindingResult bindingResult){
+    	if (bindingResult.hasErrors()) {
+    		Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     	}
+    	return new ResponseEntity<Object>(iContactService.editContact(id, contact),HttpStatus.OK);
     }
     
     @PutMapping("/{id}")
@@ -143,5 +167,7 @@ public class SupplierController {
     	}
     	return new ResponseEntity<Object>(iSupplierService.updateSupplier(id, supplier),HttpStatus.OK);
     }
+    
+    
 }
 

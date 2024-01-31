@@ -38,11 +38,12 @@ public class OrderDetailModel {
 	private Timestamp updated;
 	@Column(name = "is_deleted")
 	private boolean deleted;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_id", referencedColumnName = "order_id")
 	private OrderModel order;
-	@OneToMany //CAMBIAR URGENTE ES MANYTOONE
-	private List<ProductModel> products;
+	@ManyToOne (fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id", referencedColumnName = "product_id")
+	private ProductModel product;
 	
 	public OrderDetailModel() {
 	}

@@ -1,5 +1,7 @@
 package com.projectback.projectback.services.implementations;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,13 @@ public class VatService implements IVatService{
 	        return optionalVat.get();
 	    } 
 	    throw new EntityNotFoundException("Vat with ID " + id + " not found");
+	}
+	
+	@Override
+	public VatModel addVat(VatModel vat) {
+		vat.setCreated(Timestamp.from(Instant.now()));
+		vat.setUpdated(Timestamp.from(Instant.now()));
+		return vatRepository.save(vat);
 	}
 
 }

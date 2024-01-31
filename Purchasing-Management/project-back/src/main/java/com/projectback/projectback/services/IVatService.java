@@ -8,4 +8,5 @@ public interface IVatService {
 
 	List<VatModel> getVats();
 	VatModel getVatById(Integer id);
+	VatModel addVat(VatModel vat);
 }

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import com.projectback.projectback.exceptions.DuplicateEntityException;
 import com.projectback.projectback.models.SupplierModel;
 import com.projectback.projectback.repositories.SupplierRepository;
-import com.projectback.projectback.services.ICityService;
+import com.projectback.projectback.services.ICountryService;
+import com.projectback.projectback.services.IProvinceService;
 import com.projectback.projectback.services.ISectorService;
 import com.projectback.projectback.services.ISupplierService;
 import com.projectback.projectback.services.IVatService;
@@ -28,7 +29,9 @@ public class SupplierService implements ISupplierService {
 	@Autowired
 	IVatService iVatService;
 	@Autowired
-	ICityService iCityService;
+	IProvinceService iProvinceService;
+	@Autowired
+	ICountryService iCountryService;
 	
 	@Override
 	public List<SupplierModel> getSuppliers(){
@@ -47,7 +50,19 @@ public class SupplierService implements ISupplierService {
 	
 	@Override
 	public SupplierModel postSupplier(SupplierModel supplier) {
-		validateUniqueFields(supplier);
+	    validateUniqueFields(supplier);    
+	    if (supplier.getSector() != null) {
+	        Integer sectorId = supplier.getSector().getId();
+	        iSectorService.getSectorById(sectorId);
+	    } 
+	    if (supplier.getProvince() != null) {
+	        Integer provinceId = supplier.getProvince().getId();
+	        iProvinceService.getProvinceById(provinceId);
+	    }   
+	    if (supplier.getVatCondition() != null) {
+	        Integer vatId = supplier.getVatCondition().getId();
+	        iVatService.getVatById(vatId);
+	    } 
 	    supplier.setCreated(Timestamp.from(Instant.now()));
 	    supplier.setUpdated(Timestamp.from(Instant.now()));
 	    supplier.setDeleted(false);
@@ -65,48 +80,32 @@ public class SupplierService implements ISupplierService {
 	public SupplierModel updateSupplier(Integer id,SupplierModel supplier) {
 		validateEditUniqueFields(supplier,id);
 		SupplierModel existingSupplier = getSupplierById(id);	
-	    if (supplier.getName() != null) {
-	        existingSupplier.setName(supplier.getName());
-	    }
-	    if (supplier.getCode() != null) {
-	        existingSupplier.setCode(supplier.getCode());
-	    }
-	    if (supplier.getLogo() != null) {
-	        existingSupplier.setLogo(supplier.getLogo());
-	    }
-	    if (supplier.getWeb() != null) {
-	        existingSupplier.setWeb(supplier.getWeb());
-	    }
-	    if (supplier.getEmail() != null) {
-	        existingSupplier.setEmail(supplier.getEmail());
-	    }
-	    if (supplier.getPhone() != null) {
-	        existingSupplier.setPhone(supplier.getPhone());
-	    }
-	    if (supplier.getStreet() != null) {
-	        existingSupplier.setStreet(supplier.getStreet());
-	    }
-	    if (supplier.getSnumber() != null) {
-	        existingSupplier.setSnumber(supplier.getSnumber());
-	    }
-	    if (supplier.getZip() != null) {
-	        existingSupplier.setZip(supplier.getZip());
-	    }
+		existingSupplier.setName(supplier.getName() != null ? supplier.getName() : existingSupplier.getName());
+	    existingSupplier.setCode(supplier.getCode() != null ? supplier.getCode() : existingSupplier.getCode());
+	    existingSupplier.setLogo(supplier.getLogo() != null ? supplier.getLogo() : existingSupplier.getLogo());
+	    existingSupplier.setWeb(supplier.getWeb() != null ? supplier.getWeb() : existingSupplier.getWeb());
+	    existingSupplier.setEmail(supplier.getEmail() != null ? supplier.getEmail() : existingSupplier.getEmail());
+	    existingSupplier.setPhone(supplier.getPhone() != null ? supplier.getPhone() : existingSupplier.getPhone());
+	    existingSupplier.setStreet(supplier.getStreet() != null ? supplier.getStreet() : existingSupplier.getStreet());
+	    existingSupplier.setSnumber(supplier.getSnumber() != null ? supplier.getSnumber() : existingSupplier.getSnumber());
+	    existingSupplier.setZip(supplier.getZip() != null ? supplier.getZip() : existingSupplier.getZip());
+	    existingSupplier.setCity(supplier.getCity() != null ? supplier.getCity() : existingSupplier.getCity());
+	    existingSupplier.setContact(supplier.getContact() != null ? supplier.getContact(): existingSupplier.getContact());
 	    if (supplier.getSector() != null) {
 	    	Integer sectorId = supplier.getSector().getId();
 	    	iSectorService.getSectorById(sectorId);
 	    	existingSupplier.setSector(supplier.getSector());
 	    }
+	    if (supplier.getProvince() != null) {
+	    	Integer provinceId = supplier.getProvince().getId();
+	    	iProvinceService.getProvinceById(provinceId);
+	    	existingSupplier.setProvince(supplier.getProvince());
+	    }
 	    if (supplier.getVatCondition() != null) {
 	    	Integer vatId = supplier.getVatCondition().getId();
 	    	iVatService.getVatById(vatId);
 	    	existingSupplier.setVatCondition(supplier.getVatCondition());
-	    }
-	    if (supplier.getCity() != null) {
-	    	Integer cityId = supplier.getCity().getId();
-	    	iCityService.getCityById(cityId);
-	    	existingSupplier.setCity(supplier.getCity());
-	    }
+	    } 
 	    existingSupplier.setUpdated(Timestamp.from(Instant.now()));
 	    return supplierRepository.save(existingSupplier);
 	}

@@ -12,5 +12,10 @@ import com.projectback.projectback.models.ProductModel;
 public interface ProductRepository extends JpaRepository<ProductModel, Integer> {
 	
 	List<ProductModel> findActiveProductsByCategory(CategoryModel category);
+	List<ProductModel> findByDeletedFalse();
+	boolean existsBySku(String sku);
+    boolean existsByName(String name);
+    boolean existsByNameAndIdNot(String name,Integer id);
+    boolean existsBySkuAndIdNot(String sku,Integer id);
 	
 }

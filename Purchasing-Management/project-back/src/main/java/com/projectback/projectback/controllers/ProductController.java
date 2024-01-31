@@ -18,8 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projectback.projectback.errorsInputs.ErrorsInputs;
+import com.projectback.projectback.exceptions.OperationNotAllowedException;
 import com.projectback.projectback.models.CategoryModel;
+import com.projectback.projectback.models.ImageModel;
+import com.projectback.projectback.models.ProductModel;
 import com.projectback.projectback.services.ICategoryService;
+import com.projectback.projectback.services.IImageService;
+import com.projectback.projectback.services.IProductService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -31,6 +36,10 @@ public class ProductController {
 	
 	@Autowired
 	ICategoryService iCategoryService;
+	@Autowired
+	IProductService iProductService;
+	@Autowired
+	IImageService iImageService;
 	
 	@GetMapping("/categories")
 	public ResponseEntity<List<CategoryModel>> getAllCategories(){
@@ -51,8 +60,12 @@ public class ProductController {
 	    try {
 	        return new ResponseEntity<Object>(iCategoryService.deleteCategory(id), HttpStatus.NO_CONTENT);
 	    } catch (EntityNotFoundException e) {
-	        return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_FOUND);
-	    }
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (OperationNotAllowedException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@PutMapping("/categories/{id}")
@@ -63,5 +76,76 @@ public class ProductController {
 		}
 		return new ResponseEntity<Object>(iCategoryService.editCategory(id, category), HttpStatus.OK);
 	}
-
+	
+	@GetMapping
+	public ResponseEntity<List<ProductModel>> getAllProducts(){
+		return ResponseEntity.ok(iProductService.getAllProducts());
+	}
+	
+	@PostMapping("/add")
+	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductModel product, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+			return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(iProductService.postProduct(product), HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deleteProduct(@PathVariable Integer id){
+		try { 
+			return new ResponseEntity<Object>(iProductService.deleteProduct(id), HttpStatus.NO_CONTENT);
+		} catch (EntityNotFoundException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (OperationNotAllowedException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> editProduct(@PathVariable Integer id, @Valid @RequestBody ProductModel product, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(iProductService.editProduct(id, product), HttpStatus.OK);
+	}
+	
+	@GetMapping("/images/{id}")
+	public ResponseEntity<List<ImageModel>> getImages(@PathVariable Integer id){
+		return ResponseEntity.ok(iImageService.getImagesByProduct(id));
+	}
+	
+	@PostMapping("/image/add")
+	public ResponseEntity<Object> addImage(@Valid @RequestBody ImageModel image, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(iImageService.addImage(image), HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/image/{id}")
+	public ResponseEntity<Object> deleteImage(@PathVariable Integer id){
+		try { 
+			return new ResponseEntity<Object>(iImageService.deleteImage(id), HttpStatus.NO_CONTENT);
+		} catch (EntityNotFoundException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (OperationNotAllowedException e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+	}
+	
+	@PutMapping("/image/{id}")
+	public ResponseEntity<Object> editImage(@PathVariable Integer id, @Valid @RequestBody ImageModel image, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(iImageService.editImage(id, image), HttpStatus.OK);
+	}
 }

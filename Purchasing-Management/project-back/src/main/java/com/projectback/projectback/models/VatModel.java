@@ -21,7 +21,6 @@ public class VatModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "vat_id")
-	@NotNull
 	private Integer id;
 	@Column(name = "vat_condition")
 	@NotBlank(message = "Vat name cannot be empty")
@@ -30,7 +29,6 @@ public class VatModel {
 	private String name;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp created;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)

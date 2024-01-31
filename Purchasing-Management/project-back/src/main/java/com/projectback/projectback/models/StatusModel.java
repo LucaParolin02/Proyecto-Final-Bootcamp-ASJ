@@ -2,15 +2,11 @@ package com.projectback.projectback.models;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -33,15 +29,12 @@ public class StatusModel {
 	private String name;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp created;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp updated;
 	@Column(name = "is_deleted")
 	private boolean deleted;
-	@OneToMany(mappedBy = "status")
-	private List<OrderModel> orders;
 	
 	public StatusModel() {
 	}
@@ -52,7 +45,6 @@ public class StatusModel {
 		this.created = Timestamp.from(Instant.now());
 		this.updated = this.created;
 		this.deleted = false;
-		this.orders = new ArrayList<OrderModel>();
 	}
 
 	public Integer getId() {

@@ -8,4 +8,5 @@ public interface ICountryService {
 	
 	 List<CountryModel> getCountries();
 	 CountryModel getCountryById(Integer id);
+	 
 }

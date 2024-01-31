@@ -28,14 +28,13 @@ public class ImageModel {
 	private String url;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp created;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp updated;
 	@Column(name = "is_deleted")
 	private boolean deleted;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", referencedColumnName = "product_id")
 	private ProductModel product;
 	

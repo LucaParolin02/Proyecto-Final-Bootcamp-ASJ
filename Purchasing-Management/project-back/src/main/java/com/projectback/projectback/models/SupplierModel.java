@@ -14,11 +14,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "suppliers")
@@ -29,13 +32,14 @@ public class SupplierModel {
 	@Column(name = "supplier_id")
 	private Integer id;
 	@Column(name="supp_code", unique = true)
+	@Size(min = 4,message = "Code must contain at least 4 characters ")
 	private String code;
 	@Column(name="supp_logo")
 	private String logo;
 	@Column(name="supp_name", unique = true)
 	private String name;
 	@Column(name="supp_cuit",unique = true)
-	@Pattern(regexp = "\\d+", message = "CUIT must contain only numbers")
+	@Pattern(regexp = "^[0-9]{11}$", message = "CUIT must contain exactly 11 digits and only numbers")
 	private String cuit;
 	@Column(name="web")
 	private String web;
@@ -43,6 +47,7 @@ public class SupplierModel {
 	@Email(message = "Must be a valid email address")
 	private String email;
 	@Column(name="phone" , unique = true)
+	@Pattern(regexp = "\\d+", message = "Phone must contain only numbers")
 	private String phone;
 	@Column(name="street")
 	private String street;
@@ -50,6 +55,8 @@ public class SupplierModel {
 	private String snumber;
 	@Column(name = "zip")
 	private String zip;
+	@Column (name = "city")
+	private String city;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp created;
@@ -58,9 +65,9 @@ public class SupplierModel {
 	private Timestamp updated;
 	@Column(name = "is_deleted")
 	private boolean deleted;
-	@OneToMany(mappedBy = "supplier")
-	@JsonManagedReference
-	private List<ProductModel> products;
+	@OneToOne
+	@JoinColumn(name = "contact_id", referencedColumnName = "contact_id")
+    private ContactModel contact;
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vat_id", referencedColumnName = "vat_id")
     private VatModel vatCondition;
@@ -68,18 +75,15 @@ public class SupplierModel {
 	@JoinColumn(name = "sector_id", referencedColumnName = "sector_id")
 	private SectorModel sector;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "city_id", referencedColumnName = "city_id")
-	private CityModel city;
-	@OneToMany(mappedBy = "supplier")
-	@JsonManagedReference
-	private List<OrderModel> orders;
+	@JoinColumn(name = "province_id", referencedColumnName = "province_id")
+	private ProvinceModel province;
 	
 	public SupplierModel() {
 	}
 	
 	public SupplierModel(Integer id, String code, String logo, String name, String cuit, String web, String email,
 	        String phone, String street, String snumber, String zip, Timestamp created, Timestamp updated,
-	        boolean deleted, VatModel vatCondition, SectorModel sector, CityModel city) {
+	        boolean deleted, VatModel vatCondition, SectorModel sector, String city, ProvinceModel province, ContactModel contact) {
 	    this.id = id;
 	    this.code = code;
 	    this.logo = logo;
@@ -91,14 +95,14 @@ public class SupplierModel {
 	    this.street = street;
 	    this.snumber = snumber;
 	    this.zip = zip;
+	    this.city = city;
+	    this.province = province;
+	    this.contact = contact;
 		this.created = Timestamp.from(Instant.now());
 		this.updated = this.created;
 		this.deleted = false;
-	    this.products = new ArrayList<ProductModel>();
-	    this.orders = new ArrayList<OrderModel>();
 	    this.vatCondition = vatCondition;
 	    this.sector = sector;
-	    this.city = city;
 	}
 
 	public Integer getId() {
@@ -209,14 +213,6 @@ public class SupplierModel {
 		this.deleted = deleted;
 	}
 
-	public List<ProductModel> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<ProductModel> products) {
-		this.products = products;
-	}
-
 	public VatModel getVatCondition() {
 		return vatCondition;
 	}
@@ -233,13 +229,29 @@ public class SupplierModel {
 		this.sector = sector;
 	}
 
-	public CityModel getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setCity(CityModel city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
+	public ProvinceModel getProvince() {
+		return province;
+	}
+
+	public void setProvince(ProvinceModel province) {
+		this.province = province;
+	}
+
+	public ContactModel getContact() {
+		return contact;
+	}
+
+	public void setContact(ContactModel contact) {
+		this.contact = contact;
+	}
+		
 	
 }
