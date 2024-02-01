@@ -16,6 +16,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "orders")
@@ -27,13 +31,19 @@ public class OrderModel {
 	private Integer id;
     @Column(name = "order_created")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @NotNull(message = "The created date cannot be null")
     private Date created;
     @Column(name = "order_expected")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Future(message = "The date must be in the future")
+    @NotNull(message = "The expected date cannot be null")
     private Date expected;
-	@Column(name = "order_info", length = 1024)
+	@Column(name = "order_info", length = 300)
+	@Size(max = 300, message = "The info order cannot be more than 300 characters")
 	private String info;
 	@Column(name = "order_total")
+	@NotNull(message = "Price cannot be null")
+	@Positive(message = "Price must be a positive value")
 	private double total;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)

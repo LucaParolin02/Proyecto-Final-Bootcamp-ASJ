@@ -1,8 +1,6 @@
 package com.projectback.projectback.models;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "orders_details")
@@ -25,8 +24,12 @@ public class OrderDetailModel {
 	@Column(name = "details_id")
 	private Integer id;
 	@Column(name = "det_quantity")
+	@NotNull(message = "Quantity cannot be null")
+	@Positive(message = "Quantity must be a positive value")
 	private Integer quantity;
 	@Column(name= "det_price")
+	@NotNull(message = "Price cannot be null")
+	@Positive(message = "Price must be a positive value")
 	private double price;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)

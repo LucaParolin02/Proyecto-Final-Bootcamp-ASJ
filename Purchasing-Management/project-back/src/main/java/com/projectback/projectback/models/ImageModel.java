@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -25,6 +26,8 @@ public class ImageModel {
 	@Column(name = "image_id")
 	private Integer id;
 	@Column(name = "image_path")
+	@NotNull(message = "Url cannot be null")
+	@NotBlank(message = "url cannot be blank")
 	private String url;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)

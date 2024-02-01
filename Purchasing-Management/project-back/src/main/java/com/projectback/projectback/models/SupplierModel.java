@@ -2,9 +2,6 @@ package com.projectback.projectback.models;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,13 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -33,29 +30,45 @@ public class SupplierModel {
 	private Integer id;
 	@Column(name="supp_code", unique = true)
 	@Size(min = 4,message = "Code must contain at least 4 characters ")
+	@Size(max = 20,message = "Code must contain at least 4 characters ")
 	private String code;
 	@Column(name="supp_logo")
 	private String logo;
-	@Column(name="supp_name", unique = true)
+	@Column(name="supp_name", unique = true, length = 30)
+	@NotBlank(message = "Name cannot be blank")
+	@NotNull(message = "Name cannot be null")
+	@Size(max = 50, message = "The name cannot be more than 30 characters")
 	private String name;
 	@Column(name="supp_cuit",unique = true)
+	@NotNull(message = "Cuit cannot be null")
+	@NotBlank(message = "Cuit cannot be blank")
 	@Pattern(regexp = "^[0-9]{11}$", message = "CUIT must contain exactly 11 digits and only numbers")
 	private String cuit;
-	@Column(name="web")
+	@Column(name="web", length = 300)
+	@Size(max = 255, message = "The website cannot be more than 300 characters")
+	@Pattern(message = "Website is not valid", regexp = "(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})(\\.[a-zA-Z0-9]{2,})?")
 	private String web;
 	@Column(name = "email", unique = true)
+	@NotBlank(message = "Email cannot be blank")
+	@NotNull (message = "Email cannot be null")
 	@Email(message = "Must be a valid email address")
 	private String email;
 	@Column(name="phone" , unique = true)
 	@Pattern(regexp = "\\d+", message = "Phone must contain only numbers")
+	@NotBlank(message = "Phone cannot be blank")
+	@NotNull (message = "Phone cannot be null")
 	private String phone;
-	@Column(name="street")
+	@Column(name="street",length = 100)
+	@Size(max = 100, message = "The street cannot be more than 100 characters")
 	private String street;
-	@Column(name="snumber")
+	@Column(name="snumber", length = 50)
+	@Size(max = 50, message = "The House Number cannot be more than 50 characters")
 	private String snumber;
-	@Column(name = "zip")
+	@Column(name = "zip",length = 15)
+	@Size(max = 15, message = "The zip  cannot be more than 15 characters")
 	private String zip;
-	@Column (name = "city")
+	@Column (name = "city",length = 40)
+	@Size(max = 40, message = "The city name cannot be more than 40 characters")
 	private String city;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)

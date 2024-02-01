@@ -13,7 +13,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="products")
@@ -24,12 +27,21 @@ public class ProductModel {
 	@Column(name = "product_id")
 	private Integer id;
 	@Column(name = "sku",unique = true)
+	@NotBlank(message = "Sku cannot be blank")
+	@NotNull(message = "Sku cannot be null")
+	@Size(max = 200, message = "Sku must be less than {max} characters")
 	private String sku;
-	@Column(name = "prod_name")
+	@Column(name = "prod_name",length = 50)
+	@NotBlank(message = "Product name cannot be blank")
+	@NotNull(message = "Product name cannot be null")
+	@Size(max = 50 , message = "Product name must be less than {max} characters")
 	private String name;
-	@Column(name = "prod_desc")
+	@Column(name = "prod_desc", length = 255)
+	@NotBlank(message = "Description cannot be blank")
+	@Size(max = 255, message = "Description must be less than {max} characters")
 	private String desc;
 	@Column(name = "prod_price")
+	@NotNull(message = "Price cannot be null")
 	@Positive(message = "Price must be a positive value")
 	private Double price;
 	@Column(name = "created_at")

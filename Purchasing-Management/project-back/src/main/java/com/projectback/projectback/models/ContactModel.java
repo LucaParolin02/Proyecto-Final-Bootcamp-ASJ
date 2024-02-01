@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "contacts")
@@ -26,25 +27,30 @@ public class ContactModel {
 	private Integer id;
 	@NotNull(message = "First name is required")
 	@NotBlank(message = "First name must be complete")
-	@Column(name = "first_name", nullable = false)
+	@Column(name = "first_name", nullable = false, length = 40)
+	@Size(max = 40, message = "First name must be less than {max} characters")
 	private String name;
 	@NotNull(message = "Last name is required")
     @NotBlank(message = "Last name must be complete")
-    @Column(name = "last_name", nullable = false)
+	@Size(max = 40, message = "Last name must be less than {max} characters")
+    @Column(name = "last_name", nullable = false, length = 40)
 	private String lastName;
 	@NotNull(message = "Phone number is required")
     @NotBlank(message = "Phone number must be complete")
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number", nullable = false,length = 40)
 	@Pattern(regexp = "\\d+", message = "Phone must contain only numbers")
+	@Size(max = 40, message = "Phone must be less than {max} digits")
 	private String phone;
 	@NotNull(message = "Email is required")
     @NotBlank(message = "Email must be complete")
     @Email(message = "Email must be valid")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false,length = 70)
+	@Size(max = 70, message = "Email must be less than {max} characters")
 	private String email;
 	@NotNull(message = "Role is required")
     @NotBlank(message = "Role must be complete")
-    @Column(name = "role", nullable = false)
+    @Column(name = "role", nullable = false,length = 40)
+	@Size(max = 40, message = "Email must be less than {max} characters")
     private String role;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)

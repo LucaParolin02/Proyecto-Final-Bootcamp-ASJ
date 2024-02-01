@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projectback.projectback.exceptions.DuplicateEntityException;
-import com.projectback.projectback.models.CategoryModel;
 import com.projectback.projectback.models.ImageModel;
 import com.projectback.projectback.repositories.ImageRepository;
 import com.projectback.projectback.services.IImageService;
