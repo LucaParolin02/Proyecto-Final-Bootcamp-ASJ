@@ -9,15 +9,5 @@ export interface productsInterface  {
     category: categoryInterface,
     description: string,
     price: number,
+    quantity: number
 }
-
-export interface TempProduct {
-    id: number;
-    sku?: number,
-    nameProduct: string,
-    supplier: supplierInterface,
-    category: categoryInterface,
-    description: string,
-    price: number;
-    quantity: number;
-  }

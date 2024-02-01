@@ -8,10 +8,8 @@
                     <form #myProduct="ngForm" (ngSubmit)="addProductToOrder()">
                         <div class="row pb-2">
                             <label class="form-label">Choose product</label>
-                            <select class="form-select" name="product" aria-label="Select Product" [(ngModel)]="product.id"
-                                (change)="loadProduct(productSelected.value)" #productSelected="ngModel">
-                                <option value="{{product.sku}}" *ngFor="let product of productsList">{{
-                                    product.nameProduct}}</option>
+                            <select class="form-select" name="product" aria-label="Select Product" [(ngModel)]="product" (change)="loadProduct(productSelected.value)" #productSelected="ngModel">
+                                <option [ngValue]="product" *ngFor="let product of selectedProductsList">{{ product.nameProduct }}</option>
                             </select>
                         </div>
                         <div class="row pb-2 ">

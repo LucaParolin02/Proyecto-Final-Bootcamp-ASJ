@@ -7,7 +7,7 @@ import { supplierInterface } from '../../interfaces/dataSuppliers';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { TempProduct, productsInterface } from '../../interfaces/dataProducts';
+import { productsInterface } from '../../interfaces/dataProducts';
 
 @Component({
   selector: 'app-create-purchase-order',
@@ -22,7 +22,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
     status: false,
     info: '',
     supplier: {
-      code: 0,
+      id: 0,
       name: '',
       sectors: {
         sectorName: '',
@@ -47,14 +47,38 @@ export class CreatePurchaseOrderComponent implements OnInit {
   supplierList: supplierInterface[] = [];
   selectedProductsList: productsInterface[] = [];
 
-  product: TempProduct= {
+  product: productsInterface = {
     id: 0,
+    sku: 0,
     nameProduct: '',
-    supplier: ,
-    category: categoryInterface,
-    description:  '',
+    supplier: {
+      id: 0,
+      name: '',
+      sectors: {
+        sectorName: '',
+        created: new Date()
+      },
+      cuit: '',
+      email: '',
+      web: '',
+      phone: 0,
+      street: '',
+      number: 0,
+      postalCode: '',
+      city: '',
+      province: '',
+      country: '',
+      iva: 'Other'
+    },
+    category: {
+      code: 0,
+      catName: '',
+      created: new Date(),
+      updated: new Date()
+    },
+    description: ' ',
     price: 0,
-    quantity: 1
+    quantity: 0
   };
 
   editMode: boolean = false;
@@ -139,7 +163,8 @@ export class CreatePurchaseOrderComponent implements OnInit {
         supplier: this.product.supplier,
         category: this.product.category,
         description: this.product.description,
-        price: this.product.price
+        price: this.product.price,
+        quantity: this.product.quantity
     };
 
     productToAdd.price = this.product.price * this.product.quantity;

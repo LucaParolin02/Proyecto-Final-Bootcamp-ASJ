@@ -20,7 +20,7 @@ export class CreateProductComponent implements OnInit {
   product: productsInterface = {
     nameProduct: '',
     supplier: {
-      code: 0,
+      id: 0,
       name: '',
       sectors: {
         sectorName: '',
@@ -44,6 +44,7 @@ export class CreateProductComponent implements OnInit {
     },
     description: '',
     price: 0,
+    quantity: 0
   };
 
   suppliersList: supplierInterface[] = [];
@@ -109,6 +110,7 @@ export class CreateProductComponent implements OnInit {
       category: form.value.cat,
       description: form.value.description,
       price: form.value.price,
+      quantity: form.value.quantity
     };
   }
 }

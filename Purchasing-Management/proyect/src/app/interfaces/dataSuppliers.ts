@@ -1,7 +1,7 @@
 import { sectorInterface } from "./dataSectors";
 
 export interface supplierInterface {
-    code?: number;
+    id?: number;
     codeSupp?: string; 
     name: string;
     sectors: sectorInterface;
@@ -24,3 +24,6 @@ export interface supplierInterface {
     | 'Monotributista Social'
     | 'Proveedor del Exterior'
     | 'Other';
+
+  
+  

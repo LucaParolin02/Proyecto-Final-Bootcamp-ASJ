@@ -97,7 +97,7 @@ export class CreateSupplierComponent implements OnInit {
   private editingSupplier(form: NgForm): supplierInterface {
 
     return {
-      code: this.editSupplierCode || 0,
+      id: this.editSupplierCode || 0,
       codeSupp: form.value.codeSupp,
       name: form.value.name,
       sectors: form.value.sector,

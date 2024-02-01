@@ -21,25 +21,25 @@ export class SupplierServiceService {
     return of(this.suppliers);
   }
 
-  public getSupplier(code: number): Observable<supplierInterface> {
-    return of(this.suppliers.find(supplier => supplier.code === code) || {} as supplierInterface);
+  public getSupplier(id: number): Observable<supplierInterface> {
+    return of(this.suppliers.find(supplier => supplier.id === id) || {} as supplierInterface);
   }
 
   public addSupplier(supplier: supplierInterface): Observable<any> {
     if (this.suppliers.length > 0) {
       const lastSupplier = this.suppliers[this.suppliers.length - 1];
-      if (lastSupplier.code !== undefined){
-        supplier.code = lastSupplier.code + 1;
+      if (lastSupplier.id !== undefined){
+        supplier.id = lastSupplier.id + 1;
       }
     } else {
-      supplier.code = 0;
+      supplier.id = 0;
     }
     this.suppliers.push(supplier);
     return of(undefined);
   }
 
   public deleteSupplier(code: number): Observable<any> {
-    const index = this.suppliers.findIndex(supplier => supplier.code === code);
+    const index = this.suppliers.findIndex(supplier => supplier.id === code);
     if (index !== -1) {
       this.suppliers.splice(index, 1);
     }
@@ -47,7 +47,7 @@ export class SupplierServiceService {
   }
 
   public updateSupplier(updatedSupplier: supplierInterface): Observable<any> {
-    const index = this.suppliers.findIndex(supplier => supplier.code === updatedSupplier.code);
+    const index = this.suppliers.findIndex(supplier => supplier.id === updatedSupplier.id);
     if (index !== -1) {
       this.suppliers[index] = updatedSupplier;
     }
