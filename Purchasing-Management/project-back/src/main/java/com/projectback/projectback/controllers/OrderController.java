@@ -100,6 +100,4 @@ public class OrderController {
 		}
 		return new ResponseEntity<Object>(iOrderDetailService.addOrderDetail(orderDetail), HttpStatus.CREATED);
 	}
-	
-
 }
