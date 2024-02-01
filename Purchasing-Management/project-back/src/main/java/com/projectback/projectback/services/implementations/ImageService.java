@@ -13,6 +13,7 @@ import com.projectback.projectback.models.CategoryModel;
 import com.projectback.projectback.models.ImageModel;
 import com.projectback.projectback.repositories.ImageRepository;
 import com.projectback.projectback.services.IImageService;
+import com.projectback.projectback.services.IProductService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -21,6 +22,8 @@ public class ImageService implements IImageService{
 
 	@Autowired
 	ImageRepository imageRepository;
+	@Autowired
+	IProductService iProductService;
 	
 	@Override
 	public List<ImageModel> getImagesByProduct(Integer id){
@@ -39,6 +42,8 @@ public class ImageService implements IImageService{
 	@Override
 	public ImageModel addImage(ImageModel image) {
 		validateCategoryNameUniquess(image.getUrl());
+		Integer productId = image.getProduct().getId();
+		iProductService.getProductById(productId);
 		image.setCreated(Timestamp.from(Instant.now()));
 		image.setUpdated(Timestamp.from(Instant.now()));
 		return imageRepository.save(image);

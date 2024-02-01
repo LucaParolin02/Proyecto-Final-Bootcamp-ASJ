@@ -51,18 +51,12 @@ public class SupplierService implements ISupplierService {
 	@Override
 	public SupplierModel postSupplier(SupplierModel supplier) {
 	    validateUniqueFields(supplier);    
-	    if (supplier.getSector() != null) {
-	        Integer sectorId = supplier.getSector().getId();
-	        iSectorService.getSectorById(sectorId);
-	    } 
-	    if (supplier.getProvince() != null) {
-	        Integer provinceId = supplier.getProvince().getId();
-	        iProvinceService.getProvinceById(provinceId);
-	    }   
-	    if (supplier.getVatCondition() != null) {
-	        Integer vatId = supplier.getVatCondition().getId();
-	        iVatService.getVatById(vatId);
-	    } 
+	    Integer sectorId = supplier.getSector().getId();
+	    iSectorService.getSectorById(sectorId);
+	    Integer provinceId = supplier.getProvince().getId();
+	    iProvinceService.getProvinceById(provinceId);  
+	    Integer vatId = supplier.getVatCondition().getId();
+	    iVatService.getVatById(vatId);
 	    supplier.setCreated(Timestamp.from(Instant.now()));
 	    supplier.setUpdated(Timestamp.from(Instant.now()));
 	    supplier.setDeleted(false);
@@ -91,6 +85,7 @@ public class SupplierService implements ISupplierService {
 	    existingSupplier.setZip(supplier.getZip() != null ? supplier.getZip() : existingSupplier.getZip());
 	    existingSupplier.setCity(supplier.getCity() != null ? supplier.getCity() : existingSupplier.getCity());
 	    existingSupplier.setContact(supplier.getContact() != null ? supplier.getContact(): existingSupplier.getContact());
+	    existingSupplier.setDeleted(supplier.isDeleted());
 	    if (supplier.getSector() != null) {
 	    	Integer sectorId = supplier.getSector().getId();
 	    	iSectorService.getSectorById(sectorId);

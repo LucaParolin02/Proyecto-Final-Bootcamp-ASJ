@@ -1,8 +1,10 @@
 package com.projectback.projectback.models;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,11 +13,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "orders")
@@ -25,36 +25,35 @@ public class OrderModel {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column(name = "order_id")
 	private Integer id;
-	@Column(name = "order_created")
-	private Timestamp created;
-	@Column(name = "order_expected")
-	private Timestamp expected;
-	@Column(name = "order_info")
+    @Column(name = "order_created")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date created;
+    @Column(name = "order_expected")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date expected;
+	@Column(name = "order_info", length = 1024)
 	private String info;
 	@Column(name = "order_total")
 	private double total;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp createdAt;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp updated;
 	@Column(name = "is_deleted")
 	private boolean deleted;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
 	private SupplierModel supplier;
-	@OneToMany(mappedBy = "order")
-	private List<OrderDetailModel> orderDetails;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status_id", referencedColumnName = "status_id")
 	private StatusModel status;
 	
 	public OrderModel() {
 	}
 	
-	public OrderModel(Integer id, Timestamp created, Timestamp expected, String info, double total, Timestamp createdAt,
+	public OrderModel(Integer id, Date created, Date expected, String info, double total, Timestamp createdAt,
 			Timestamp updated, boolean deleted, SupplierModel supplier,
 			StatusModel status) {
 		this.id = id;
@@ -66,7 +65,6 @@ public class OrderModel {
 		this.updated = updated;
 		this.deleted = deleted;
 		this.supplier = supplier;
-		this.orderDetails = new ArrayList<OrderDetailModel>();
 		this.status = status;
 	}
 
@@ -74,19 +72,19 @@ public class OrderModel {
 		return id;
 	}
 
-	public Timestamp getCreated() {
+	public Date getCreated() {
 		return created;
 	}
 
-	public void setCreated(Timestamp created) {
+	public void setCreated(Date created) {
 		this.created = created;
 	}
 
-	public Timestamp getExpected() {
+	public Date getExpected() {
 		return expected;
 	}
 
-	public void setExpected(Timestamp expected) {
+	public void setExpected(Date expected) {
 		this.expected = expected;
 	}
 
@@ -136,14 +134,6 @@ public class OrderModel {
 
 	public void setSupplier(SupplierModel supplier) {
 		this.supplier = supplier;
-	}
-
-	public List<OrderDetailModel> getOrderDetails() {
-		return orderDetails;
-	}
-
-	public void setOrderDetails(List<OrderDetailModel> orderDetails) {
-		this.orderDetails = orderDetails;
 	}
 
 	public StatusModel getStatus() {

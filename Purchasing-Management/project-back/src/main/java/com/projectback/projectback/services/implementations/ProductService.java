@@ -35,6 +35,10 @@ public class ProductService implements IProductService {
 	@Override
 	public ProductModel postProduct(ProductModel product) {
 		validateUniqueFields(product);
+		Integer categoryId = product.getCategory().getId();
+		Integer supplierId = product.getSupplier().getId();
+		iSupplierService.getSupplierById(supplierId);
+		iCategoryService.getCategoryById(categoryId);
 		product.setCreated(Timestamp.from(Instant.now()));
 		product.setUpdated(Timestamp.from(Instant.now()));
 		return productRepository.save(product);

@@ -24,7 +24,7 @@ public class CategoryModel {
 	private Integer id;
 	@Column(name = "cat_name")
 	@NotBlank(message = "Category name cannot be empty")
-	@Size(max = 40, message = "Category name must not exceed 40 characters")
+	@Size(max = 30, message = "Category name must not exceed 30 characters")
 	@NotNull(message = "Category name cannot be null")
 	private String name;
 	@Column(name = "created_at")

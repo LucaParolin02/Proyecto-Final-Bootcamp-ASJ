@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -31,7 +30,6 @@ public class OrderDetailModel {
 	private double price;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull(message = "Date cannot be null")
 	private Timestamp created;
 	@Column(name = "updated_at")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -46,7 +44,82 @@ public class OrderDetailModel {
 	private ProductModel product;
 	
 	public OrderDetailModel() {
+		
 	}
+
+	public OrderDetailModel(Integer id, Integer quantity, double price, Timestamp created, Timestamp updated, boolean deleted,
+			OrderModel order, ProductModel product) {
+		this.id = id;
+		this.quantity = quantity;
+		this.price = price;
+		this.created = created;
+		this.updated = updated;
+		this.deleted = deleted;
+		this.order = order;
+		this.product = product;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	public Timestamp getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Timestamp updated) {
+		this.updated = updated;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public OrderModel getOrder() {
+		return order;
+	}
+
+	public void setOrder(OrderModel order) {
+		this.order = order;
+	}
+
+	public ProductModel getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductModel product) {
+		this.product = product;
+	}
+	
+	
 	
 	
 	
