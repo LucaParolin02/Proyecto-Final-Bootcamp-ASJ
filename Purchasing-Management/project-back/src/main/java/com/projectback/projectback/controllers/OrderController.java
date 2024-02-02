@@ -56,6 +56,11 @@ public class OrderController {
 		return ResponseEntity.ok(iOrderService.getAllOrders());
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<OrderModel> getOrder(@PathVariable Integer id){
+		return ResponseEntity.ok(iOrderService.getOrderById(id));
+	}
+	
 	@GetMapping("/deleted")
 	public ResponseEntity<List<OrderModel>> getDeletedOrders(){
 		return ResponseEntity.ok(iOrderService.getDeletedOrders());

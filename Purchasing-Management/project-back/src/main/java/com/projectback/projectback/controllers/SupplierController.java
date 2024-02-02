@@ -114,6 +114,11 @@ public class SupplierController {
     	return ResponseEntity.ok(iSupplierService.getSuppliers());
     }
     
+    @GetMapping("/{id}")
+    public ResponseEntity<SupplierModel> getSuppById(@PathVariable Integer id){
+    	return ResponseEntity.ok(iSupplierService.getSupplierById(id));
+    }
+    
     @GetMapping("/deleteds")
     public ResponseEntity<List<SupplierModel>> getDeletedSuppliers(){
     	return ResponseEntity.ok(iSupplierService.getDeletedSuppliers());

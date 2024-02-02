@@ -31,8 +31,11 @@ public class SupplierModel {
 	@Column(name="supp_code", unique = true)
 	@Size(min = 4,message = "Code must contain at least 4 characters ")
 	@Size(max = 20,message = "Code must contain at least 4 characters ")
+	@NotBlank(message = "Code cannot be blank")
+	@NotNull(message = "Code cannot be null")
 	private String code;
-	@Column(name="supp_logo")
+	@Column(name="supp_logo",length = 1024)
+	@Size(max = 1024, message = "The logo cannot be more than 1024 characters")
 	private String logo;
 	@Column(name="supp_name", unique = true, length = 30)
 	@NotBlank(message = "Name cannot be blank")
@@ -66,9 +69,13 @@ public class SupplierModel {
 	private String snumber;
 	@Column(name = "zip",length = 15)
 	@Size(max = 15, message = "The zip  cannot be more than 15 characters")
+	@NotBlank(message = "Zip cannot be blank")
+	@NotNull(message = "Zip cannot be null")
 	private String zip;
 	@Column (name = "city",length = 40)
 	@Size(max = 40, message = "The city name cannot be more than 40 characters")
+	@NotBlank(message = "City cannot be blank")
+	@NotNull(message = "City cannot be null")
 	private String city;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
