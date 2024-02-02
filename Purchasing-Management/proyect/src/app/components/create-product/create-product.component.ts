@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductServiceService } from '../../services/product-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { supplierInterface } from '../../interfaces/dataSuppliers';
-import { productsInterface } from '../../interfaces/dataProducts';
+import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
+import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { SupplierServiceService } from '../../services/supplier-service.service';
-import { categoryInterface } from '../../interfaces/dataCategories';
+import { categoryInterface } from '../../interfaces/Products/dataCategories';
 import { CategoriesServiceService } from '../../services/categories-service.service';
 
 
@@ -18,33 +18,43 @@ import { CategoriesServiceService } from '../../services/categories-service.serv
 export class CreateProductComponent implements OnInit {
 
   product: productsInterface = {
-    nameProduct: '',
+    name: '',
+    sku: '',
     supplier: {
-      id: 0,
+    name: '',
+    code: '',
+    logo: undefined,
+    cuit: '',
+    web: undefined,
+    email: '',
+    phone: '',
+    street: undefined,
+    zip: '',
+    city: '',
+    contact:{
       name: '',
-      sectors: {
-        sectorName: '',
-        created: new Date()
-      },
-      cuit: '',
+      lastName: '',
+      phone: '',
       email: '',
-      web: '',
-      phone: 0,
-      street: '',
-      number: 0,
-      postalCode: '',
-      city: '',
-      province: '',
-      country: '',
-      iva: 'Other'
+      role: '',
     },
-    category: {
-      catName: '',
-      created: new Date()
+    vatCondition:{
+        name: '',
     },
+    sector:{
+      name: '',
+    },
+    province:{
+        name: '',
+        country: {
+          name: ''
+        }
+    }},
     description: '',
     price: 0,
-    quantity: 0
+    category: {
+      name: ''
+    }
   };
 
   suppliersList: supplierInterface[] = [];
@@ -105,12 +115,11 @@ export class CreateProductComponent implements OnInit {
   private editingProduct(form: NgForm): productsInterface {
     return {
       sku: this.product.sku,
-      nameProduct: form.value.nameProduct,
+      name: form.value.nameProduct,
       supplier: form.value.supplier,
       category: form.value.cat,
       description: form.value.description,
       price: form.value.price,
-      quantity: form.value.quantity
     };
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseOrderServiceService } from '../../services/purchase-order-service.service';
-import { orderInterface } from '../../interfaces/dataPurchase';
+import { orderInterface } from '../../interfaces/Orders/dataPurchase';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

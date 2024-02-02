@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { productsInterface } from '../interfaces/dataProducts';
+import { productsInterface } from '../interfaces/Products/dataProducts';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -15,8 +15,8 @@ export class ProductServiceService {
     return of(this.products);
   }
 
-  public getProduct(code: number): Observable<productsInterface | undefined> {
-    return of(this.products.find(product => product.sku === code));
+  public getProduct(id: number): Observable<productsInterface | undefined> {
+    return of(this.products.find(product => product.id === id));
   }
 
   public addProduct(product: productsInterface): Observable<void> {
@@ -27,7 +27,7 @@ export class ProductServiceService {
           product.sku = lastProduct.sku + 1;
         }
       } else {
-        product.sku = 0;
+        product.id = 0;
       }
       this.products.push(product);
       observer.next();
@@ -35,9 +35,9 @@ export class ProductServiceService {
     });
   }
 
-  public deleteProduct(code: number): Observable<void> {
+  public deleteProduct(id: number): Observable<void> {
     return new Observable<void>(observer => {
-      const index = this.products.findIndex(product => product.sku === code);
+      const index = this.products.findIndex(product => product.id === id);
       if (index !== -1) {
         this.products.splice(index, 1);
       }

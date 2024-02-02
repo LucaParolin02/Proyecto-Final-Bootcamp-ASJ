@@ -8,24 +8,22 @@
                     <form #myProduct="ngForm" (ngSubmit)="addProductToOrder()">
                         <div class="row pb-2">
                             <label class="form-label">Choose product</label>
-                            <select class="form-select" name="product" aria-label="Select Product" [(ngModel)]="product" (change)="loadProduct(productSelected.value)" #productSelected="ngModel">
-                                <option [ngValue]="product" *ngFor="let product of selectedProductsList">{{ product.nameProduct }}</option>
+                            <select class="form-select" name="product" aria-label="Select Product" [(ngModel)]="product.name" (change)="loadProduct(productSelected.value)" #productSelected="ngModel">
+                                <option [ngValue]="product" *ngFor="let product of selectedProductsList">{{ product.name }}</option>
                             </select>
                         </div>
                         <div class="row pb-2 ">
                             <div class="col">
                                 <label class="form-label">Price</label>
-                                <div class="form-control gray-background">{{ product.price |
-                                    currency:'USD':'symbol':'1.2-2' }}</div>
+                                <div class="form-control gray-background">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</div>
                             </div>
                             <div class="col">
                                 <label class="form-label">Amount</label>
-                                <input type="number" class="form-control" name="quantity" [(ngModel)]="product.quantity">
+                                <input type="number" class="form-control" name="quantity" [(ngModel)]="orderDetail.quantity">
                             </div>
                         </div>
                         <div class="container-fluid p-2 ">
-                            <button type="submit" class="btn btn-success" [disabled]="myProduct.invalid">Load
-                                Product</button>
+                            <button type="button" class="btn btn-success" (click)="addProductToOrder()" [disabled]="myProduct.invalid">Load Product</button>
                         </div>
                     </form>
                 </div>
@@ -37,10 +35,10 @@
                 <div class="row ">
                     <div class="col"><h1>New Purchase Order</h1></div>
                     <div class="col text-center ">
-                         <div class="col d-flex justify-content-center ">
+                        <div class="col d-flex justify-content-center ">
                             <div class="row">
                                 <a routerLink="../" class="btn btn-dark btn-light  justify-content-end ">Come Back</a>
-                            </div>                  
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -50,22 +48,18 @@
                     <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
                         <div class="row pb-2">
                             <label class="form-label">Choose supplier</label>
-                            <select class="form-select" name="supplier" aria-label="Select supplier"
-                                [(ngModel)]="Order.supplier.name" (change)="selectSupplier(supplierSelect.value)" #supplierSelect="ngModel">
-                                <option *ngFor="let supplier of supplierList" [value]="supplier.name">{{ supplier.name }}
-                                </option>
+                            <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="Order.supplier.name" (change)="selectSupplier(supplierSelect.value)" #supplierSelect="ngModel">
+                                <option *ngFor="let supplier of supplierList" [value]="supplier.name">{{ supplier.name }}</option>
                             </select>
                         </div>
                         <div class="row pb-2 ">
                             <div class="col">
                                 <label class="form-label">Order Date</label>
-                                <div class="form-control gray-background" contentEditable="false" [(ngModel)]="Order.date">{{ Order.date |
-                                    date:'dd-MM-yyyy' }}</div>
+                                <div class="form-control gray-background" contentEditable="false" [(ngModel)]="Order.created">{{ Order.created | date:'dd-MM-yyyy' }}</div>
                             </div>
                             <div class="col">
                                 <label class="form-label">Expected Date</label>
-                                <input type="date" class="form-control" name="expectedDate"
-                                    [(ngModel)]="Order.expectedDate" required>
+                                <input type="date" class="form-control" name="expectedDate" [(ngModel)]="Order.expected" required>
                             </div>
                         </div>
                         <div class="row pb-2">
@@ -76,17 +70,16 @@
                             <hr>
                         </div>
                         <div class="row pb-2">
-                            <div *ngIf="Order.products.length > 0">
+                            <!-- <div *ngIf="Order.orderDetail.product.length > 0">
                                 <h3>Selected Products</h3>
                                 <ul>
-                                    <li *ngFor="let product of Order.products">
-                                        {{ product.nameProduct }} - {{ product.price | currency:'USD':'symbol':'1.2-2'
-                                        }}
+                                    <li *ngFor="let product of Order.orderDetail.product">
+                                        {{ product.name }} - {{ product.price | currency:'USD':'symbol':'1.2-2' }}
                                     </li>
                                 </ul>
                                 <hr>
-                                <p>Total Price {{Order.totalPrice}}</p>
-                            </div>
+                                <p>Total Price {{ Order.total }}</p>
+                            </div> -->
                         </div>
                         <div class="container-fluid p-2 ">
                             <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Add Order</button>

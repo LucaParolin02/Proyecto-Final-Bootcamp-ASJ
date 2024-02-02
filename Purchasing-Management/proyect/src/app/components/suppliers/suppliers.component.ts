@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SupplierServiceService } from '../../services/supplier-service.service';
-import { supplierInterface } from '../../interfaces/dataSuppliers';
+import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
 import { Router } from '@angular/router';
 
 
@@ -28,11 +28,12 @@ export class SuppliersComponent implements OnInit {
     })
   }
 
-  public delete(code: number) {
+  public delete(id: number) {
     const isConfirmed = window.confirm('Are you sure you want to delete this supplier?');
     if (isConfirmed) {
-      this.service.deleteSupplier(code);
-      this.loadlist();
+      this.service.deleteSupplier(id).subscribe(() => {
+        this.loadlist();
+      })
     }
   }
 

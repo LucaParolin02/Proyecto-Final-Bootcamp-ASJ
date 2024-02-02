@@ -25,9 +25,9 @@
             </thead>
             <tbody>
                 <tr *ngFor="let supplier of supplierList">
-                    <td>{{supplier.codeSupp}}</td>
+                    <td>{{supplier.code}}</td>
                     <td>{{supplier.name}}</td>
-                    <td>{{supplier.sectors.sectorName}}</td>
+                    <td>{{supplier.sector.name}}</td>
                     <td>{{supplier.cuit | cuitPipe}}</td>
                     <td>
                         <p>{{supplier.email}}</p>
@@ -35,11 +35,11 @@
                         <p>{{supplier.web}}</p> 
                     </td>
                     <td>
-                       <p>{{supplier.country}} - {{supplier.province}}</p>
-                       <p>{{supplier.city}} -  {{supplier.postalCode}}</p>
-                       <p>{{supplier.street}} - {{supplier.number}}</p> 
+                       <p>{{supplier.province.country.name}} - {{supplier.province.name}}</p>
+                       <p>{{supplier.city}} -  {{supplier.zip}}</p>
+                       <p>{{supplier.street}} - {{supplier.snumber}}</p> 
                     </td>
-                    <td>{{supplier.iva}}</td>
+                    <td>{{supplier.vatCondition.name}}</td>
                     <td>
                         <button class="btn btn-danger mx-2 " (click)="delete(supplier.id!)">Delete</button>
                         <button class="btn btn-warning" (click)="edit(supplier.id!)">Edit</button>

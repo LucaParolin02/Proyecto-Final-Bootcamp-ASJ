@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../../services/product-service.service';
-import { productsInterface } from '../../interfaces/dataProducts';
+import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,23 +25,23 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  public deleteProduct(code: number) {
+  public deleteProduct(id: number) {
     const isConfirmed = window.confirm('Are you sure you want to delete this product?');
     if (isConfirmed) {
-      this.productService.deleteProduct(code).subscribe(() => {
+      this.productService.deleteProduct(id).subscribe(() => {
         this.loadList();
       });
     }
   }
 
-  public editProduct(code: number) {
+  public editProduct(id: number) {
     const isConfirmed = window.confirm('Are you sure you want to edit this product?');
     if (isConfirmed) {
-      this.router.navigate(['/products', code]);
+      this.router.navigate(['/products', id]);
     }
   }
 
   public sortProducts() {
-    this.productsList.sort((a, b) => a.nameProduct.localeCompare(b.nameProduct));
+    this.productsList.sort((a, b) => a.name.localeCompare(b.name));
   }
 }

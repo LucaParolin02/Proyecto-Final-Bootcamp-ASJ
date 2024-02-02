@@ -21,7 +21,7 @@
             <div class="row pb-2 ">
               <label class="form-label ">Name Product</label>
               <input type="text" class="form-control" placeholder="Enter product name" name="nameProduct"
-                [(ngModel)]="product.nameProduct" required>
+                [(ngModel)]="product.name" required>
             </div>
             <div class="row pb-2">
               <label class="form-label">Choose supplier</label>
@@ -32,7 +32,7 @@
             <div class="row pb-2">
               <label class="form-label">Choose category</label>
               <select name="category" aria-label="Select category" [(ngModel)]="product.category" class="form-select">
-                <option *ngFor="let cat of categoryList" [ngValue]="cat">{{ cat.catName }}</option>
+                <option *ngFor="let cat of categoryList" [ngValue]="cat">{{ cat.name }}</option>
               </select>
             </div>
             <div class="row pb-2 ">

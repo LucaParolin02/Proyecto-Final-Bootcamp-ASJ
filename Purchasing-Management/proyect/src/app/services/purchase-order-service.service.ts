@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { orderInterface } from '../interfaces/dataPurchase';
+import { orderInterface } from '../interfaces/Orders/dataPurchase';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -15,32 +15,32 @@ export class PurchaseOrderServiceService {
     return of(this.orders);
   }
 
-  public getOrder(code: number): Observable<orderInterface | undefined> {
-    return of(this.orders.find(order => order.code === code));
+  public getOrder(id: number): Observable<orderInterface | undefined> {
+    return of(this.orders.find(order => order.id === id));
   }
 
   public addOrder(order: orderInterface): Observable<void> {
     return new Observable<void>(observer => {
       if (this.orders.length > 0) {
         const lastOrder = this.orders[this.orders.length - 1];
-        if (lastOrder.code !== undefined) {
-          order.code = lastOrder.code + 1;
+        if (lastOrder.id !== undefined) {
+          order.id = lastOrder.id + 1;
         }
       } else {
-        order.code = 0;
+        order.id = 0;
       }
-      order.status = true;
+      order.status.name = "";
       this.orders.push(order);
       observer.next();
       observer.complete();
     });
   }
 
-  public cancelOrder(code: number): Observable<void> {
+  public cancelOrder(id: number): Observable<void> {
     return new Observable<void>(observer => {
       for (let i = 0; i < this.orders.length; i++) {
-        if (this.orders[i].code === code) {
-          this.orders[i].status = false;
+        if (this.orders[i].id === id) {
+          this.orders[i].status.name = 'Cancel';
           observer.next();
           observer.complete();
           break;
@@ -52,7 +52,7 @@ export class PurchaseOrderServiceService {
   public updateOrder(updatedOrder: orderInterface): Observable<void> {
     return new Observable<void>(observer => {
       for (let i = 0; i < this.orders.length; i++) {
-        if (this.orders[i].code === updatedOrder.code) {
+        if (this.orders[i].id === updatedOrder.id) {
           this.orders[i] = updatedOrder;
           observer.next();
           observer.complete();

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PurchaseOrderServiceService } from '../../services/purchase-order-service.service';
-import { orderInterface } from '../../interfaces/dataPurchase';
+import { orderInterface } from '../../interfaces/Orders/dataPurchase';
 import { Router } from '@angular/router';
 
 @Component({

@@ -37,14 +37,14 @@
             <tbody>
                 <tr *ngFor="let product of productsList">
                     <td>{{product.sku}}</td>
-                    <td>{{product.nameProduct}}</td>
+                    <td>{{product.name}}</td>
                     <td>{{product.supplier.name}}</td>
-                    <td>{{product.category.catName}}</td>
+                    <td>{{product.category.name}}</td>
                     <td>{{product.description}}</td>
                     <td>{{product.price | currency:'USD'}}</td>
                     <td>
-                        <button class="btn btn-danger mx-2" (click)="deleteProduct(product.sku!)">Delete</button>
-                        <button class="btn btn-warning" (click)="editProduct(product.sku!)">Edit</button>
+                        <button class="btn btn-danger mx-2" (click)="deleteProduct(product.id!)">Delete</button>
+                        <button class="btn btn-warning" (click)="editProduct(product.id!)">Edit</button>
                     </td>
                 </tr>
             </tbody>

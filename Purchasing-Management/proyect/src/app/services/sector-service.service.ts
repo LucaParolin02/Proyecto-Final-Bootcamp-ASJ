@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { sectorInterface } from '../interfaces/dataSectors';
+import { sectorInterface } from '../interfaces/Suppliers/dataSector';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SectorServiceService {
   private sectors: sectorInterface[] = [
-    { sectorName: 'Technology', created: new Date() },
-    { sectorName: 'Vehicles', created: new Date() },
-    { sectorName: 'Foods', created: new Date() },
-    { sectorName: 'Others', created: new Date() }
+    { name: 'Technology'},
+    { name: 'Vehicles'}, 
+    { name: 'Foods'}, 
+    { name: 'Others'}, 
   ];
   constructor() { }
 
@@ -18,10 +18,9 @@ export class SectorServiceService {
     return of(this.sectors);
   }
 
-  public createSector(sectorName: string): Observable<sectorInterface> {
+  public createSector(name: string): Observable<sectorInterface> {
     const newSector: sectorInterface = {
-      sectorName: sectorName,
-      created: new Date()
+      name: name,
     };
     this.sectors.push(newSector);
     return of(newSector);

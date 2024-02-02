@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { categoryInterface } from '../interfaces/dataCategories';
+import { categoryInterface } from '../interfaces/Products/dataCategories';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesServiceService {
   private categories: categoryInterface[] = [
-    { catName: 'Aperitivo', created: new Date() },
-    { catName: 'Periferico', created: new Date() },
-    { catName: 'Mouse', created: new Date() },
-    { catName: 'Others', created: new Date() }
+    { name: 'Aperitivo'}, 
+    { name: 'Periferico'}, 
+    { name: 'Mouse'}, 
+    { name: 'Others'},
   ];
   constructor() { }
 
@@ -20,8 +20,7 @@ export class CategoriesServiceService {
 
   public createCategory(catName: string): Observable<categoryInterface> {
     const newCategory: categoryInterface = {
-      catName: catName,
-      created: new Date()
+      name: catName
     };
     this.categories.push(newCategory);
     return of(newCategory);

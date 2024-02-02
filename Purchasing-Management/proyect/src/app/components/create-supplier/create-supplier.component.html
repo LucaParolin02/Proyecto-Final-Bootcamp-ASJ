@@ -1,9 +1,6 @@
 <div class="card mb-5">
     <div class="row g-0">
-        <div class="col-6 border">
-            <img src="assets/proveedores-añadir.webp" class="img-fluid rounded-start w-75" id="imagen" alt="..." />
-        </div>
-        <div class="col-6">
+        <div class="col">
             <div class="card-body">
                 <div class="container-fluid p-2">
                     <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
@@ -32,7 +29,7 @@
                             <div>
                                 <label class="form-label d-flex">Supplier Code<h4 class="text-danger"> *</h4></label>
                                 <input type="text" class="form-control" placeholder="Enter your code" name="codeSupp"
-                                    #codeSupp="ngModel" [(ngModel)]="supplier.codeSupp" required pattern=".{3,15}"
+                                    #codeSupp="ngModel" [(ngModel)]="supplier.code" required pattern=".{3,15}"
                                     [ngClass]="codeSupp.errors ? 'is-invalid' : 'is-valid'">
                                 <div *ngIf="myForm.controls['codeSupp']?.hasError('pattern') && myForm.controls['codeSupp'].touched">
                                     <p class="text-danger">The code must be between 3 and 15 characters</p>
@@ -44,7 +41,7 @@
                                 <div class="col">
                                     <label class="form-label d-flex">Country<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #country="ngModel" name="country" class="form-select"
-                                        [(ngModel)]="supplier.country" required (change)="selectCountry()">
+                                        [(ngModel)]="supplier.province.country" required (change)="selectCountry()">
                                         <option *ngFor="let country of countries" value="{{country.name}}">
                                             {{country.name}}</option>
                                     </select>
@@ -66,7 +63,7 @@
                                 <div class="col">
                                     <label class="form-label d-flex">Province<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #province="ngModel" name="province" class="form-select"
-                                        [(ngModel)]="supplier.province" required (change)="selectState()">
+                                        [(ngModel)]="supplier.province" required>
                                         <option *ngFor="let state of states" value="{{state.name}}">{{state.name}}
                                         </option>
                                     </select>
@@ -74,28 +71,26 @@
                                 <div class="col">
                                     <label class="form-label d-flex">Postal code<h4 class="text-danger"> *</h4></label>
                                     <input type="text" class="form-control" placeholder="Postal Code" name="postalCode"
-                                        [(ngModel)]="supplier.postalCode" required />
+                                        [(ngModel)]="supplier.zip" required />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label class="form-label d-flex">City<h4 class="text-danger"> *</h4></label>
-                                    <select type="text" #city="ngModel" name="city" class="form-select"
-                                        [(ngModel)]="supplier.city" required>
-                                        <option *ngFor="let city of cities" value="{{city.name}}">{{city.name}}</option>
-                                    </select>
+                                    <input type="text" #city="ngModel" name="city" class="form-select"
+                                        [(ngModel)]="supplier.city" required />                              
                                 </div>
                                 <div class="col">
                                     <label class="form-label d-flex">Number<h4 class="text-danger"> *</h4></label>
-                                    <input type="number" class="form-control" placeholder="Number" name="number"
-                                        [(ngModel)]="supplier.number" required />
+                                    <input type="number" class="form-control" placeholder="Number" name="snumber"
+                                        [(ngModel)]="supplier.snumber" required />
                                 </div>
                             </div>
                         </div>
                         <div class="row pb-2">
                             <label class="form-label d-flex">Choose Sector <h4 class="text-danger"> *</h4></label>
-                            <select name="sectors" aria-label="Select Sector" [(ngModel)]="supplier.sectors" class="form-select" required>
-                               <option *ngFor="let sector of sectorsList" [ngValue]="sector">{{ sector.sectorName }}</option>
+                            <select name="sectors" aria-label="Select Sector" [(ngModel)]="supplier.sector" class="form-select" required>
+                               <option *ngFor="let sector of sectorsList" [ngValue]="sector">{{ sector.name }}</option>
                             </select>
                          </div>
                         <div class="row pb-2">
@@ -133,7 +128,7 @@
                         <div class="row pb-2">
                             <label class="form-label d-flex ">Choose IVA Condition<h4 class="text-danger"> *</h4>
                             </label>
-                            <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.iva" class="form-select"
+                            <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.vatCondition" class="form-select"
                                 required>
                                 <option value="IVA Responsable Inscripto">
                                     IVA Responsable Inscripto

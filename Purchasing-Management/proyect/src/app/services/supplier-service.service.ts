@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { supplierInterface } from '../interfaces/dataSuppliers';
+import { supplierInterface } from '../interfaces/Suppliers/dataSuppliers';
 import { HttpClient } from '@angular/common/http';
 import { Observable,of } from 'rxjs';
 
@@ -9,62 +9,36 @@ import { Observable,of } from 'rxjs';
 })
 export class SupplierServiceService {
 
-  private suppliers: supplierInterface[] = [];
-  
-  private URL_API_COUNTRIES: string = "assets/data/countries.json";
-  private URL_API_STATES: string = "assets/data/states.json";
-  private URL_API_CITIES: string = "assets/data/cities.json";
+  private URL_SUPPLIERS = 'http://localhost:8080/suppliers';
 
   constructor(private http: HttpClient) { }
 
-  public getSuppliers(): Observable<supplierInterface[]> {
-    return of(this.suppliers);
+  public getSuppliers(): Observable<any> {
+    return this.http.get(this.URL_SUPPLIERS);
   }
 
-  public getSupplier(id: number): Observable<supplierInterface> {
-    return of(this.suppliers.find(supplier => supplier.id === id) || {} as supplierInterface);
+  public getSupplier(id: number): Observable<any> {
+    return this.http.get(`${this.URL_SUPPLIERS}/${id}`)
   }
 
   public addSupplier(supplier: supplierInterface): Observable<any> {
-    if (this.suppliers.length > 0) {
-      const lastSupplier = this.suppliers[this.suppliers.length - 1];
-      if (lastSupplier.id !== undefined){
-        supplier.id = lastSupplier.id + 1;
-      }
-    } else {
-      supplier.id = 0;
-    }
-    this.suppliers.push(supplier);
-    return of(undefined);
+    return this.http.post(`${this.URL_SUPPLIERS}/add`,supplier)
   }
 
-  public deleteSupplier(code: number): Observable<any> {
-    const index = this.suppliers.findIndex(supplier => supplier.id === code);
-    if (index !== -1) {
-      this.suppliers.splice(index, 1);
-    }
-    return of(undefined);
+  public deleteSupplier(id: number): Observable<any> {
+    return this.http.delete(`${this.URL_SUPPLIERS}/${id}`)
   }
 
-  public updateSupplier(updatedSupplier: supplierInterface): Observable<any> {
-    const index = this.suppliers.findIndex(supplier => supplier.id === updatedSupplier.id);
-    if (index !== -1) {
-      this.suppliers[index] = updatedSupplier;
-    }
-    return of(undefined);
+  public updateSupplier(id: number,updatedSupplier: supplierInterface): Observable<any> {
+    return this.http.put(`${this.URL_SUPPLIERS}/${id}`, updatedSupplier)
   }
 
   public getCountries(): Observable<any>{
-    return this.http.get(this.URL_API_COUNTRIES);
+    return this.http.get(`${this.URL_SUPPLIERS}/countries`);
   }
 
-  public getStates(): Observable<any>{
-    return this.http.get(this.URL_API_STATES);
-  }
-
-  public getCities(): Observable<any>{
-    return this.http.get(this.URL_API_CITIES);
-
+  public getStates(id: number): Observable<any>{
+    return this.http.get(`${this.URL_SUPPLIERS}/provinces/${id}`);
   }
 
 }

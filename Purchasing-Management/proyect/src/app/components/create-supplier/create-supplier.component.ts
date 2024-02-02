@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { supplierInterface } from '../../interfaces/dataSuppliers';
-import { sectorInterface } from '../../interfaces/dataSectors';
+import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
 import { SectorServiceService } from '../../services/sector-service.service';
+import { sectorInterface } from '../../interfaces/Suppliers/dataSector';
+import { vatInterface } from '../../interfaces/Suppliers/dataVat';
 
 @Component({
   selector: 'app-create-supplier',
@@ -15,26 +16,41 @@ export class CreateSupplierComponent implements OnInit {
 
   supplier: supplierInterface = {
     name: '',
-    sectors: {
-      sectorName: '',
-      created: new Date()
-    },
+    code: '',
+    logo: undefined,
     cuit: '',
+    web: undefined,
     email: '',
-    phone: undefined,
-    web: '',
-    street: '',
-    number: 0,
-    postalCode: '',
+    phone: '',
+    street: undefined,
+    zip: '',
     city: '',
-    province: '',
-    country: '',
-    iva: 'Other'
+    contact:{
+      name: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      role: '',
+    },
+    vatCondition:{
+        name: '',
+    },
+    sector:{
+      name: '',
+    },
+    province:{
+        name: '',
+        country: {
+          name: ''
+        }
+    }
   };
+
   countries: any[] = [];
   states: any[] = [];
-  cities: any[] = [];
   sectorsList: sectorInterface[] = [];
+  vatConditionlist: vatInterface[] = [];
+
 
   public editMode: boolean = false;
   private editSupplierCode: number | null = null;
@@ -68,10 +84,12 @@ export class CreateSupplierComponent implements OnInit {
   public submitForm(form: NgForm) {
     if (this.editMode) {
       const editSupplier: supplierInterface = this.editingSupplier(form);
-      editSupplier.sectors = { ...form.value.sectors };
-      this.service.updateSupplier(editSupplier).subscribe(() => {
-        this.router.navigate(['/suppliers']);
-      });
+      editSupplier.sector = { ...form.value.sectors };
+      if (editSupplier.id){
+        this.service.updateSupplier(editSupplier.id, editSupplier).subscribe(() => {
+          this.router.navigate(['/suppliers']);
+        });
+      }
     } else {
       console.log(form.value);
       this.service.addSupplier(form.value).subscribe(() => {
@@ -87,7 +105,6 @@ export class CreateSupplierComponent implements OnInit {
         if (currentSupplier) {
           this.supplier = { ...currentSupplier};
           this.selectCountry();
-          this.selectState();
           this.selectSector();
         }
       });
@@ -95,43 +112,39 @@ export class CreateSupplierComponent implements OnInit {
   }
 
   private editingSupplier(form: NgForm): supplierInterface {
-
     return {
-      id: this.editSupplierCode || 0,
-      codeSupp: form.value.codeSupp,
-      name: form.value.name,
-      sectors: form.value.sector,
-      cuit: form.value.cuit,
-      email: form.value.email,
-      web: form.value.web,
-      phone: form.value.phone,
-      street: form.value.street,
-      number: form.value.number,
-      postalCode: form.value.postalCode,
-      city: form.value.city,
-      province: form.value.province,
-      country: form.value.country,
-      iva: form.value.iva
+        id: this.editSupplierCode || 0,
+        code: form.value.code, 
+        name: form.value.name,
+        cuit: form.value.cuit,
+        email: form.value.email,
+        web: form.value.web,
+        phone: form.value.phone,
+        street: form.value.street,
+        snumber: form.value.snumber, 
+        zip: form.value.postalCode, 
+        city: form.value.city,
+        contact: form.value.contact, 
+        vatCondition: form.value.vatCondition, 
+        sector: form.value.sector, 
+        province: form.value.province, 
     };
-  }
+}
 
-  public selectCountry() {
-    this.service.getStates().subscribe((data: any) => {
-      this.states = data.filter((state: any) => state.country_name === this.supplier.country);
+public selectCountry() {
+  const selectedCountry = this.countries.find(country => country.name === this.supplier.province.country);
+  if (selectedCountry) {
+    this.service.getStates(selectedCountry.id).subscribe((data: any) => {
+      this.states = data;
     });
   }
-
-  public selectState() {
-    this.service.getCities().subscribe((data: any) => {
-      this.cities = data.filter((cities: any) => cities.state_name === this.supplier.province);
-    });
-  }
+}
 
   public selectSector() {
-    if (this.supplier.sectors && this.sectorsList) {
-      const selectedSector = this.sectorsList.find(sector => sector.sectorName === this.supplier.sectors.sectorName);
+    if (this.supplier.sector && this.sectorsList) {
+      const selectedSector = this.sectorsList.find(sector => sector.name === this.supplier.sector.name);
       if (selectedSector) {
-        this.supplier.sectors = selectedSector;
+        this.supplier.sector = selectedSector;
       }
     }
   }
