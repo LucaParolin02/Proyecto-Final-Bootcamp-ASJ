@@ -7,6 +7,6 @@ export interface productsInterface  {
     name: string;
     supplier: supplierInterface;
     category: categoryInterface;
-    description: string;
+    desc: string;
     price: number;
 }

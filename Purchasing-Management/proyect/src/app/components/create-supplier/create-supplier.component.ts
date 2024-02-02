@@ -3,7 +3,6 @@ import { SupplierServiceService } from '../../services/supplier-service.service'
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
-import { SectorServiceService } from '../../services/sector-service.service';
 import { sectorInterface } from '../../interfaces/Suppliers/dataSector';
 import { vatInterface } from '../../interfaces/Suppliers/dataVat';
 
@@ -59,11 +58,10 @@ export class CreateSupplierComponent implements OnInit {
     private service: SupplierServiceService,
     private router: Router,
     private route: ActivatedRoute,
-    private serviceSector: SectorServiceService
   ) {}
 
   ngOnInit(): void {
-    this.serviceSector.getSectors().subscribe((res) => {
+    this.service.getSectors().subscribe((res) => {
       this.sectorsList = res;
     });
 
@@ -103,8 +101,9 @@ export class CreateSupplierComponent implements OnInit {
       this.service.getSupplier(this.editSupplierCode).subscribe((res) => {
         const currentSupplier = res;
         if (currentSupplier) {
+          console.log(currentSupplier);
           this.supplier = { ...currentSupplier};
-          this.selectCountry();
+          this.selectCountry(currentSupplier.province.country.id);
           this.selectSector();
         }
       });
@@ -131,11 +130,14 @@ export class CreateSupplierComponent implements OnInit {
     };
 }
 
-public selectCountry() {
-  const selectedCountry = this.countries.find(country => country.name === this.supplier.province.country);
-  if (selectedCountry) {
-    this.service.getStates(selectedCountry.id).subscribe((data: any) => {
+public selectCountry(id: number) {
+  console.log(id);
+  //const selectedCountry = this.countries.find(country => country.name === this.supplier.province.country.name);
+  //console.log(selectedCountry);
+  if (id) {
+    this.service.getStates(id).subscribe((data: any) => {
       this.states = data;
+      console.log(this.states);
     });
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { productsInterface } from '../interfaces/Products/dataProducts';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,12 @@ import { Observable, of } from 'rxjs';
 export class ProductServiceService {
 
   private products: productsInterface[] = [];
+  private URL_PRODUCTS = 'http://localhost:8080/products';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  public getProducts(): Observable<productsInterface[]> {
-    return of(this.products);
+  public getProducts(): Observable<any> {
+    return this.http.get(this.URL_PRODUCTS);
   }
 
   public getProduct(id: number): Observable<productsInterface | undefined> {

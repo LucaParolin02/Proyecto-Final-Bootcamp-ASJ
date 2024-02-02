@@ -93,7 +93,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
             name: ''
           }
       }},
-      description: '',
+      desc: '',
       price: 0,
       category: {
         name: ''
@@ -177,7 +177,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
           name: ''
         }
     }},
-    description: '',
+    desc: '',
     price: 0,
     category: {
       name: ''
@@ -263,7 +263,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
         sku: this.product.sku,
         supplier: this.product.supplier,
         category: this.product.category,
-        description: this.product.description,
+        desc: this.product.desc,
         price: this.product.price,
     };
     this.Order.total += productToAdd.price;

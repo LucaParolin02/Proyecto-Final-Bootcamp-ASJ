@@ -41,4 +41,7 @@ export class SupplierServiceService {
     return this.http.get(`${this.URL_SUPPLIERS}/provinces/${id}`);
   }
 
+  public getSectors(): Observable<any>{
+    return this.http.get(`${this.URL_SUPPLIERS}/sectors`);
+  }
 }

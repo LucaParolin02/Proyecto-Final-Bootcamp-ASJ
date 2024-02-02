@@ -50,7 +50,7 @@ export class CreateProductComponent implements OnInit {
           name: ''
         }
     }},
-    description: '',
+    desc: '',
     price: 0,
     category: {
       name: ''
@@ -118,7 +118,7 @@ export class CreateProductComponent implements OnInit {
       name: form.value.nameProduct,
       supplier: form.value.supplier,
       category: form.value.cat,
-      description: form.value.description,
+      desc: form.value.description,
       price: form.value.price,
     };
   }
