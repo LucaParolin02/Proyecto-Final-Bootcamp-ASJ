@@ -33,6 +33,11 @@ public class ProductService implements IProductService {
 	}
 	
 	@Override
+	public List<ProductModel> getDeletedProducts(){
+		return productRepository.findByDeletedFalse();
+	}
+	
+	@Override
 	public ProductModel postProduct(ProductModel product) {
 		validateUniqueFields(product);
 		Integer categoryId = product.getCategory().getId();

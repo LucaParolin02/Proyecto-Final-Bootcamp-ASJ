@@ -114,6 +114,11 @@ public class SupplierController {
     	return ResponseEntity.ok(iSupplierService.getSuppliers());
     }
     
+    @GetMapping("/deleteds")
+    public ResponseEntity<List<SupplierModel>> getDeletedSuppliers(){
+    	return ResponseEntity.ok(iSupplierService.getDeletedSuppliers());
+    }
+    
     @PostMapping("/add")
     public ResponseEntity<Object> addSupplier(@Valid @RequestBody SupplierModel supplier, BindingResult bindingResult){
     	if (bindingResult.hasErrors()) {

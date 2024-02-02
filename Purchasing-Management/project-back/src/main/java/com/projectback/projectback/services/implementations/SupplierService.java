@@ -38,6 +38,10 @@ public class SupplierService implements ISupplierService {
 		return supplierRepository.findByDeletedFalse();
 	}
 	
+	@Override
+	public List<SupplierModel> getDeletedSuppliers(){
+		return supplierRepository.findByDeletedTrue();
+	}
 	
 	@Override
 	public SupplierModel getSupplierById(Integer id) {

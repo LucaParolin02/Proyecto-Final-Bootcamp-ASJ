@@ -82,6 +82,11 @@ public class ProductController {
 		return ResponseEntity.ok(iProductService.getAllProducts());
 	}
 	
+	@GetMapping("/deleted")
+	public ResponseEntity<List<ProductModel>> getDeletedProducts(){
+		return ResponseEntity.ok(iProductService.getDeletedProducts());
+	}
+	
 	@PostMapping("/add")
 	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductModel product, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {

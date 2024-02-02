@@ -56,6 +56,11 @@ public class OrderController {
 		return ResponseEntity.ok(iOrderService.getAllOrders());
 	}
 	
+	@GetMapping("/deleted")
+	public ResponseEntity<List<OrderModel>> getDeletedOrders(){
+		return ResponseEntity.ok(iOrderService.getDeletedOrders());
+	}
+	
 	@PostMapping("/add")
 	public ResponseEntity<Object> addOrder(@Valid @RequestBody OrderModel order, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {

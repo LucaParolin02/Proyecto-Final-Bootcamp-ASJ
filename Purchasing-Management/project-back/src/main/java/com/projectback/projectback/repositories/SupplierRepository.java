@@ -23,5 +23,5 @@ public interface SupplierRepository extends JpaRepository<SupplierModel, Integer
     boolean existsByPhoneAndIdNot(String phone,Integer id);
     List<SupplierModel> findBySectorAndDeletedFalse(SectorModel sector);
     List<SupplierModel> findByDeletedFalse();
-    
+    List<SupplierModel> findByDeletedTrue();
 }

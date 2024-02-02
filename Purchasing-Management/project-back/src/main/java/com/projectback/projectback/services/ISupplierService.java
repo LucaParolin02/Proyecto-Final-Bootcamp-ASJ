@@ -7,6 +7,7 @@ import com.projectback.projectback.models.SupplierModel;
 public interface ISupplierService {
 
 	List<SupplierModel> getSuppliers();
+	List<SupplierModel> getDeletedSuppliers();
 	SupplierModel deleteSupplier(Integer id);
 	SupplierModel updateSupplier(Integer id,SupplierModel supplier);
 	SupplierModel getSupplierById(Integer id);

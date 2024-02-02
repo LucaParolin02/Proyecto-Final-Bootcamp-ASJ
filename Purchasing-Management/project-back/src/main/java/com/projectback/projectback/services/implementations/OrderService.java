@@ -27,7 +27,12 @@ public class OrderService implements IOrderService {
 	
 	@Override
 	public List<OrderModel> getAllOrders(){
-		return  orderRepository.findAll();
+		return  orderRepository.findByDeletedFalse();
+	}
+	
+	@Override
+	public List<OrderModel> getDeletedOrders(){
+		return orderRepository.findByDeletedTrue();
 	}
 	
 	@Override
