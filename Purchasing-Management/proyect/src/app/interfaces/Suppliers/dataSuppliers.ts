@@ -16,10 +16,10 @@ export interface supplierInterface {
     snumber?: string;
     zip: string;
     city: string;
-    contact: contactInterface;
-    vatCondition: vatInterface;
-    sector: sectorInterface;
-    province: provinceInterface;
+    contact: Partial<contactInterface>;
+    vatCondition: Partial<vatInterface>;
+    sector: Partial<sectorInterface>;
+    province: Partial<provinceInterface>;
   }
   
   

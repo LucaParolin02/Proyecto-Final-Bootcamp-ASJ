@@ -5,8 +5,8 @@ export interface productsInterface  {
     id?: number;
     sku: string;
     name: string;
-    supplier: supplierInterface;
-    category: categoryInterface;
+    supplier: Partial<supplierInterface>;
+    category: Partial<categoryInterface>;
     desc: string;
     price: number;
 }

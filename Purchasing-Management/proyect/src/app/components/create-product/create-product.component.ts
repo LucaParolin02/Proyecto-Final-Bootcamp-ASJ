@@ -6,7 +6,6 @@ import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
 import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { categoryInterface } from '../../interfaces/Products/dataCategories';
-import { CategoriesServiceService } from '../../services/categories-service.service';
 
 
 @Component({
@@ -67,7 +66,6 @@ export class CreateProductComponent implements OnInit {
     private supplierService: SupplierServiceService,
     private router: Router,
     private route: ActivatedRoute,
-    private categoryService: CategoriesServiceService
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +73,8 @@ export class CreateProductComponent implements OnInit {
       this.suppliersList = resp;
     });
 
-    this.categoryService.getCategories().subscribe((res) => {
+    this.productService.getCategories().subscribe((res) => {
+      console.log(res);
       this.categoryList = res;
     });
 
@@ -90,13 +89,14 @@ export class CreateProductComponent implements OnInit {
   }
 
   submitForm(form: NgForm): void {
+    const product: productsInterface = this.buildProduct(form);
     if (this.editMode) {
-      const editProduct: productsInterface = this.editingProduct(form);
-      this.productService.updateProduct(editProduct).subscribe(() => {
+      product.id = this.editProductCode || 0;
+      this.productService.updateProduct(product.id, product).subscribe(() => {
         this.router.navigate(['/products']);
       });
     } else {
-      this.productService.addProduct(form.value).subscribe(() => {
+      this.productService.addProduct(product).subscribe(() => {
         this.router.navigate(['/products']);
       });
     }
@@ -112,13 +112,13 @@ export class CreateProductComponent implements OnInit {
     }
   }
 
-  private editingProduct(form: NgForm): productsInterface {
+  private buildProduct(form: NgForm): productsInterface {
     return {
-      sku: this.product.sku,
-      name: form.value.nameProduct,
-      supplier: form.value.supplier,
-      category: form.value.cat,
-      desc: form.value.description,
+      sku: form.value.sku,
+      name: form.value.name,
+      supplier: {id: parseInt(form.value.supplier)},
+      category: {id: parseInt(form.value.category)},
+      desc: form.value.desc,
       price: form.value.price,
     };
   }

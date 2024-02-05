@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { supplierInterface } from '../interfaces/Suppliers/dataSuppliers';
 import { HttpClient } from '@angular/common/http';
 import { Observable,of } from 'rxjs';
+import { contactInterface } from '../interfaces/Suppliers/dataContact';
 
 
 @Injectable({
@@ -43,5 +44,22 @@ export class SupplierServiceService {
 
   public getSectors(): Observable<any>{
     return this.http.get(`${this.URL_SUPPLIERS}/sectors`);
+  }
+  //TEMRIANR CRUD SECTOR
+
+  public getVats(): Observable<any>{
+    return this.http.get(`${this.URL_SUPPLIERS}/vats`);
+  }
+
+  public getContact(id: number): Observable<any>{
+    return this.http.get(`${this.URL_SUPPLIERS}/contact/${id}`);
+  }
+
+  public addContact(contact: contactInterface): Observable<any>{
+    return this.http.post(`${this.URL_SUPPLIERS}/contact/add`, contact);
+  }
+
+  public editContact(id: number, contact: contactInterface): Observable<contactInterface>{
+    return this.http.put<contactInterface>(`${this.URL_SUPPLIERS}/contact/edit/${id}`, contact)
   }
 }

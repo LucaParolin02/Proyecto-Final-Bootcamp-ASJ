@@ -15,6 +15,10 @@ export class PurchaseOrdersComponent implements OnInit {
   constructor(private service: PurchaseOrderServiceService, private router: Router) {}
 
   ngOnInit(): void {
+    this.getOrders();
+  }
+
+  public getOrders(){
     this.service.getOrders().subscribe(
       (orders: orderInterface[]) => {
         this.ordersList = orders;
@@ -26,21 +30,24 @@ export class PurchaseOrdersComponent implements OnInit {
     );
   }
 
-  public cancelOrder(code: number): void {
+  public cancelOrder(order: orderInterface): void {
     const isConfirmed = window.confirm('Are you sure you want to cancel this order?');
     if (isConfirmed) {
-      this.service.cancelOrder(code);
+      order.status = {id:1}
+      this.service.cancelOrder(order.id!, order).subscribe((res)=>{
+        this.getOrders();
+      });
     }
   }
 
-  public editOrder(code: number): void {
+  public editOrder(id: number): void {
     const isConfirmed = window.confirm('Are you sure you want to edit this order?');
     if (isConfirmed) {
-      this.router.navigate(['/orders' + '/' + code]);
+      this.router.navigate(['/orders' + '/' + id]);
     }
   }
 
-  public detailsOrder(code: number): void {
-    this.router.navigate(['/orders/details' + '/' + code]);
+  public detailsOrder(id: number): void {
+    this.router.navigate(['/orders/details' + '/' + id]);
   }
 }

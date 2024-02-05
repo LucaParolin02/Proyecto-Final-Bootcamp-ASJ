@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductServiceService {
 
-  private products: productsInterface[] = [];
   private URL_PRODUCTS = 'http://localhost:8080/products';
 
   constructor(private http: HttpClient) { }
@@ -17,50 +16,27 @@ export class ProductServiceService {
     return this.http.get(this.URL_PRODUCTS);
   }
 
-  public getProduct(id: number): Observable<productsInterface | undefined> {
-    return of(this.products.find(product => product.id === id));
+  public getProduct(id: number): Observable<any> {
+    return this.http.get(`${this.URL_PRODUCTS}/${id}`);
   }
 
-  public addProduct(product: productsInterface): Observable<void> {
-    return new Observable<void>(observer => {
-      if (this.products.length > 0) {
-        const lastProduct = this.products[this.products.length - 1];
-        if (lastProduct.sku !== undefined) {
-          product.sku = lastProduct.sku + 1;
-        }
-      } else {
-        product.id = 0;
-      }
-      this.products.push(product);
-      observer.next();
-      observer.complete();
-    });
+  public addProduct(product: productsInterface): Observable<any> {
+    return this.http.post(`${this.URL_PRODUCTS}/add`,product);
   }
 
-  public deleteProduct(id: number): Observable<void> {
-    return new Observable<void>(observer => {
-      const index = this.products.findIndex(product => product.id === id);
-      if (index !== -1) {
-        this.products.splice(index, 1);
-      }
-      observer.next();
-      observer.complete();
-    });
+  public deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.URL_PRODUCTS}/${id}`);
   }
 
-  public updateProduct(updatedProduct: productsInterface): Observable<void> {
-    return new Observable<void>(observer => {
-      const index = this.products.findIndex(product => product.sku === updatedProduct.sku);
-      if (index !== -1) {
-        this.products[index] = updatedProduct;
-      }
-      observer.next();
-      observer.complete();
-    });
+  public updateProduct(id: number, updatedProduct: productsInterface): Observable<any> {
+    return this.http.put(`${this.URL_PRODUCTS}/${id}`,updatedProduct);
   }
 
-  public getProductsBySupplier(supplierName: string): Observable<productsInterface[]> {
-    const filteredProducts = this.products.filter(product => product.supplier.name === supplierName);
-    return of(filteredProducts);
+  public getProductsBySupplier(id: number): Observable<productsInterface[]> {
+    return this.http.get<productsInterface[]>(`${this.URL_PRODUCTS}/supplier/${id}`);
+  }
+
+  public getCategories(): Observable<any> {
+    return this.http.get(`${this.URL_PRODUCTS}/categories`)
   }
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
 import { sectorInterface } from '../../interfaces/Suppliers/dataSector';
 import { vatInterface } from '../../interfaces/Suppliers/dataVat';
+import { contactInterface } from '../../interfaces/Suppliers/dataContact';
 
 @Component({
   selector: 'app-create-supplier',
@@ -46,9 +47,9 @@ export class CreateSupplierComponent implements OnInit {
   };
 
   countries: any[] = [];
-  states: any[] = [];
+  provinces: any[] = [];
   sectorsList: sectorInterface[] = [];
-  vatConditionlist: vatInterface[] = [];
+  vatConditionList: vatInterface[] = [];
 
 
   public editMode: boolean = false;
@@ -65,9 +66,14 @@ export class CreateSupplierComponent implements OnInit {
       this.sectorsList = res;
     });
 
+    this.service.getVats().subscribe((res) => {
+      this.vatConditionList = res;
+    })
+
     this.route.params.subscribe((params) => {
       const codeParam = params['id'];
       if (codeParam) {
+        console.log(codeParam);
         this.editMode = true;
         this.editSupplierCode = +codeParam;
         this.loadSupplierData();
@@ -80,19 +86,35 @@ export class CreateSupplierComponent implements OnInit {
   }
 
   public submitForm(form: NgForm) {
+    const supplier: supplierInterface = this.buildSupplier(form);
+    const contact: contactInterface = {
+      name: form.value.name,
+      lastName: form.value.lastName,
+      email: form.value.email,
+      phone: form.value.phone,
+      role: form.value.role
+    }
     if (this.editMode) {
-      const editSupplier: supplierInterface = this.editingSupplier(form);
-      editSupplier.sector = { ...form.value.sectors };
-      if (editSupplier.id){
-        this.service.updateSupplier(editSupplier.id, editSupplier).subscribe(() => {
-          this.router.navigate(['/suppliers']);
-        });
+      supplier.id = this.editSupplierCode || 0;
+      supplier.contact = { id: supplier.contact.id}   
+      if (this.supplier.contact.id){
+        this.service.editContact(this.supplier.contact.id , contact).subscribe((res) => {
+          supplier.contact = { id: res.id}        
+          if (supplier.id){
+            this.service.updateSupplier(supplier.id, supplier).subscribe(() => {
+              this.router.navigate(['/suppliers']);
+            });
+          }
+        })
       }
     } else {
-      console.log(form.value);
-      this.service.addSupplier(form.value).subscribe(() => {
-        this.router.navigate(['/suppliers']);
-      });
+      this.service.addContact(contact).subscribe((res) => {
+        supplier.contact = { id: res.id}
+        console.log(supplier);
+        this.service.addSupplier(supplier).subscribe(() => {
+          this.router.navigate(['/suppliers']);
+        });
+      })
     }
   }
 
@@ -110,9 +132,8 @@ export class CreateSupplierComponent implements OnInit {
     }
   }
 
-  private editingSupplier(form: NgForm): supplierInterface {
+  private buildSupplier(form: NgForm): supplierInterface {
     return {
-        id: this.editSupplierCode || 0,
         code: form.value.code, 
         name: form.value.name,
         cuit: form.value.cuit,
@@ -121,23 +142,20 @@ export class CreateSupplierComponent implements OnInit {
         phone: form.value.phone,
         street: form.value.street,
         snumber: form.value.snumber, 
-        zip: form.value.postalCode, 
+        zip: form.value.zip, 
         city: form.value.city,
-        contact: form.value.contact, 
-        vatCondition: form.value.vatCondition, 
-        sector: form.value.sector, 
-        province: form.value.province, 
+        contact: {}, 
+        vatCondition: {id: parseInt(form.value.vatCondition)}, 
+        sector: {id: parseInt(form.value.sector)}, 
+        province: {id: parseInt(form.value.province)},
     };
 }
 
 public selectCountry(id: number) {
-  console.log(id);
-  //const selectedCountry = this.countries.find(country => country.name === this.supplier.province.country.name);
-  //console.log(selectedCountry);
   if (id) {
     this.service.getStates(id).subscribe((data: any) => {
-      this.states = data;
-      console.log(this.states);
+      this.provinces = data;
+      console.log(this.provinces);
     });
   }
 }

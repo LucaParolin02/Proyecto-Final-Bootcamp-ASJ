@@ -20,20 +20,20 @@
                                 <label class="form-label  d-flex">Business Name<h4 class="text-danger"> *</h4></label>
                                 <input type="text" class="form-control" placeholder="Enter the supplier name"
                                     #name="ngModel" name="name" [(ngModel)]="supplier.name" required
-                                    pattern="[a-zA-Z\s]{4,25}" [ngClass]="name.errors ? 'is-invalid' : 'is-valid'" />
+                                    pattern="[a-zA-Z\s]{4,30}" [ngClass]="name.errors ? 'is-invalid' : 'is-valid'" />
                                 <div
                                     *ngIf="myForm.controls['name']?.hasError('pattern') && myForm.controls['name'].touched">
-                                    <p class="text-danger ">The name must be between 4 and 25 characters</p>
+                                    <p class="text-danger ">The name must be between 4 and 30 characters</p>
                                 </div>
                             </div>
                             <div>
                                 <label class="form-label d-flex">Supplier Code<h4 class="text-danger"> *</h4></label>
-                                <input type="text" class="form-control" placeholder="Enter your code" name="codeSupp"
-                                    #codeSupp="ngModel" [(ngModel)]="supplier.code" required pattern=".{3,15}"
-                                    [ngClass]="codeSupp.errors ? 'is-invalid' : 'is-valid'">
+                                <input type="text" class="form-control" placeholder="Enter your code" name="code"
+                                    #code="ngModel" [(ngModel)]="supplier.code" required pattern=".{4,20}"
+                                    [ngClass]="code.errors ? 'is-invalid' : 'is-valid'">
                                 <div
-                                    *ngIf="myForm.controls['codeSupp']?.hasError('pattern') && myForm.controls['codeSupp'].touched">
-                                    <p class="text-danger">The code must be between 3 and 15 characters</p>
+                                    *ngIf="myForm.controls['code']?.hasError('pattern') && myForm.controls['code'].touched">
+                                    <p class="text-danger">The code must be between 4 and 20 characters</p>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                 <div class="col">
                                     <label class="form-label d-flex">Country<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #country="ngModel" name="country" class="form-select"
-                                        [(ngModel)]="supplier.province.country.id" required (ngModelChange)="selectCountry($event)">
+                                        [(ngModel)]="supplier.province.country!.id" required (ngModelChange)="selectCountry($event)">
                                         <option *ngFor="let country of countries" [value]="country.id">
                                             {{country.name}}</option>
                                     </select>
@@ -65,13 +65,13 @@
                                     <label class="form-label d-flex">Province<h4 class="text-danger"> *</h4></label>
                                     <select type="text" #province="ngModel" name="province" class="form-select"
                                         [(ngModel)]="supplier.province.id" required>
-                                        <option *ngFor="let state of states" [value]="state.id">{{state.name}}</option>
+                                        <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
                                     </select>
                                 </div>
                                 <div class="col">
                                     <label class="form-label d-flex">Postal code<h4 class="text-danger"> *</h4></label>
-                                    <input type="text" class="form-control" placeholder="Postal Code" name="postalCode"
-                                        [(ngModel)]="supplier.zip" required />
+                                    <input type="text" class="form-control" placeholder="Postal Code" name="zip"
+                                        [(ngModel)]="supplier.zip" required #zip="ngModel"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -89,28 +89,35 @@
                         </div>
                         <div class="row pb-2">
                             <label class="form-label d-flex">Choose Sector <h4 class="text-danger"> *</h4></label>
-                            <select name="sectors" aria-label="Select Sector" [(ngModel)]="supplier.sector"
-                                class="form-select" required>
-                                <option *ngFor="let sector of sectorsList" [ngValue]="sector">{{ sector.name }}</option>
+                            <select name="sector" aria-label="Select Sector" [(ngModel)]="supplier.sector.id"
+                                class="form-select" required #sector="ngModel">
+                                <option *ngFor="let sector of sectorsList" [value]="sector.id">{{ sector.name }}</option>
                             </select>
                         </div>
+
                         <div class="row pb-2">
                             <div>
                                 <h3>Contact Data</h3>
                             </div>
                             <label class="form-label d-flex ">Email <h4 class="text-danger"> *</h4></label>
                             <input type="email" class="form-control" placeholder="Enter Email" name="email"
-                                [(ngModel)]="supplier.email" />
+                                [(ngModel)]="supplier.email" required/>
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Web</label>
-                            <input type="text" class="form-control" placeholder="Enter web site" name="web"
-                                [(ngModel)]="supplier.web" required />
+                            <input type="text" class="form-control" placeholder="Enter web site" name="web" #web="ngModel"
+                                [(ngModel)]="supplier.web" pattern="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})?" 
+                                [ngClass]="web.errors ? 'is-invalid' : 'is-valid'"/>
+                                <div
+                                *ngIf="myForm.controls['web']?.hasError('pattern') && myForm.controls['web'].touched">
+                                <p class="text-danger">The website format is invalid. Please enter a valid website address.
+                                </p>
+                            </div>
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Phone</label>
-                            <input type="tel" class="form-control" placeholder="Enter your phone" name="phone"
-                                #phone="ngModel" [(ngModel)]="supplier.phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                            <input type="text" class="form-control" placeholder="Enter your phone" name="phone"
+                                #phone="ngModel" [(ngModel)]="supplier.phone" pattern="[0-9]{3}[0-9]{4}[0-9]{4}"
                                 [ngClass]="phone.errors ? 'is-invalid' : 'is-valid'" />
                             <div
                                 *ngIf="myForm.controls['phone']?.hasError('pattern') && myForm.controls['phone'].touched">
@@ -129,23 +136,59 @@
                         <div class="row pb-2">
                             <label class="form-label d-flex ">Choose IVA Condition<h4 class="text-danger"> *</h4>
                             </label>
-                            <select name="iva" aria-label="Select IVA" [(ngModel)]="supplier.vatCondition"
-                                class="form-select" required>
-                                <option value="IVA Responsable Inscripto">
-                                    IVA Responsable Inscripto
-                                </option>
-                                <option value="IVA Responsable no Inscripto">
-                                    IVA Responsable no Inscripto
-                                </option>
-                                <option value="Monotributista Social">
-                                    Monotributista Social
-                                </option>
-                                <option value="Proveedor del Exterior">
-                                    Proveedor del Exterior
-                                </option>
-                                <option value="Other">Other</option>
+                            <select type="text" name="vatCondition" aria-label="Select IVA" [(ngModel)]="supplier.vatCondition.id"
+                                class="form-select" required #vatCondition="ngModel">
+                                <option *ngFor = "let vat of vatConditionList" [value]="vat.id"> {{vat.name}}</option>
                             </select>
                         </div>
+
+                        <div class="row pb-2">
+                            <div>
+                                <h3>Form contact</h3>
+                            </div>
+                            <label class="form-label d-flex ">Email Contact<h4 class="text-danger"> *</h4></label>
+                            <input type="email" class="form-control" placeholder="Enter Email" name="emailContact"
+                                [(ngModel)]="supplier.contact.email" required/>
+                        </div>
+                        <div class="row pb-2">
+                            <label class="form-label  d-flex">First Name<h4 class="text-danger"> *</h4></label>
+                                <input type="text" class="form-control" placeholder="Enter the first name contact"
+                                    #firstName="ngModel" name="firstName" [(ngModel)]="supplier.contact.name" required
+                                    pattern="[a-zA-Z\s]{4,30}" [ngClass]="firstName.errors ? 'is-invalid' : 'is-valid'" />
+                                <div
+                                    *ngIf="myForm.controls['firstName']?.hasError('pattern') && myForm.controls['firstName'].touched">
+                                    <p class="text-danger ">The first name must be between 4 and 30 characters</p>
+                                </div>
+                        </div>
+                        <div class="row pb-2">
+                            <label class="form-label  d-flex">Last Name<h4 class="text-danger"> *</h4></label>
+                                <input type="text" class="form-control" placeholder="Enter the last name contact"
+                                    #lastName="ngModel" name="lastName" [(ngModel)]="supplier.contact.lastName" required
+                                    pattern="[a-zA-Z\s]{4,30}" [ngClass]="lastName.errors ? 'is-invalid' : 'is-valid'" />
+                                <div
+                                    *ngIf="myForm.controls['lastName']?.hasError('pattern') && myForm.controls['lastName'].touched">
+                                    <p class="text-danger ">The last name must be between 4 and 30 characters</p>
+                                </div>
+                        </div>
+                        <div class="row pb-2">
+                            <label class="form-label">Phone contact</label>
+                            <input type="text" class="form-control" placeholder="Enter your phone contact" name="phoneContact"
+                                #phoneContact="ngModel" [(ngModel)]="supplier.contact.phone"
+                                [ngClass]="phone.errors ? 'is-invalid' : 'is-valid'" />
+                        </div>
+
+                        <div class="row pb-2">
+                            <label class="form-label  d-flex">Role<h4 class="text-danger"> *</h4></label>
+                                <input type="text" class="form-control" placeholder="Enter the role contact"
+                                    #role="ngModel" name="role" [(ngModel)]="supplier.contact.role" required
+                                    pattern="[a-zA-Z\s]{4,30}" [ngClass]="role.errors ? 'is-invalid' : 'is-valid'" />
+                                <div
+                                    *ngIf="myForm.controls['role']?.hasError('pattern') && myForm.controls['role'].touched">
+                                    <p class="text-danger ">The last name must be between 4 and 30 characters</p>
+                                </div>
+                        </div>
+
+
                         <div class="container-fluid p-2">
                             <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">
                                 {{ editMode ? "Edit" : "Add" }}

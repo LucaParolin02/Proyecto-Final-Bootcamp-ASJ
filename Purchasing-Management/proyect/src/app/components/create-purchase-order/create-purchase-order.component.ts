@@ -17,40 +17,20 @@ import { detailInterface } from '../../interfaces/Orders/dataDetail';
 export class CreatePurchaseOrderComponent implements OnInit {
 
   Order: orderInterface = {
-    created: new Date(),
+    created: '',
     expected: new Date(),
     status: {
-      name: ''
     },
     info: '',
     supplier: {
-      name: '',
-    code: '',
-    logo: undefined,
-    cuit: '',
-    web: undefined,
-    email: '',
-    phone: '',
-    street: undefined,
-    zip: '',
-    city: '',
     contact:{
-      name: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      role: '',
     },
     vatCondition:{
-        name: '',
     },
     sector:{
-      name: '',
     },
     province:{
-        name: '',
         country: {
-          name: ''
         }
     }
     },
@@ -61,79 +41,32 @@ export class CreatePurchaseOrderComponent implements OnInit {
     quantity: 0,
     price: 0,
     product: {
-      name: '',
-      sku: '',
       supplier: {
-      name: '',
-      code: '',
-      logo: undefined,
-      cuit: '',
-      web: undefined,
-      email: '',
-      phone: '',
-      street: undefined,
-      zip: '',
-      city: '',
       contact:{
-        name: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        role: '',
       },
       vatCondition:{
-          name: '',
       },
       sector:{
-        name: '',
       },
       province:{
-          name: '',
           country: {
-            name: ''
           }
       }},
-      desc: '',
-      price: 0,
       category: {
-        name: ''
       }
     },
     order: {
-      created: new Date(),
-      expected: new Date(),
       status: {
-        name: ''
       },
-      info: '',
       supplier: {
-        name: '',
-      code: '',
-      logo: undefined,
-      cuit: '',
-      web: undefined,
-      email: '',
-      phone: '',
-      street: undefined,
-      zip: '',
-      city: '',
       contact:{
-        name: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        role: '',
       },
       vatCondition:{
-          name: '',
       },
       sector:{
-        name: '',
       },
       province:{
-          name: '',
           country: {
-            name: ''
           }
       }
       },
@@ -141,51 +74,33 @@ export class CreatePurchaseOrderComponent implements OnInit {
     }
   };
 
-  supplierList: supplierInterface[] = [];
-  selectedProductsList: productsInterface[] = [];
-
   product: productsInterface = {
     name: '',
     sku: '',
     supplier: {
-    name: '',
-    code: '',
-    logo: undefined,
-    cuit: '',
-    web: undefined,
-    email: '',
-    phone: '',
-    street: undefined,
-    zip: '',
-    city: '',
     contact:{
-      name: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      role: '',
     },
     vatCondition:{
-        name: '',
     },
     sector:{
-      name: '',
     },
     province:{
-        name: '',
         country: {
-          name: ''
         }
     }},
     desc: '',
     price: 0,
     category: {
-      name: ''
     }
   };
 
   editMode: boolean = false;
   private editOrderCode: number | null = null;
+  supplierList: supplierInterface[] = [];
+  detailList: any = [];
+  selectedProductsList: productsInterface[] = [];
+  isSupplierSelectDisabled = false;
+  selectedSupplierId:string = "-1";
 
   constructor(
     private orderService: PurchaseOrderServiceService,
@@ -193,7 +108,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
     private productService: ProductServiceService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {this.setTodayDate();}
 
   ngOnInit(): void {
     this.supplierService.getSuppliers().subscribe((resp) => {
@@ -223,12 +138,22 @@ export class CreatePurchaseOrderComponent implements OnInit {
   submitForm(form: NgForm): void {
     if (this.editMode) {
       const editOrder: orderInterface = this.editingOrder(form);
-      this.orderService.updateOrder(editOrder).subscribe(() => {
-        this.router.navigate(['/orders']);
-      });
-    } else {
-      this.orderService.addOrder(form.value).subscribe(() => {
-        this.router.navigate(['/orders']);
+      if (editOrder.id){
+        this.orderService.updateOrder(editOrder.id , editOrder).subscribe(() => {
+          this.router.navigate(['/orders']);
+        });
+      }
+    } else {    
+      const newOrder = {created: form.value.created , expected: form.value.expected ,total: this.calculateTotal(), info: form.value.info, supplier: {id: parseInt(this.selectedSupplierId)}, status: {id: 3 } };
+      console.log(newOrder);
+      this.orderService.addOrder(newOrder).subscribe((res) => {
+        for(let detail of this.detailList){
+          detail.order = {id: res.id}
+        }
+        this.orderService.addDetails(this.detailList).subscribe((res) => {
+          console.log(res);
+          this.router.navigate(['/orders']);
+        })
       });
     }
   }
@@ -244,35 +169,45 @@ export class CreatePurchaseOrderComponent implements OnInit {
     };
   }
 
-  public selectSupplier(name: string): void {
-    const selectedSupplier = this.Order.supplier;
-  
-    if (selectedSupplier) {
-      this.productService.getProductsBySupplier(name).subscribe(products => {
+  public selectSupplier(id: number): void {  
+    if (id) {
+      this.productService.getProductsBySupplier(id).subscribe(products => {
         this.selectedProductsList = products;
-        this.product.id = this.selectedProductsList[0]?.id || 0;  
-        this.product.name = this.selectedProductsList[0]?.name || '';
-        this.product.price = this.selectedProductsList[0]?.price || 0;
       });
     }
   }
 
-  public addProductToOrder(): void {
-    const productToAdd: productsInterface = { 
-        name: this.product.name,
-        sku: this.product.sku,
-        supplier: this.product.supplier,
-        category: this.product.category,
-        desc: this.product.desc,
-        price: this.product.price,
-    };
-    this.Order.total += productToAdd.price;
-    //HACER LA CANTIDAD * PRECI ODEPSUES VEO
+  setTodayDate(): void {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const year = today.getFullYear();
+    this.Order.created = `${year}-${month}-${day}`;
+  }
+
+  public addProductToOrder(id: number): void {
+    this.isSupplierSelectDisabled = true;
+    const index:any = this.detailList.findIndex((detail:any) => detail.product.id === id);
+    if (index !== -1) {
+        this.detailList[index].quantity += this.orderDetail.quantity;
+    } else {
+    const detail = {product: this.product, price: this.product.price, quantity: this.orderDetail.quantity}
+      this.detailList.push(detail);
+      console.log(this.detailList);
+  }
 }
 
-  public loadProduct(selectedProduct: string): void {
-    const productSelected = this.selectedProductsList.find((obj) => obj.id === parseInt(selectedProduct));
-    this.product.price = productSelected?.price!;
-    this.product.name = productSelected?.name!;
+public calculateTotal(): number{
+  let total = 0;
+  for(let detail of this.detailList){
+    total += detail.product.price * detail.quantity;
+  }
+  return total;
+}
+
+  public loadProduct(id: number): void {
+    this.productService.getProduct(id).subscribe((res) => {
+      this.product = res;
+    })
   }
 }

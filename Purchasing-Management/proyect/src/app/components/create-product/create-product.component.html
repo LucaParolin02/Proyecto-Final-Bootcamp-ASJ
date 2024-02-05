@@ -20,24 +20,29 @@
           <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
             <div class="row pb-2 ">
               <label class="form-label ">Name Product</label>
-              <input type="text" class="form-control" placeholder="Enter product name" name="nameProduct"
+              <input type="text" class="form-control" placeholder="Enter product name" name="name"
                 [(ngModel)]="product.name" required>
+            </div>
+            <div class="row pb-2 ">
+              <label class="form-label ">Sku Product</label>
+              <input type="text" class="form-control" placeholder="Enter product sku" name="sku"
+                [(ngModel)]="product.sku" required>
             </div>
             <div class="row pb-2">
               <label class="form-label">Choose supplier</label>
-              <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier" required>
-                <option *ngFor="let supplier of suppliersList" [ngValue]="supplier">{{ supplier.name }}</option>
+              <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier.id" required>
+                <option *ngFor="let supplier of suppliersList" [value]="supplier.id">{{ supplier.name }}</option>
               </select>
             </div>
             <div class="row pb-2">
               <label class="form-label">Choose category</label>
-              <select name="category" aria-label="Select category" [(ngModel)]="product.category" class="form-select">
-                <option *ngFor="let cat of categoryList" [ngValue]="cat">{{ cat.name }}</option>
+              <select name="category" aria-label="Select category" [(ngModel)]="product.category.id" class="form-select">
+                <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
               </select>
             </div>
             <div class="row pb-2 ">
               <label class="form-label ">Description</label>
-              <textarea class="form-control" placeholder="Enter description" name="description"
+              <textarea class="form-control" placeholder="Enter description" name="desc"
                 [(ngModel)]="product.desc"></textarea>
             </div>
             <div class="row pb-2 ">

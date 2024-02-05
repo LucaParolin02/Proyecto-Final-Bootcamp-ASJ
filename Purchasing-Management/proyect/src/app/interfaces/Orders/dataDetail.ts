@@ -5,6 +5,6 @@ export interface detailInterface{
     id?: number;
     quantity: number;
     price: number;
-    product: productsInterface;
-    order: orderInterface;
+    product: Partial<productsInterface>;
+    order: Partial<orderInterface>;
 }

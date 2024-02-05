@@ -3,11 +3,11 @@ import { statusInterface } from "./dataStatus";
 
 export interface orderInterface {
     id?: number;
-    created: Date;
+    created: Date | string;
     expected: Date;
     info: string;
-    supplier: supplierInterface;
-    status: statusInterface;
+    supplier: Partial<supplierInterface>;
+    status: Partial<statusInterface>;
     total: number;
 }
 
