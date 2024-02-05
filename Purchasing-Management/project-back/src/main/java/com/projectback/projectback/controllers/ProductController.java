@@ -87,6 +87,11 @@ public class ProductController {
 		return ResponseEntity.ok(iProductService.getProductById(id));
 	}
 	
+	@GetMapping("/supplier/{id}")
+	public ResponseEntity<List<ProductModel>> getProductsBySupp(@PathVariable Integer id){
+		return ResponseEntity.ok(iProductService.getProductsBySupplier(id));
+	}
+	
 	@GetMapping("/deleted")
 	public ResponseEntity<List<ProductModel>> getDeletedProducts(){
 		return ResponseEntity.ok(iProductService.getDeletedProducts());

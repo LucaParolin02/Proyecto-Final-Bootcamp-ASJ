@@ -38,6 +38,11 @@ public class ProductService implements IProductService {
 	}
 	
 	@Override
+	public List<ProductModel> getProductsBySupplier(Integer id){
+		return productRepository.findBySupplierId(id);
+	}
+	
+	@Override
 	public ProductModel postProduct(ProductModel product) {
 		validateUniqueFields(product);
 		Integer categoryId = product.getCategory().getId();
@@ -93,7 +98,7 @@ public class ProductService implements IProductService {
             throw new DuplicateEntityException("Product with sku " + product.getSku() + " already exists");
         }
         if (productRepository.existsByName(product.getName())) {
-            throw new DuplicateEntityException("Supplier with name " + product.getName() + " already exists");
+            throw new DuplicateEntityException("Product with name " + product.getName() + " already exists");
         }
 	}
 	
@@ -102,7 +107,7 @@ public class ProductService implements IProductService {
             throw new DuplicateEntityException("Product with sku " + product.getSku() + " already exists");
         }
         if (productRepository.existsByNameAndIdNot(product.getName(),id)) {
-            throw new DuplicateEntityException("Supplier with name " + product.getName() + " already exists");
+            throw new DuplicateEntityException("Product with name " + product.getName() + " already exists");
         }
 	}
 }

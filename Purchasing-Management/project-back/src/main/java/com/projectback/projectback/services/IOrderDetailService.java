@@ -8,5 +8,5 @@ public interface IOrderDetailService {
 	
 	List<OrderDetailModel> getOrderDetailsByOrder(Integer id);
 	OrderDetailModel addOrderDetail(OrderDetailModel orderDetail); 
-
+	public List<OrderDetailModel> addOrderDetails(List<OrderDetailModel> orderDetail);
 }

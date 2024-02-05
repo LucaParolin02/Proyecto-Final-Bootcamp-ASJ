@@ -14,6 +14,7 @@ public interface ProductRepository extends JpaRepository<ProductModel, Integer> 
 	List<ProductModel> findActiveProductsByCategory(CategoryModel category);
 	List<ProductModel> findByDeletedFalse();
 	List<ProductModel> findByDeletedTrue();
+	List<ProductModel> findBySupplierId(Integer id);
 	boolean existsBySku(String sku);
     boolean existsByName(String name);
     boolean existsByNameAndIdNot(String name,Integer id);

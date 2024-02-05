@@ -16,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -35,7 +34,6 @@ public class OrderModel {
     private Date created;
     @Column(name = "order_expected")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Future(message = "The date must be in the future")
     @NotNull(message = "The expected date cannot be null")
     private Date expected;
 	@Column(name = "order_info", length = 300)

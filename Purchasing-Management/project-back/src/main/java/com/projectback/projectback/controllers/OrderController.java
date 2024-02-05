@@ -110,4 +110,14 @@ public class OrderController {
 		}
 		return new ResponseEntity<Object>(iOrderDetailService.addOrderDetail(orderDetail), HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/details/add/list")
+	public ResponseEntity<Object> addDetails(@Valid @RequestBody List<OrderDetailModel> orderDetails, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = new ErrorsInputs().validacionInputs(bindingResult);
+    		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Object>(iOrderDetailService.addOrderDetails(orderDetails), HttpStatus.CREATED);
+	}
+	
 }

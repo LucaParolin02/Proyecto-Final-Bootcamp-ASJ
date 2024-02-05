@@ -2,6 +2,7 @@ package com.projectback.projectback.services.implementations;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,7 @@ public class OrderDetailService implements IOrderDetailService{
 	public List<OrderDetailModel> getOrderDetailsByOrder(Integer orderId){
 		return orderDetailRepository.findByOrderId(orderId);
 	}
-	
-	
+		
 	@Override
 	public OrderDetailModel addOrderDetail(OrderDetailModel orderDetail) {
 		Integer orderId = orderDetail.getOrder().getId();
@@ -38,4 +38,13 @@ public class OrderDetailService implements IOrderDetailService{
 		return orderDetailRepository.save(orderDetail);
 	}
 	
+	@Override
+	public List<OrderDetailModel> addOrderDetails(List<OrderDetailModel> orderDetails) {
+		List<OrderDetailModel> createdOrderDetails = new ArrayList<>();
+		for (OrderDetailModel details : orderDetails) {
+			OrderDetailModel createdOrderDetail =  addOrderDetail(details);
+			createdOrderDetails.add(createdOrderDetail);
+		}
+		return createdOrderDetails;
+	}
 }
