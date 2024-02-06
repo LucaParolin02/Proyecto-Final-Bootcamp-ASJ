@@ -8,6 +8,8 @@ import { CreateSupplierComponent } from './components/create-supplier/create-sup
 import { CreateProductComponent } from './components/create-product/create-product.component';
 import { CreatePurchaseOrderComponent } from './components/create-purchase-order/create-purchase-order.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { SuppDetailsComponent } from './components/suppliers/supplier-details/supp-details/supp-details.component';
+import { ProductDetailComponent } from './components/products/products-details/product-detail/product-detail.component';
 
 const routes: Routes = [
   {path:'',component:MainMenuComponent},
@@ -16,13 +18,15 @@ const routes: Routes = [
     children:[
     {path:"", component: SuppliersComponent},
     {path:'form', component: CreateSupplierComponent},
-    {path:':id', component: CreateSupplierComponent}
+    {path:':id', component: CreateSupplierComponent},
+    {path: 'details/:id',component: SuppDetailsComponent}
   ]},
   {path:'products',
     children:[
       {path:"", component: ProductsComponent},
       {path:'form',component:CreateProductComponent},
-      {path:':id',component:CreateProductComponent}
+      {path:':id',component:CreateProductComponent},
+      {path:'details/:id',component: ProductDetailComponent}
     ]
   },
   {path:'orders',

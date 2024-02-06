@@ -48,4 +48,8 @@ export class SuppliersComponent implements OnInit {
   public handleImageError(event: any) {
     event.target.src = this.defaultImageURL;
   }
+
+  public detailsSupp(id: number): void {
+    this.router.navigate(['/suppliers/details' + '/' + id]);
+  }
 }

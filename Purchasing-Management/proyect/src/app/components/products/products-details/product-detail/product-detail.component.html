@@ -1,1 +1,53 @@
-<p>product-detail works!</p>
+<section class="pb-3 rounded">
+    <div class="container-fluid align-content-center bg-light text-center p-4 row">
+        <div class="col-2">
+            <a [routerLink]="['/products']" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+</section>
+<div class="container pt-5">
+    <div class="row">
+        <div class="col">
+            <div class="container bg-light rounded py-3">
+                <div class="row py-3">
+                    <div class="col d-flex justify-content-center"><img src="{{principalImg}}" alt=""
+                            id="principal-img"></div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-center"><img src="{{image.url}}" alt="" id="secondary-img"
+                            class="mx-2" *ngFor="let image of images" (click)="changeImage(image.url)"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container bg-light rounded py-3">
+                <div class="row">
+                    <div class="col text-center">
+                        <h2>{{ currentProduct.name }}</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-start">
+                        <p><strong>Category: </strong>{{ currentProduct.category.name }}</p>
+                    </div>
+                </div>
+                <div class="row mb-5 pb-5">
+                    <div class="col text-start">
+                        <p>{{ currentProduct.desc }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <p>Price</p>
+                    </div>
+                    <div class="col">
+                        <hr>
+                    </div>
+                    <div class="col-3 text-end">
+                        <p>{{ currentProduct.price | currency:"USD" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

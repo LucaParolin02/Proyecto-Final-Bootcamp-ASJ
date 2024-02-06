@@ -1,0 +1,10 @@
+#principal-img {
+    width: 20rem;
+}
+
+#secondary-img{
+    height: 3rem;
+    width: 3rem;
+    object-fit: cover;
+    cursor: pointer;
+}

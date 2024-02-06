@@ -58,4 +58,8 @@ export class ProductsComponent implements OnInit {
   public sortProducts() {
     this.productsList.sort((a, b) => a.name.localeCompare(b.name));
   }
+
+  public detailsProd(id: number): void {
+    this.router.navigate(['/products/details' + '/' + id]);
+  }
 }
