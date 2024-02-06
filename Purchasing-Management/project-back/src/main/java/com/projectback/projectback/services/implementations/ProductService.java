@@ -34,12 +34,12 @@ public class ProductService implements IProductService {
 	
 	@Override
 	public List<ProductModel> getDeletedProducts(){
-		return productRepository.findByDeletedFalse();
+		return productRepository.findByDeletedTrue();
 	}
 	
 	@Override
 	public List<ProductModel> getProductsBySupplier(Integer id){
-		return productRepository.findBySupplierId(id);
+		return productRepository.findBySupplierIdAndDeletedFalse(id);
 	}
 	
 	@Override
