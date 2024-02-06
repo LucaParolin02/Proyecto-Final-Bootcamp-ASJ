@@ -27,19 +27,22 @@ public class ContactModel {
 	private Integer id;
 	@NotNull(message = "First name is required")
 	@NotBlank(message = "First name must be complete")
-	@Column(name = "first_name", nullable = false, length = 40)
-	@Size(max = 40, message = "First name must be less than {max} characters")
+	@Column(name = "first_name", nullable = false, length = 30)
+	@Size(min = 4, message = "First name must contain at least {min} characters")
+	@Size(max = 30, message = "First name must be less than {max} characters")
 	private String name;
 	@NotNull(message = "Last name is required")
     @NotBlank(message = "Last name must be complete")
-	@Size(max = 40, message = "Last name must be less than {max} characters")
-    @Column(name = "last_name", nullable = false, length = 40)
+	@Size(min = 4, message = "Last name must contain at least {min} characters")
+	@Size(max = 30, message = "Last name must be less than {max} characters")
+    @Column(name = "last_name", nullable = false, length = 30)
 	private String lastName;
 	@NotNull(message = "Phone number is required")
     @NotBlank(message = "Phone number must be complete")
     @Column(name = "phone_number", nullable = false,length = 40)
 	@Pattern(regexp = "\\d+", message = "Phone must contain only numbers")
-	@Size(max = 40, message = "Phone must be less than {max} digits")
+	@Size(max = 15 , message = "The phone cannot be more than {max} digits")
+	@Size(min = 6, message = "The phone must contain at least {min} characters")
 	private String phone;
 	@NotNull(message = "Email is required")
     @NotBlank(message = "Email must be complete")

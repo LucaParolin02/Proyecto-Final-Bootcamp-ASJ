@@ -30,7 +30,7 @@ public class SupplierModel {
 	private Integer id;
 	@Column(name="supp_code", unique = true)
 	@Size(min = 4,message = "Code must contain at least 4 characters ")
-	@Size(max = 20,message = "Code must contain at least 4 characters ")
+	@Size(max = 20,message = "Code cannot be more than 20 characters ")
 	@NotBlank(message = "Code cannot be blank")
 	@NotNull(message = "Code cannot be null")
 	private String code;
@@ -48,8 +48,8 @@ public class SupplierModel {
 	@Pattern(regexp = "^[0-9]{11}$", message = "CUIT must contain exactly 11 digits and only numbers")
 	private String cuit;
 	@Column(name="web", length = 300)
-	@Size(max = 255, message = "The website cannot be more than 300 characters")
-	@Pattern(message = "Website is not valid", regexp = "(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})(\\.[a-zA-Z0-9]{2,})?")
+	@Size(max = 300, message = "The website cannot be more than 300 characters")
+	@Pattern(message = "Website is not valid", regexp = "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,})(\\/[^\\/\\s]*)*$")
 	private String web;
 	@Column(name = "email", unique = true)
 	@NotBlank(message = "Email cannot be blank")
@@ -60,20 +60,24 @@ public class SupplierModel {
 	@Pattern(regexp = "\\d+", message = "Phone must contain only numbers")
 	@NotBlank(message = "Phone cannot be blank")
 	@NotNull (message = "Phone cannot be null")
+	@Size(max = 15 , message = "The phone cannot be more than {max} digits")
+	@Size(min = 6, message = "The phone must contain at least {min} characters")
 	private String phone;
-	@Column(name="street",length = 100)
-	@Size(max = 100, message = "The street cannot be more than 100 characters")
+	@Column(name="street",length = 20)
+	@Size(max = 20, message = "The street cannot be more than 20 characters")
+	@NotBlank(message = "Street cannot be blank")
+	@NotNull (message = "Street cannot be null")
 	private String street;
-	@Column(name="snumber", length = 50)
-	@Size(max = 50, message = "The House Number cannot be more than 50 characters")
+	@Column(name="snumber", length = 12)
+	@Size(max = 12, message = "The House Number cannot be more than 12 characters")
 	private String snumber;
 	@Column(name = "zip",length = 15)
 	@Size(max = 15, message = "The zip  cannot be more than 15 characters")
 	@NotBlank(message = "Zip cannot be blank")
 	@NotNull(message = "Zip cannot be null")
 	private String zip;
-	@Column (name = "city",length = 40)
-	@Size(max = 40, message = "The city name cannot be more than 40 characters")
+	@Column (name = "city",length = 30)
+	@Size(max = 30, message = "The city name cannot be more than 30 characters")
 	@NotBlank(message = "City cannot be blank")
 	@NotNull(message = "City cannot be null")
 	private String city;
