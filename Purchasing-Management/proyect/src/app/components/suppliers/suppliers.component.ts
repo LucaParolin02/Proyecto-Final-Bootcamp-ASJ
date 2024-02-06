@@ -14,6 +14,7 @@ export class SuppliersComponent implements OnInit {
   supplierList: supplierInterface[] = [];
   selectedSupplier: supplierInterface | null = null;
   countriesList: any = [];
+  tooltipText = 'Active';
 
   constructor(private service: SupplierServiceService, private router: Router) { }
 
