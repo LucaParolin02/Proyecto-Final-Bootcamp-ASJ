@@ -13,4 +13,5 @@ public interface ImageRepository extends JpaRepository<ImageModel, Integer>{
 
 	List<ImageModel> findByProduct_IdAndDeletedFalse(Integer productId);
 	Optional<ImageModel> findByUrlAndDeletedFalse(String url);
+	List<ImageModel> findByDeletedFalse();
 }

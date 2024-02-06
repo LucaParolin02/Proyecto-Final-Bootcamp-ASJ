@@ -133,6 +133,11 @@ public class ProductController {
 		return ResponseEntity.ok(iImageService.getImagesByProduct(id));
 	}
 	
+	@GetMapping("/images")
+	public ResponseEntity<List<ImageModel>> getAllImages(){
+		return ResponseEntity.ok(iImageService.getImages());
+	}
+	
 	@PostMapping("/image/add")
 	public ResponseEntity<Object> addImage(@Valid @RequestBody ImageModel image, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
@@ -163,4 +168,6 @@ public class ProductController {
 		}
 		return new ResponseEntity<Object>(iImageService.editImage(id, image), HttpStatus.OK);
 	}
+	
+	
 }

@@ -1,10 +1,7 @@
 package com.projectback.projectback.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,13 +26,11 @@ public class OrderModel {
 	@Column(name = "order_id")
 	private Integer id;
     @Column(name = "order_created")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @NotNull(message = "The created date cannot be null")
-    private Date created;
+    private LocalDate created;
     @Column(name = "order_expected")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @NotNull(message = "The expected date cannot be null")
-    private Date expected;
+    private LocalDate expected;
 	@Column(name = "order_info", length = 300)
 	@Size(max = 300, message = "The info order cannot be more than 300 characters")
 	private String info;
@@ -61,7 +56,7 @@ public class OrderModel {
 	public OrderModel() {
 	}
 	
-	public OrderModel(Integer id, Date created, Date expected, String info, double total, Timestamp createdAt,
+	public OrderModel(Integer id, LocalDate created, LocalDate expected, String info, double total, Timestamp createdAt,
 			Timestamp updated, boolean deleted, SupplierModel supplier,
 			StatusModel status) {
 		this.id = id;
@@ -80,19 +75,19 @@ public class OrderModel {
 		return id;
 	}
 
-	public Date getCreated() {
+	public LocalDate getCreated() {
 		return created;
 	}
 
-	public void setCreated(Date created) {
+	public void setCreated(LocalDate created) {
 		this.created = created;
 	}
 
-	public Date getExpected() {
+	public LocalDate getExpected() {
 		return expected;
 	}
 
-	public void setExpected(Date expected) {
+	public void setExpected(LocalDate expected) {
 		this.expected = expected;
 	}
 

@@ -30,6 +30,11 @@ public class ImageService implements IImageService{
 	}
 	
 	@Override
+	public List<ImageModel> getImages(){
+		return imageRepository.findByDeletedFalse();
+	}
+	
+	@Override
 	public ImageModel getImageById(Integer id) {
 		Optional<ImageModel> image = imageRepository.findById(id);
 		if (image.isPresent()) {
