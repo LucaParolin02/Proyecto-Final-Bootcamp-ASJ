@@ -54,6 +54,7 @@ export class ProductDetailComponent implements OnInit {
 
   principalImg!: string;
   images: imagesInterface[] = [];
+  defaultImage = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
   constructor(private productService: ProductServiceService,private activatedRoute: ActivatedRoute, private router: Router) {}
 
@@ -66,7 +67,11 @@ export class ProductDetailComponent implements OnInit {
       this.images = res;
       if (this.images.length > 0) {
         this.principalImg = this.images[0].url;
+      }else {
+        this.principalImg = this.defaultImage; 
       }
+    }, (error) => {
+      this.principalImg = this.defaultImage; 
     });
   }
 
