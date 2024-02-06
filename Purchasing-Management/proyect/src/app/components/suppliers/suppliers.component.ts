@@ -14,7 +14,7 @@ export class SuppliersComponent implements OnInit {
   supplierList: supplierInterface[] = [];
   selectedSupplier: supplierInterface | null = null;
   countriesList: any = [];
-  tooltipText = 'Active';
+  defaultImageURL: string = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
   constructor(private service: SupplierServiceService, private router: Router) { }
 
@@ -43,5 +43,9 @@ export class SuppliersComponent implements OnInit {
     if (isConfirmed) {
       this.router.navigate(['/suppliers' + '/' + code]);
     }
+  }
+
+  public handleImageError(event: any) {
+    event.target.src = this.defaultImageURL;
   }
 }

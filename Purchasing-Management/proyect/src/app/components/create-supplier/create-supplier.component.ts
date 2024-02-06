@@ -134,6 +134,7 @@ export class CreateSupplierComponent implements OnInit {
 
   private buildSupplier(form: NgForm): supplierInterface {
     return {
+        logo: form.value.logo,
         code: form.value.code, 
         name: form.value.name,
         cuit: form.value.cuit,

@@ -17,6 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { CuitPipePipe } from './pipes/cuit-pipe.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
+import { ProductDetailComponent } from './components/products/products-details/product-detail/product-detail.component';
+import { SuppDetailsComponent } from './components/suppliers/supplier-details/supp-details/supp-details.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
     CreatePurchaseOrderComponent,
     CuitPipePipe,
     OrderDetailsComponent,
+    ProductDetailComponent,
+    SuppDetailsComponent,
   ],
   imports: [
     BrowserModule,

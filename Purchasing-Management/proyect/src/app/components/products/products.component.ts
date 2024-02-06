@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
 
   public getImage(id:number): string{
   const productImage = this.arrayImages.find(image => image.product.id === id);
-  return productImage ? productImage.url : '';
+  return productImage ? productImage.url : 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
   }
 
   public sortProducts() {

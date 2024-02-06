@@ -23,7 +23,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let supplier of supplierList">
-                    <td>{{supplier.logo}}</td>
+                    <td> <img src="{{supplier.logo}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
+                    </td>
                     <td>{{supplier.code}}</td>
                     <td>{{supplier.name}}</td>
                     <td><div>{{supplier.province.country?.name}}</div>
