@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from '../../services/product-service.service';
 import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { Router } from '@angular/router';
+import { imagesInterface } from '../../interfaces/Products/dataImages';
 
 @Component({
   selector: 'app-products',
@@ -11,18 +12,26 @@ import { Router } from '@angular/router';
 export class ProductsComponent implements OnInit {
 
   productsList: productsInterface[] = [];
+  arrayImages: imagesInterface[] = [];
 
   constructor(private productService: ProductServiceService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadList();
     this.sortProducts();
+    this.loadImages();
   }
 
   private loadList() {
     this.productService.getProducts().subscribe((products) => {
       this.productsList = products;
     });
+  }
+
+  private loadImages(){
+    this.productService.getAllImages().subscribe((image) => {
+      this.arrayImages = image;
+    })
   }
 
   public deleteProduct(id: number) {
@@ -39,6 +48,11 @@ export class ProductsComponent implements OnInit {
     if (isConfirmed) {
       this.router.navigate(['/products', id]);
     }
+  }
+
+  public getImage(id:number): string{
+  const productImage = this.arrayImages.find(image => image.product.id === id);
+  return productImage ? productImage.url : '';
   }
 
   public sortProducts() {

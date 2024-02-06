@@ -49,4 +49,8 @@ export class PurchaseOrderServiceService {
     return this.http.post(`${this.URL_ORDERS}/details/add/list`, details)
   }
 
+  public getStatus(): Observable<any>{
+    return this.http.get(`${this.URL_ORDERS}/status`)
+  }
+
 }

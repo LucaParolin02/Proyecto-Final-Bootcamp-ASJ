@@ -43,4 +43,8 @@ export class ProductServiceService {
   public getImagesByProd(id: number): Observable<any>{
     return this.http.get(`${this.URL_PRODUCTS}/images/${id}`);
   }
+
+  public getAllImages(): Observable<any>{
+    return this.http.get(`${this.URL_PRODUCTS}/images`);
+  }
 }

@@ -68,7 +68,7 @@
                             <div class="col">
                                 <label class="form-label">Order Date</label>
                                 <input type="text" class="form-control gray-background" contentEditable="false"
-                                    name="created" [ngModel]="Order.created">
+                                    name="created" [ngModel]="Order.created" [readonly]="editMode">
                             </div>
                             <div class="col">
                                 <label class="form-label">Expected Date</label>
@@ -98,6 +98,16 @@
                                 </ul>
                                 <hr>
                                 <p>Total Price: {{ calculateTotal() | currency:'USD':'symbol':'1.2-2'}}</p>
+                            </div>
+                        </div>
+                        <div *ngIf="editMode">
+                            <div class="row pb-2">
+                                <label class="form-label">Choose status</label>
+                                <select class="form-select" name="status" aria-label="Select status"
+                                    [(ngModel)]="Order.status.id" 
+                                    #statusSelect="ngModel" >
+                                    <option *ngFor="let status of statusList" [value]="status.id">{{ status.name }}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="container-fluid p-2 ">

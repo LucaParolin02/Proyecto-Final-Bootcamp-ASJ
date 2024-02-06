@@ -23,7 +23,9 @@
             </thead>
             <tbody>
                 <tr *ngFor="let product of productsList">
-                    <td>A</td>
+                    <td>
+                        <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;">
+                    </td>
                     <td> <div>{{product.sku}}</div>
                          <div>{{product.name}}</div> </td>
                     <td>{{product.category.name}}</td>
@@ -32,7 +34,7 @@
                     <td>
                         <button class="btn btn-danger mx-2" (click)="deleteProduct(product.id!)">Delete</button>
                         <button class="btn btn-warning mx-2" (click)="editProduct(product.id!)">Edit</button>
-                        <button class="btn btn-info " (click)="editProduct(product.id!)">View</button>
+                        <button class="btn btn-info mx-2 " (click)="editProduct(product.id!)">View</button>
                     </td>
                 </tr>
             </tbody>

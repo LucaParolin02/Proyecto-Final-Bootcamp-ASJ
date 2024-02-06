@@ -18,7 +18,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
 
   Order: orderInterface = {
     created: '',
-    expected: new Date(),
+    expected: new Date() ,
     status: {
     },
     info: '',
@@ -99,6 +99,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
   supplierList: supplierInterface[] = [];
   detailList: any = [];
   selectedProductsList: productsInterface[] = [];
+  statusList: any = [];
   isSupplierSelectDisabled = false;
   selectedSupplierId:string = "-1";
 
@@ -115,6 +116,10 @@ export class CreatePurchaseOrderComponent implements OnInit {
       this.supplierList = resp;
     });
 
+    this.orderService.getStatus().subscribe((status) => {
+      this.statusList = status;
+    });
+
     this.route.params.subscribe(params => {
       const codeParam = params['id'];
       if (codeParam) {
@@ -122,6 +127,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
         this.editOrderCode = +codeParam;
         this.isSupplierSelectDisabled = true;
         this.loadOrderData();
+        
       }
     });
   }
@@ -142,13 +148,15 @@ export class CreatePurchaseOrderComponent implements OnInit {
   submitForm(form: NgForm): void {
     if (this.editMode) {
       const editOrder: orderInterface = this.editingOrder(form);
+      editOrder.id = this.editOrderCode || 0;
+      console.log(editOrder);
       if (editOrder.id){
         this.orderService.updateOrder(editOrder.id , editOrder).subscribe(() => {
           this.router.navigate(['/orders']);
         });
       }
     } else {    
-      const newOrder = {created: form.value.created , expected: form.value.expected ,total: this.calculateTotal(), info: form.value.info, supplier: {id: parseInt(this.selectedSupplierId)}, status: {id: 3 } };
+      const newOrder = {created: this.convertirFecha(form.value.created) , expected: form.value.expected ,total: this.calculateTotal(), info: form.value.info, supplier: {id: parseInt(this.selectedSupplierId)}, status: {id: 3 } };
       console.log(newOrder);
       this.orderService.addOrder(newOrder).subscribe((res) => {
         for(let detail of this.detailList){
@@ -164,12 +172,12 @@ export class CreatePurchaseOrderComponent implements OnInit {
 
   private editingOrder(form: NgForm): orderInterface {
     return {
-      created: form.value.date,
+      created: this.Order.created,
       expected: form.value.expected,
-      status: form.value.status,
+      status: {id: parseInt(form.value.status)},
       info: form.value.info,
-      supplier: form.value.supplier,
-      total: form.value.totalPrice
+      supplier: this.Order.supplier,
+      total: this.Order.total
     };
   }
 
@@ -186,7 +194,16 @@ export class CreatePurchaseOrderComponent implements OnInit {
     const year = today.getFullYear(); 
     const month = ('0' + (today.getMonth() + 1)).slice(-2); 
     const day = ('0' + today.getDate()).slice(-2); 
-    this.Order.created = `${year}-${month}-${day}`;
+    this.Order.created = `${day}/${month}/${year}`;
+  }
+
+    convertirFecha(fecha: string) {
+    const partes = fecha.split('/');
+    const day = partes[0];
+    const month = partes[1];
+    const year = partes[2];
+    const nuevaFecha = `${year}-${month}-${day}`;
+    return nuevaFecha;
   }
   
 
