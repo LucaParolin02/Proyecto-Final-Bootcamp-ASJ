@@ -120,6 +120,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
       if (codeParam) {
         this.editMode = true;
         this.editOrderCode = +codeParam;
+        this.isSupplierSelectDisabled = true;
         this.loadOrderData();
       }
     });
@@ -130,6 +131,9 @@ export class CreatePurchaseOrderComponent implements OnInit {
       this.orderService.getOrder(this.editOrderCode).subscribe((currentOrder) => {
         if (currentOrder) {
           this.Order = { ...currentOrder };
+          if (currentOrder.supplier?.id !== undefined) {
+            this.selectedSupplierId = currentOrder.supplier.id.toString();
+          }
         }
       });
     }
@@ -178,12 +182,13 @@ export class CreatePurchaseOrderComponent implements OnInit {
   }
 
   setTodayDate(): void {
-    const today = new Date();
-    const day = today.getDate().toString().padStart(2, '0');
-    const month = (today.getMonth() + 1).toString().padStart(2, '0');
-    const year = today.getFullYear();
+    const today = new Date(); 
+    const year = today.getFullYear(); 
+    const month = ('0' + (today.getMonth() + 1)).slice(-2); 
+    const day = ('0' + today.getDate()).slice(-2); 
     this.Order.created = `${year}-${month}-${day}`;
   }
+  
 
   public addProductToOrder(id: number): void {
     this.isSupplierSelectDisabled = true;

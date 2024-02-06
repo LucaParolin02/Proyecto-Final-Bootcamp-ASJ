@@ -9,7 +9,6 @@ import { detailInterface } from '../interfaces/Orders/dataDetail';
 })
 export class PurchaseOrderServiceService {
 
-  private orders: orderInterface[] = [];
   private URL_ORDERS = 'http://localhost:8080/orders';
 
   constructor(private http: HttpClient) { }

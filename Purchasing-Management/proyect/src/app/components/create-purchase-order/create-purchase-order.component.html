@@ -1,6 +1,6 @@
 <div class="card mb-5">
     <div class="row g-0 ">
-        <div class="col-6 border">
+        <div *ngIf="!editMode" class="col-6 border">
             <div class="card-body">
                 <h1>Add Product</h1>
                 <hr>
@@ -8,22 +8,28 @@
                     <form #myProduct="ngForm" (ngSubmit)="addProductToOrder(product.id!)">
                         <div class="row pb-2">
                             <label class="form-label">Choose product</label>
-                            <select class="form-select" name="product" aria-label="Select Product" [(ngModel)]="product.id" (change)="loadProduct(productSelected.value)" #productSelected="ngModel">
-                                <option [value]="product.id" *ngFor="let product of selectedProductsList">{{ product.name }}</option>
+                            <select class="form-select" name="product" aria-label="Select Product"
+                                [(ngModel)]="product.id" (change)="loadProduct(productSelected.value)"
+                                #productSelected="ngModel">
+                                <option [value]="product.id" *ngFor="let product of selectedProductsList">{{
+                                    product.name }}</option>
                             </select>
                         </div>
                         <div class="row pb-2 ">
                             <div class="col">
                                 <label class="form-label">Price</label>
-                                <div class="form-control gray-background">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</div>
+                                <div class="form-control gray-background">{{ product.price |
+                                    currency:'USD':'symbol':'1.2-2' }}</div>
                             </div>
                             <div class="col">
                                 <label class="form-label">Amount</label>
-                                <input type="number" class="form-control" name="quantity" [(ngModel)]="orderDetail.quantity">
+                                <input type="number" class="form-control" name="quantity"
+                                    [(ngModel)]="orderDetail.quantity">
                             </div>
                         </div>
                         <div class="container-fluid p-2 ">
-                            <button type="submit" class="btn btn-success"  [disabled]="myProduct.invalid">Load Product</button>
+                            <button type="submit" class="btn btn-success" [disabled]="myProduct.invalid">Load
+                                Product</button>
                         </div>
                     </form>
                 </div>
@@ -33,11 +39,13 @@
         <div class="col-6">
             <div class="card-body">
                 <div class="row ">
-                    <div class="col"><h1>New Purchase Order</h1></div>
+                    <div class="col">
+                        <h1>{{ editMode ? 'Edit Order' : 'New Purchase Order' }}</h1>
+                    </div>
                     <div class="col text-center ">
                         <div class="col d-flex justify-content-center ">
                             <div class="row">
-                                <a routerLink="../" class="btn btn-dark btn-light  justify-content-end ">Come Back</a>
+                                <a routerLink="../" class="btn btn-dark btn-light  justify-content-end ">Go Back</a>
                             </div>
                         </div>
                     </div>
@@ -49,23 +57,29 @@
                     <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
                         <div class="row pb-2">
                             <label class="form-label">Choose supplier</label>
-                            <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="selectedSupplierId" (ngModelChange)="selectSupplier($event)" #supplierSelect="ngModel" [disabled]="isSupplierSelectDisabled">
-                                <option *ngFor="let supplier of supplierList" [value]="supplier.id">{{ supplier.name }}</option>
+                            <select class="form-select" name="supplier" aria-label="Select supplier"
+                                [(ngModel)]="selectedSupplierId" (ngModelChange)="selectSupplier($event)"
+                                #supplierSelect="ngModel" [disabled]="isSupplierSelectDisabled">
+                                <option *ngFor="let supplier of supplierList" [value]="supplier.id">{{ supplier.name }}
+                                </option>
                             </select>
                         </div>
                         <div class="row pb-2 ">
                             <div class="col">
                                 <label class="form-label">Order Date</label>
-                                <input type="text" class="form-control gray-background" contentEditable="false" name="created" [ngModel]="Order.created">
+                                <input type="text" class="form-control gray-background" contentEditable="false"
+                                    name="created" [ngModel]="Order.created">
                             </div>
                             <div class="col">
                                 <label class="form-label">Expected Date</label>
-                                <input type="date" class="form-control" name="expected" [(ngModel)]="Order.expected" required>
+                                <input type="date" class="form-control" name="expected" [(ngModel)]="Order.expected"
+                                    required>
                             </div>
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Order Info</label>
-                            <textarea class="form-control" name="info" [(ngModel)]="Order.info" rows="3" required></textarea>
+                            <textarea class="form-control" name="info" [(ngModel)]="Order.info" rows="3"
+                                required></textarea>
                         </div>
                         <div class="row pb-2">
                             <hr>
@@ -75,8 +89,10 @@
                                 <h3>Selected Products</h3>
                                 <ul>
                                     <li *ngFor="let detail of detailList">
-                                        {{ detail.product.name }} - {{ detail.product.price | currency:'USD':'symbol':'1.2-2' }}
-                                        - {{'subtotal: ' + ((detail.product.price * detail.quantity) | currency:'USD':'symbol':'1.2-2')}}
+                                        {{ detail.product.name }} - {{ detail.product.price |
+                                        currency:'USD':'symbol':'1.2-2' }}
+                                        - {{'subtotal: ' + ((detail.product.price * detail.quantity) |
+                                        currency:'USD':'symbol':'1.2-2')}}
                                         - {{'('+detail.quantity+')'}}
                                     </li>
                                 </ul>
@@ -85,7 +101,8 @@
                             </div>
                         </div>
                         <div class="container-fluid p-2 ">
-                            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Add Order</button>
+                            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">{{ editMode ? 'Save changes' : 'Add Order'
+                            }}</button>
                         </div>
                     </form>
                 </div>
