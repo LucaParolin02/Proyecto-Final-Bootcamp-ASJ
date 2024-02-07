@@ -19,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { ProductDetailComponent } from './components/products/products-details/product-detail/product-detail.component';
 import { SuppDetailsComponent } from './components/suppliers/supplier-details/supp-details/supp-details.component';
+import { SearchPipe } from './pipes/search-supp.pipe';
+import { CategoryFilterPipe } from './pipes/category-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { SuppDetailsComponent } from './components/suppliers/supplier-details/su
     OrderDetailsComponent,
     ProductDetailComponent,
     SuppDetailsComponent,
+    SearchPipe,
+    CategoryFilterPipe,
   ],
   imports: [
     BrowserModule,

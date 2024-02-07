@@ -3,6 +3,8 @@ import { ProductServiceService } from '../../services/product-service.service';
 import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { Router } from '@angular/router';
 import { imagesInterface } from '../../interfaces/Products/dataImages';
+import { categoryInterface } from '../../interfaces/Products/dataCategories';
+
 
 @Component({
   selector: 'app-products',
@@ -13,11 +15,17 @@ export class ProductsComponent implements OnInit {
 
   productsList: productsInterface[] = [];
   arrayImages: imagesInterface[] = [];
+  productsListDeleted: productsInterface[] = [];
+  deleteMode = false;
+  categoryFilter: string = 'All';
+  categoryList: categoryInterface[] = [];
+  searchTerm: string  = '';
 
   constructor(private productService: ProductServiceService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadList();
+    this.loadListDeleted();
     this.sortProducts();
     this.loadImages();
   }
@@ -26,6 +34,12 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts().subscribe((products) => {
       this.productsList = products;
     });
+  }
+
+  private loadListDeleted(){
+    this.productService.getDeletedProducts().subscribe((productsDeleted) => {
+      this.productsListDeleted = productsDeleted;
+    })
   }
 
   private loadImages(){
@@ -39,6 +53,7 @@ export class ProductsComponent implements OnInit {
     if (isConfirmed) {
       this.productService.deleteProduct(id).subscribe(() => {
         this.loadList();
+        this.loadListDeleted();
       });
     }
   }
@@ -62,4 +77,22 @@ export class ProductsComponent implements OnInit {
   public detailsProd(id: number): void {
     this.router.navigate(['/products/details' + '/' + id]);
   }
+
+  public changeMode(){
+    this.deleteMode = !this.deleteMode;
+  }
+
+  public updateCategoryFilter(category: string) {
+    this.categoryFilter = category;
+  }
+
+  public filterByCategory(product: productsInterface): boolean {
+    if (this.categoryFilter !== 'All') {
+      return true;
+    } else {
+      return product.category.name === this.categoryFilter;
+    }
+  }
+
+
 }

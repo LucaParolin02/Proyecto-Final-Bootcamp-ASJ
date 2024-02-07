@@ -8,7 +8,88 @@
         </div>
     </div>
 </section>
-<section *ngIf="productsList.length > 0" class="pb-3 rounded">
+
+<section class="pb-3 rounded pri">
+    <div class="container-fluid">
+        <div class="row clrs rounded m-1">
+            <div class="col">
+                <div class="mt-4">
+                    <p>aaa/bbb/c</p>
+                </div>
+            </div>
+            <div class="col">
+                <label class="form-label" for="form1">Search</label>
+                <input type="search" class="form-control" [(ngModel)]="searchTerm" >
+            </div>
+            <div class="col d-flex justify-content-end ">
+                <div class="dropdown mt-4" *ngIf="!deleteMode">
+                    <button
+                      class="btn btn-outline-dark  dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                    >
+                      {{ categoryFilter }}
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          class="dropdown-item cursor"
+                          (click)="updateCategoryFilter('All')"
+                        >
+                          <strong>All</strong>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          *ngFor="let category of productsList"
+                          class="dropdown-item cursor"
+                          (click)="updateCategoryFilter(category.category.name!)"
+                        >
+                          {{ category.category.name }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="dropdown mt-4" *ngIf="deleteMode">
+                    <button
+                      class="btn btn-outline-dark  dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                    >
+                      {{ categoryFilter }}
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          class="dropdown-item cursor"
+                          (click)="updateCategoryFilter('All')"
+                        >
+                          <strong>All</strong>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          *ngFor="let category of productsListDeleted"
+                          class="dropdown-item cursor"
+                          (click)="updateCategoryFilter(category.category.name!)"
+                        >
+                          {{ category.category.name }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+            
+            <div class="col d-flex justify-content-end">
+                <div class="mt-4">
+                    <button type="button" class="btn btn-dark" (click)="changeMode()">{{ !deleteMode ? 'Show deleted' : 'Hide deleted' }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="productsList.length > 0 && !deleteMode" class="pb-3 rounded">
     <div class="container-fluid">
         <table class="table table-bordered">
             <thead>
@@ -22,7 +103,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let product of productsList">
+                <tr *ngFor="let product of productsList | categoryFilter: categoryFilter | search: searchTerm ">
                     <td>
                         <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;">
                     </td>
@@ -41,7 +122,47 @@
         </table>
     </div>
 </section>
-<section *ngIf="productsList.length == 0" class="pb-3 rounded">
+
+<section *ngIf="productsListDeleted.length > 0 && deleteMode" class="pb-3 rounded">
+    <div class="container-fluid">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-dark text-light ">Image</th>
+                    <th scope="col" class="bg-dark text-light ">SKU / Product name</th>
+                    <th scope="col" class="bg-dark text-light ">Category</th>
+                    <th scope="col" class="bg-dark text-light ">Price</th>
+                    <th scope="col" class="bg-dark text-light ">Supplier</th>                    
+                    <th scope="col" class="bg-dark text-light ">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of productsListDeleted | categoryFilter: categoryFilter | search: searchTerm">
+                    <td>
+                        <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;">
+                    </td>
+                    <td> <div>{{product.sku}}</div>
+                         <div>{{product.name}}</div> </td>
+                    <td>{{product.category.name}}</td>
+                    <td>{{product.price | currency:'USD'}}</td>
+                    <td>{{product.supplier.name}}</td>             
+                    <td>
+                        <button class="btn btn-success  mx-2" (click)="deleteProduct(product.id!)">Restore</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<section *ngIf="productsListDeleted.length == 0 && deleteMode" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There are no deleted products on the list!</h3>
+     </div>
+</section>
+
+<section *ngIf="productsList.length == 0 && !deleteMode" class="pb-3 rounded">
     <div class="col text-center">
         <h3>There is not products on the list!</h3>
      </div>

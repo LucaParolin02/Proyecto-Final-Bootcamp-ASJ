@@ -8,6 +8,7 @@
         </div>
     </div>
 </section>
+
 <section class="pb-3 rounded pri">
     <div class="container-fluid">
         <div class="row clrs rounded m-1">
@@ -18,7 +19,7 @@
             </div>
             <div class="col">
                 <label class="form-label" for="form1">Search</label>
-                <input type="search" class="form-control" >
+                <input type="search" class="form-control" [(ngModel)]="searchTerm" >
             </div>
             <div class="col d-flex justify-content-end">
                 <div class="mt-4">
@@ -43,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let supplier of supplierList">
+                <tr *ngFor="let supplier of supplierList | search: searchTerm">
                     <td> <img src="{{supplier.logo}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
                     </td>
                     <td>{{supplier.code}}</td>
@@ -89,7 +90,7 @@
                         <div>{{supplier.contact.name}}  {{supplier.contact.lastName}}</div>
                     </td>
                     <td>
-                        <button class="btn btn-success mx-2 " (click)="delete(supplier.id!)">Return</button>
+                        <button class="btn btn-success mx-2 " (click)="restSupp(supplier.id!)">Restore</button>
                     </td>
                 </tr>
             </tbody>
@@ -99,7 +100,7 @@
 
 <section *ngIf="supplierListDelete.length == 0 && deleteMode" class="pb-3 rounded">
     <div class="col text-center">
-        <h3>There are no deleted suppliers</h3>
+        <h3>There are no deleted suppliers on the list!</h3>
      </div>
 </section>
 

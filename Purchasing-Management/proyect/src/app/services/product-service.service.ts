@@ -47,4 +47,8 @@ export class ProductServiceService {
   public getAllImages(): Observable<any>{
     return this.http.get(`${this.URL_PRODUCTS}/images`);
   }
+
+  public getDeletedProducts(): Observable<any>{
+    return this.http.get(`${this.URL_PRODUCTS}/deleted`)
+  }
 }

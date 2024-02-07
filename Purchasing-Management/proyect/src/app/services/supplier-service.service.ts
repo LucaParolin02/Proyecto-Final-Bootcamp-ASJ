@@ -64,6 +64,10 @@ export class SupplierServiceService {
   }
 
   public editContact(id: number, contact: contactInterface): Observable<contactInterface>{
-    return this.http.put<contactInterface>(`${this.URL_SUPPLIERS}/contact/edit/${id}`, contact)
+    return this.http.put<contactInterface>(`${this.URL_SUPPLIERS}/contact/edit/${id}`, contact);
+  }
+
+  public restoreSupplier(id: number): Observable<supplierInterface> {
+    return this.http.put<supplierInterface>(`${this.URL_SUPPLIERS}/restore/${id}`, {});
   }
 }

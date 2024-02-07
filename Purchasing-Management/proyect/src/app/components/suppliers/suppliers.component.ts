@@ -15,6 +15,7 @@ export class SuppliersComponent implements OnInit {
   supplierListDelete: supplierInterface[] = [];
   selectedSupplier: supplierInterface | null = null;
   countriesList: any = [];
+  searchTerm: string  = '';
   deleteMode = false;
   defaultImageURL: string = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
@@ -43,6 +44,7 @@ export class SuppliersComponent implements OnInit {
     if (isConfirmed) {
       this.service.deleteSupplier(id).subscribe(() => {
         this.loadlist();
+        this.loadListDelete();
       })
     }
   }
@@ -64,5 +66,12 @@ export class SuppliersComponent implements OnInit {
 
   public changeMode(){
     this.deleteMode = !this.deleteMode;
+  }
+
+  public restSupp(id: number){
+    this.service.restoreSupplier(id).subscribe((restore) => {
+      this.loadListDelete();
+      this.loadlist();
+    })
   }
 }
