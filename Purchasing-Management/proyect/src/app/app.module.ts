@@ -22,6 +22,7 @@ import { SuppDetailsComponent } from './components/suppliers/supplier-details/su
 import { SearchPipe } from './pipes/search-supp.pipe';
 import { CategoryFilterPipe } from './pipes/category-filter.pipe';
 import { StatusFilterPipe } from './pipes/status-filter.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { StatusFilterPipe } from './pipes/status-filter.pipe';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

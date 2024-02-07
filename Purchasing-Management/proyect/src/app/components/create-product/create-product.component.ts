@@ -6,6 +6,7 @@ import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
 import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { categoryInterface } from '../../interfaces/Products/dataCategories';
+import { AlertsService } from '../../services/alerts.service';
 
 
 @Component({
@@ -66,6 +67,7 @@ export class CreateProductComponent implements OnInit {
     private supplierService: SupplierServiceService,
     private router: Router,
     private route: ActivatedRoute,
+    private alertService: AlertsService
   ) {}
 
   ngOnInit(): void {
@@ -97,6 +99,7 @@ export class CreateProductComponent implements OnInit {
       });
     } else {
       this.productService.addProduct(product).subscribe(() => {
+        this.alertService.showSuccess('Product añadido');
         this.router.navigate(['/products']);
       });
     }
