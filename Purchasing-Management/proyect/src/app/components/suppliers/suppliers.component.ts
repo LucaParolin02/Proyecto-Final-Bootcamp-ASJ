@@ -12,20 +12,29 @@ import { Router } from '@angular/router';
 export class SuppliersComponent implements OnInit {
 
   supplierList: supplierInterface[] = [];
+  supplierListDelete: supplierInterface[] = [];
   selectedSupplier: supplierInterface | null = null;
   countriesList: any = [];
+  deleteMode = false;
   defaultImageURL: string = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
   constructor(private service: SupplierServiceService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadlist();
+    this.loadListDelete();
   }
 
   private loadlist() {
     this.service.getSuppliers().subscribe((res)=>{
       console.log(res);
       this.supplierList = res;
+    })
+  }
+
+  private loadListDelete(){
+    this.service.getDeleteSuppliers().subscribe((res) => {
+      this.supplierListDelete = res;
     })
   }
 
@@ -51,5 +60,9 @@ export class SuppliersComponent implements OnInit {
 
   public detailsSupp(id: number): void {
     this.router.navigate(['/suppliers/details' + '/' + id]);
+  }
+
+  public changeMode(){
+    this.deleteMode = !this.deleteMode;
   }
 }

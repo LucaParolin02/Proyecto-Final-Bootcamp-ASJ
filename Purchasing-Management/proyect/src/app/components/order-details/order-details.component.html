@@ -5,3 +5,85 @@
         </div>
     </div>
 </section>
+<section class="pri">
+    <div class="container py-5 ">
+        <div class="row text-center">
+            <h2 class="pb-4">Purchase order</h2>
+        </div>
+        <div class="row clrs text-center">
+            <div class="col">
+                <h4>Supplier info</h4>
+            </div>
+            <div class="col">
+                <h4>Date</h4>
+            </div>
+            <div class="col">
+                <h4>Order n°: {{currentOrder?.id}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <p>Name: {{currentOrder?.supplier?.name}}</p>
+                        <p>Code: {{currentOrder?.supplier?.code}}</p>
+                        <p>Cuit: {{currentOrder?.supplier?.cuit}}</p>
+                    </div>
+                    <div class="col">
+                        <p>Mail: {{currentOrder?.supplier?.email}}</p>
+                        <p>Phone: {{currentOrder?.supplier?.phone}}</p>
+                        <p>CIty: {{currentOrder?.supplier?.city}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <p>Created at: {{currentOrder?.created}}</p>
+                <p>Expected: {{currentOrder?.expected}}</p>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <div class="row clrs">
+            <div class="col">
+                <h5>Amount</h5>
+            </div>
+            <div class="col">
+                <h5>Product</h5>
+            </div>
+            <div class="col">
+                <h5>Unit cost</h5>
+            </div>
+            <div class="col">
+                <h5>Subtotal</h5>
+            </div>
+        </div>
+        <div class="row border border-1" *ngFor="let detail of arrayDetails">
+            <div class="col">
+                <p>{{detail.quantity}}</p>
+            </div>
+            <div class="col">
+                <p>{{detail.product.name}}</p>
+            </div>
+            <div class="col">
+                <p>{{detail.price}}</p>
+            </div>
+            <div class="col">
+                <p>{{((detail.price! * detail.quantity) |
+                    currency:'USD':'symbol':'1.2-2')}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6"></div>
+            <div class="col clrs border"><h5>Total</h5></div>
+            <div class="col border"><h5>{{currentOrder?.total | currency:'USD':'symbol':'1.2-2'}}</h5></div>
+        </div>
+        <div class="row pt-lg-4 ">
+            <div class="col-md-5 clrs">
+                <h5>Order info</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 border" style="word-wrap: break-word;"><p>{{currentOrder?.info}}</p></div>
+        </div>
+    </div>
+</section>

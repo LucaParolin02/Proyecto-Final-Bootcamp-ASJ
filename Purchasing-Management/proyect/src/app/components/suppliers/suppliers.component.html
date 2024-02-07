@@ -8,7 +8,28 @@
         </div>
     </div>
 </section>
-<section *ngIf="supplierList.length > 0" class="pb-3 rounded">
+<section class="pb-3 rounded pri">
+    <div class="container-fluid">
+        <div class="row clrs rounded m-1">
+            <div class="col">
+                <div class="mt-4">
+                    <p>aaa/bbb/c</p>
+                </div>
+            </div>
+            <div class="col">
+                <label class="form-label" for="form1">Search</label>
+                <input type="search" class="form-control" >
+            </div>
+            <div class="col d-flex justify-content-end">
+                <div class="mt-4">
+                    <button type="button" class="btn btn-dark" (click)="changeMode()">{{ !deleteMode ? 'Show deleted' : 'Hide deleted' }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="supplierList.length > 0 && !deleteMode" class="pb-3 rounded">
     <div class="container-fluid" id="tabla">
         <table class="table table-bordered">
             <thead>
@@ -42,7 +63,47 @@
         </table>
     </div>
 </section>
-<section *ngIf="supplierList.length == 0" class="pb-3 rounded">
+
+<section *ngIf="supplierListDelete.length > 0 && deleteMode" class="pb-3 rounded">
+    <div class="container-fluid" id="tabla">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-dark text-light ">Logo</th>
+                    <th scope="col" class="bg-dark text-light ">Code</th>
+                    <th scope="col" class="bg-dark text-light ">Business name</th>
+                    <th scope="col" class="bg-dark text-light ">Country / Province</th>
+                    <th scope="col" class="bg-dark text-light ">Contact details</th>
+                    <th scope="col" class="bg-dark text-light ">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let supplier of supplierListDelete">
+                    <td> <img src="{{supplier.logo}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
+                    </td>
+                    <td>{{supplier.code}}</td>
+                    <td>{{supplier.name}}</td>
+                    <td><div>{{supplier.province.country?.name}}</div>
+                        <div>{{supplier.province.name}}</div></td>
+                    <td>
+                        <div>{{supplier.contact.name}}  {{supplier.contact.lastName}}</div>
+                    </td>
+                    <td>
+                        <button class="btn btn-success mx-2 " (click)="delete(supplier.id!)">Return</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section *ngIf="supplierListDelete.length == 0 && deleteMode" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There are no deleted suppliers</h3>
+     </div>
+</section>
+
+<section *ngIf="supplierList.length == 0 && !deleteMode" class="pb-3 rounded">
     <div class="col text-center">
         <h3>There is no suppliers on the list!</h3>
      </div>

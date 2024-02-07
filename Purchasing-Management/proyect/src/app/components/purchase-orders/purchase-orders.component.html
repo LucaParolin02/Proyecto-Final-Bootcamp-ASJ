@@ -33,7 +33,7 @@
                     <td>
                         <button *ngIf="order.status.name !=='Cancel'" class="btn btn-danger mx-2" (click)="cancelOrder(order)">Cancel</button>
                         <button *ngIf="order.status.name !=='Cancel'" class="btn btn-warning mx-2" (click)="editOrder(order.id!)">Edit</button>
-                        <button class="btn btn-primary" (click)="detailsOrder(order.id!)">Details</button>
+                        <button class="btn btn-info " (click)="detailsOrder(order.id!)">View</button>
                     </td>
                 </tr>
             </tbody>

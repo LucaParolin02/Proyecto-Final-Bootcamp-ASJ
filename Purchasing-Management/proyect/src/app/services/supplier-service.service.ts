@@ -22,6 +22,10 @@ export class SupplierServiceService {
     return this.http.get(`${this.URL_SUPPLIERS}/${id}`)
   }
 
+  public getDeleteSuppliers(): Observable<any>{
+    return this.http.get(`${this.URL_SUPPLIERS}/deleteds`)
+  }
+
   public addSupplier(supplier: supplierInterface): Observable<any> {
     return this.http.post(`${this.URL_SUPPLIERS}/add`,supplier)
   }

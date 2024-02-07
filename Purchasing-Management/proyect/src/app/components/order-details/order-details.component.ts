@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PurchaseOrderServiceService } from '../../services/purchase-order-service.service';
 import { orderInterface } from '../../interfaces/Orders/dataPurchase';
 import { ActivatedRoute } from '@angular/router';
+import { detailInterface } from '../../interfaces/Orders/dataDetail';
 
 @Component({
   selector: 'app-order-details',
@@ -10,28 +11,42 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class OrderDetailsComponent implements OnInit {
 
-  order: orderInterface | undefined;
+  currentOrder: orderInterface | undefined = {
+    created: '',
+    expected: new Date() ,
+    status: {
+    },
+    info: '',
+    supplier: {
+    contact:{
+    },
+    vatCondition:{
+    },
+    sector:{
+    },
+    province:{
+        country: {
+        }
+    }
+    },
+    total: 0
+  };
 
-  constructor(private service: PurchaseOrderServiceService, private route: ActivatedRoute) {}
+  arrayDetails: detailInterface[] = [];
+
+  constructor(private service: PurchaseOrderServiceService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const codeParam = params['id'];
-      if (codeParam) {
-        const orderCode = +codeParam;
-        this.loadOrderDetails(orderCode);
-      }
-    });
+    this.loadOrderInfo();
   }
 
-  private loadOrderDetails(code: number): void {
-    this.service.getOrder(code).subscribe(
-      (order: orderInterface | undefined) => {
-        this.order = order;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  private loadOrderInfo(){
+    this.service.getOrder(this.activatedRoute.snapshot.params['id']).subscribe((res) => {
+      this.currentOrder = res;
+    })
+
+    this.service.getDetailsByOrder(this.activatedRoute.snapshot.params['id']).subscribe((res)=> {
+      this.arrayDetails = res;
+    })
   }
 }
