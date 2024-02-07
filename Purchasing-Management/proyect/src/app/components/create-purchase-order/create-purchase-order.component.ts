@@ -232,4 +232,5 @@ public calculateTotal(): number{
       this.product = res;
     })
   }
+
 }

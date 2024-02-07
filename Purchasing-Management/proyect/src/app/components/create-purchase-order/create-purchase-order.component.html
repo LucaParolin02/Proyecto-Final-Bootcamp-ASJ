@@ -10,7 +10,7 @@
                             <label class="form-label">Choose product</label>
                             <select class="form-select" name="product" aria-label="Select Product"
                                 [(ngModel)]="product.id" (change)="loadProduct(productSelected.value)"
-                                #productSelected="ngModel">
+                                #productSelected="ngModel" required [ngClass]="productSelected.errors ? 'is-invalid' : 'is-valid'">
                                 <option [value]="product.id" *ngFor="let product of selectedProductsList">{{
                                     product.name }}</option>
                             </select>
@@ -23,8 +23,10 @@
                             </div>
                             <div class="col">
                                 <label class="form-label">Amount</label>
-                                <input type="number" class="form-control" name="quantity"
-                                    [(ngModel)]="orderDetail.quantity">
+                                <input type="number" #quantity="ngModel" class="form-control" name="quantity" [(ngModel)]="orderDetail.quantity" required min="1" [ngClass]="quantity.errors ? 'is-invalid' : 'is-valid'">
+                                <div *ngIf="myProduct.controls['quantity']?.errors && (myProduct.controls['quantity'].dirty || myProduct.controls['quantity'].touched)">
+                                    <p class="text-danger">Amount must be greater than 0.</p>
+                                </div>
                             </div>
                         </div>
                         <div class="container-fluid p-2 ">
@@ -59,7 +61,7 @@
                             <label class="form-label">Choose supplier</label>
                             <select class="form-select" name="supplier" aria-label="Select supplier"
                                 [(ngModel)]="selectedSupplierId" (ngModelChange)="selectSupplier($event)"
-                                #supplierSelect="ngModel" [disabled]="isSupplierSelectDisabled">
+                                #supplierSelect="ngModel" [ngClass]="supplierSelect.errors ? 'is-invalid' : 'is-valid'" required [disabled]="isSupplierSelectDisabled">
                                 <option *ngFor="let supplier of supplierList" [value]="supplier.id">{{ supplier.name }}
                                 </option>
                             </select>
@@ -78,8 +80,15 @@
                         </div>
                         <div class="row pb-2">
                             <label class="form-label">Order Info</label>
-                            <textarea class="form-control" name="info" [(ngModel)]="Order.info" rows="3"
+                            <textarea class="form-control" name="info" 
+                            [(ngModel)]="Order.info" rows="3" #info="ngModel"
+                            required pattern=".{4,300}"
+                            [ngClass]="info.errors ? 'is-invalid' : 'is-valid'"
                                 required></textarea>
+                                <div
+                                *ngIf="myForm.controls['info']?.hasError('pattern') && myForm.controls['info'].touched">
+                                <p class="text-danger ">The description be between 4 and 300 characters</p>
+                            </div>
                         </div>
                         <div class="row pb-2">
                             <hr>
