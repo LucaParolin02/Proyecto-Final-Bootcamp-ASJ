@@ -32,6 +32,7 @@ export class ProductsComponent implements OnInit {
 
   private loadList() {
     this.productService.getProducts().subscribe((products) => {
+      console.log(products);
       this.productsList = products;
     });
   }
@@ -92,6 +93,16 @@ export class ProductsComponent implements OnInit {
     } else {
       return product.category.name === this.categoryFilter;
     }
+  }
+
+  public resProd(id: number){
+    const isConfirmed = window.confirm('Are you sure you want to restore this supplier?');
+    if (isConfirmed) {
+      this.productService.restoreProduct(id).subscribe(() => {
+        this.loadList();
+        this.loadListDeleted();
+    })
+  }
   }
 
 

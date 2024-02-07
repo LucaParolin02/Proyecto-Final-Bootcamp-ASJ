@@ -69,9 +69,12 @@ export class SuppliersComponent implements OnInit {
   }
 
   public restSupp(id: number){
-    this.service.restoreSupplier(id).subscribe((restore) => {
-      this.loadListDelete();
-      this.loadlist();
+    const isConfirmed = window.confirm('Are you sure you want to restore this supplier?');
+    if (isConfirmed) {
+      this.service.restoreSupplier(id).subscribe(() => {
+        this.loadListDelete();
+        this.loadlist();
     })
+  }
   }
 }

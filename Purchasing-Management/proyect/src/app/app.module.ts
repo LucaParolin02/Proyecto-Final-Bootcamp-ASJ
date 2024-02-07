@@ -21,6 +21,7 @@ import { ProductDetailComponent } from './components/products/products-details/p
 import { SuppDetailsComponent } from './components/suppliers/supplier-details/supp-details/supp-details.component';
 import { SearchPipe } from './pipes/search-supp.pipe';
 import { CategoryFilterPipe } from './pipes/category-filter.pipe';
+import { StatusFilterPipe } from './pipes/status-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { CategoryFilterPipe } from './pipes/category-filter.pipe';
     SuppDetailsComponent,
     SearchPipe,
     CategoryFilterPipe,
+    StatusFilterPipe,
   ],
   imports: [
     BrowserModule,

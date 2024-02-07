@@ -74,7 +74,7 @@
                     <th scope="col" class="bg-dark text-light ">Code</th>
                     <th scope="col" class="bg-dark text-light ">Business name</th>
                     <th scope="col" class="bg-dark text-light ">Country / Province</th>
-                    <th scope="col" class="bg-dark text-light ">Contact details</th>
+                    <th scope="col" class="bg-dark text-light ">Contact details </th>
                     <th scope="col" class="bg-dark text-light ">Action</th>
                 </tr>
             </thead>
@@ -87,7 +87,9 @@
                     <td><div>{{supplier.province.country?.name}}</div>
                         <div>{{supplier.province.name}}</div></td>
                     <td>
-                        <div>{{supplier.contact.name}}  {{supplier.contact.lastName}}</div>
+                        <div>{{supplier.contact.name}}  {{supplier.contact.lastName}} <button type="button" class="btn btn-outline-secondary me-2" placement="top" ngbTooltip="Tooltip on top">
+                            Tooltip on top
+                        </button></div>
                     </td>
                     <td>
                         <button class="btn btn-success mx-2 " (click)="restSupp(supplier.id!)">Restore</button>

@@ -42,12 +42,18 @@ export class SuppDetailsComponent implements OnInit{
     }
   };
 
+  defaultImageURL: string = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
+
   constructor(private service: SupplierServiceService,private activatedRoute: ActivatedRoute){}
 
   ngOnInit(): void {
     this.service.getSupplier(this.activatedRoute.snapshot.params['id']).subscribe((res) => {
       this.currentSupplier = res;
     })
+  }
+
+  public handleImageError(event: any) {
+    event.target.src = this.defaultImageURL;
   }
 
 }

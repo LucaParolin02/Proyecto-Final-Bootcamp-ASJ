@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class PurchaseOrdersComponent implements OnInit {
 
   ordersList: orderInterface[] = [];
+  statusFilter: string = 'All';
+  uniqueStatuses: Set<string> = new Set();
 
   constructor(private service: PurchaseOrderServiceService, private router: Router) {}
 
@@ -22,6 +24,7 @@ export class PurchaseOrdersComponent implements OnInit {
     this.service.getOrders().subscribe(
       (orders: orderInterface[]) => {
         this.ordersList = orders;
+        this.filterUniqueStatuses();
         console.log(this.ordersList);
       },
       (error) => {
@@ -49,5 +52,24 @@ export class PurchaseOrdersComponent implements OnInit {
 
   public detailsOrder(id: number): void {
     this.router.navigate(['/orders/details' + '/' + id]);
+  }
+
+  public updateStatusFilter(status: string) {
+    this.statusFilter = status;
+  }
+
+  public filterByStatus(order: orderInterface): boolean {
+    if (this.statusFilter !== 'All') {
+      return true;
+    } else {
+      return order.status.name === this.statusFilter;
+    }
+  }
+
+  filterUniqueStatuses(): void {
+    this.uniqueStatuses.clear(); 
+    this.ordersList.forEach(order => {
+      this.uniqueStatuses.add(order.status.name!);
+    });
   }
 }

@@ -74,8 +74,8 @@
                             </div>
                             <div class="col">
                                 <label class="form-label">Expected Date</label>
-                                <input type="date" class="form-control" name="expected" [(ngModel)]="Order.expected"
-                                    required>
+                                <input type="date" class="form-control" name="expected" [(ngModel)]="Order.expected" #expected="ngModel"
+                                    required [min]="getMinDate()" [max]="getMaxDate()" [ngClass]="expected.errors || !isDeliveryDateValid() ? 'is-invalid' : 'is-valid'  ">
                             </div>
                         </div>
                         <div class="row pb-2">

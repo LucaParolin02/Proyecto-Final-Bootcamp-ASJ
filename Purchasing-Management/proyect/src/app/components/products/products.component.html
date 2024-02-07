@@ -108,7 +108,7 @@
                         <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;">
                     </td>
                     <td> <div>{{product.sku}}</div>
-                         <div>{{product.name}}</div> </td>
+                         <div class="d-flex ">{{product.name}} <span class="badge mx-3 text-bg-danger" *ngIf="product.supplier.deleted">Supplier deleted</span></div> </td>
                     <td>{{product.category.name}}</td>
                     <td>{{product.price | currency:'USD'}}</td>
                     <td>{{product.supplier.name}}</td>             
@@ -147,7 +147,7 @@
                     <td>{{product.price | currency:'USD'}}</td>
                     <td>{{product.supplier.name}}</td>             
                     <td>
-                        <button class="btn btn-success  mx-2" (click)="deleteProduct(product.id!)">Restore</button>
+                        <button class="btn btn-success  mx-2" (click)="resProd(product.id!)">Restore</button>
                     </td>
                 </tr>
             </tbody>

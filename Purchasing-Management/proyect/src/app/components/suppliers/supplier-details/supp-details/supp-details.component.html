@@ -12,7 +12,7 @@
         </div>
         <div class="row py-5 clrs">
             <div class="col">
-                <img src="{{currentSupplier.logo}}" alt="Img" style="width: 22rem; height: 17rem;">
+                <img src="{{currentSupplier.logo}}" alt="Img" style="width: 22rem; height: 17rem;" (error)="handleImageError($event)">
             </div>
             <div class="col">
                 <h3>Info</h3>

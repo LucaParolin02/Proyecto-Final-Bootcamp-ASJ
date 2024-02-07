@@ -156,7 +156,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
         });
       }
     } else {    
-      const newOrder = {created: this.convertirFecha(form.value.created) , expected: form.value.expected ,total: this.calculateTotal(), info: form.value.info, supplier: {id: parseInt(this.selectedSupplierId)}, status: {id: 3 } };
+      const newOrder = {created: this.convertDate(form.value.created) , expected: form.value.expected ,total: this.calculateTotal(), info: form.value.info, supplier: {id: parseInt(this.selectedSupplierId)}, status: {id: 3 } };
       console.log(newOrder);
       this.orderService.addOrder(newOrder).subscribe((res) => {
         for(let detail of this.detailList){
@@ -197,7 +197,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
     this.Order.created = `${day}/${month}/${year}`;
   }
 
-    convertirFecha(fecha: string) {
+    private convertDate(fecha: string) {
     const partes = fecha.split('/');
     const day = partes[0];
     const month = partes[1];
@@ -231,6 +231,38 @@ public calculateTotal(): number{
     this.productService.getProduct(id).subscribe((res) => {
       this.product = res;
     })
+  }
+
+  public getMinDate(): string {
+    const minDays = 2;
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + minDays);
+
+    const year = currentDate.getFullYear();
+    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + currentDate.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+  }
+
+  public getMaxDate(): string {
+    const maxDays = 365;
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + maxDays);
+
+    const year = currentDate.getFullYear();
+    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + currentDate.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+  }
+
+  public isDeliveryDateValid() {
+    const deliveryDate = new Date(this.Order.expected!);
+    const minDate = new Date(this.getMinDate());
+    const maxDate = new Date(this.getMaxDate());
+
+    return deliveryDate >= minDate && deliveryDate <= maxDate;
   }
 
 }
