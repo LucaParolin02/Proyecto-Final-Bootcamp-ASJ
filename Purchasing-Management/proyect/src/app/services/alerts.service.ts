@@ -10,7 +10,7 @@ export class AlertsService {
 
   showSuccess(message: string) {
     Swal.fire({
-      title: "Good job!",
+      title: "Added successfully!",
       text: message,
       icon: "success"
     });

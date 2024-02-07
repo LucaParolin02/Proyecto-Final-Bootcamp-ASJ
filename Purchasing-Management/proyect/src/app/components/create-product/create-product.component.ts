@@ -59,6 +59,7 @@ export class CreateProductComponent implements OnInit {
 
   suppliersList: supplierInterface[] = [];
   categoryList: categoryInterface[] = [];
+  productList: productsInterface[] = [];
   editMode: boolean = false;
   private editProductCode: number | null = null;
 
@@ -80,6 +81,10 @@ export class CreateProductComponent implements OnInit {
       this.categoryList = res;
     });
 
+    this.productService.getProducts().subscribe((res) => {
+      this.productList = res;
+    })
+
     this.route.params.subscribe((params) => {
       const codeParam = params['id'];
       if (codeParam) {
@@ -99,7 +104,7 @@ export class CreateProductComponent implements OnInit {
       });
     } else {
       this.productService.addProduct(product).subscribe(() => {
-        this.alertService.showSuccess('Product añadido');
+        this.alertService.showSuccess('Product added');
         this.router.navigate(['/products']);
       });
     }
@@ -124,5 +129,17 @@ export class CreateProductComponent implements OnInit {
       desc: form.value.desc,
       price: form.value.price,
     };
+  }
+
+  public isSkuValid(): boolean {
+    return !this.productList.some(
+      (p) => p.sku === this.product.sku && p.id !== this.product.id
+    );
+  }
+
+  public isNameValid(): boolean {
+    return !this.productList.some(
+      (p) => p.name === this.product.name && p.id !== this.product.id
+    )
   }
 }

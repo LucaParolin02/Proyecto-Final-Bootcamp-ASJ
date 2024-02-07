@@ -41,11 +41,11 @@
                       </li>
                       <li>
                         <a
-                          *ngFor="let category of productsList"
+                          *ngFor="let category of uniqueCategories"
                           class="dropdown-item cursor"
-                          (click)="updateCategoryFilter(category.category.name!)"
+                          (click)="updateCategoryFilter(category)"
                         >
-                          {{ category.category.name }}
+                          {{ category }}
                         </a>
                       </li>
                     </ul>
@@ -68,12 +68,12 @@
                         </a>
                       </li>
                       <li>
-                        <a
-                          *ngFor="let category of productsListDeleted"
+                        <a 
+                          *ngFor="let category of uniqueCategoriesDeleted"
                           class="dropdown-item cursor"
-                          (click)="updateCategoryFilter(category.category.name!)"
+                          (click)="updateCategoryFilter(category!)"
                         >
-                          {{ category.category.name }}
+                          {{ category }}
                         </a>
                       </li>
                     </ul>

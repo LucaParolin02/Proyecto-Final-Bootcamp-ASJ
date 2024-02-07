@@ -20,6 +20,8 @@ export class ProductsComponent implements OnInit {
   categoryFilter: string = 'All';
   categoryList: categoryInterface[] = [];
   searchTerm: string  = '';
+  uniqueCategories: Set<string> = new Set();
+  uniqueCategoriesDeleted: Set<string> = new Set();
 
   constructor(private productService: ProductServiceService, private router: Router) {}
 
@@ -34,6 +36,8 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts().subscribe((products) => {
       console.log(products);
       this.productsList = products;
+      this.filterUniqueCategory();
+      this.filterUniqueCategoryDeleted();
     });
   }
 
@@ -93,6 +97,20 @@ export class ProductsComponent implements OnInit {
     } else {
       return product.category.name === this.categoryFilter;
     }
+  }
+
+  private filterUniqueCategory(): void {
+    this.uniqueCategories.clear(); 
+    this.productsList.forEach(product => {
+      this.uniqueCategories.add(product.category.name!);
+    });
+  }
+
+  private filterUniqueCategoryDeleted(): void {
+    this.uniqueCategoriesDeleted.clear();
+    this.productsListDeleted.forEach(productDeleted =>{
+      this.uniqueCategoriesDeleted.add(productDeleted.category.name!);
+    });
   }
 
   public resProd(id: number){
