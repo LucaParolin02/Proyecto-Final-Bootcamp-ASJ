@@ -180,8 +180,8 @@ public class SupplierController {
     }
     
     @PutMapping("/restore/{id}")
-    public ResponseEntity<SupplierModel> restoreSupplier(@PathVariable Integer id){
-    	return new ResponseEntity<SupplierModel>(iSupplierService.restoreSupplier(id),HttpStatus.OK);
+    public ResponseEntity<SupplierModel> restoreSupplier(@PathVariable Integer id,@RequestBody SupplierModel supplier){
+    	return new ResponseEntity<SupplierModel>(iSupplierService.restoreSupplier(id,supplier),HttpStatus.OK);
     }
     
     

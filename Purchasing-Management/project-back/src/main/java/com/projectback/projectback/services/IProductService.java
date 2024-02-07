@@ -9,7 +9,7 @@ public interface IProductService {
 	List<ProductModel> getAllProducts();
 	List<ProductModel> getDeletedProducts();
 	List<ProductModel> getProductsBySupplier(Integer id);
-	ProductModel restoreProduct(Integer id);
+	ProductModel restoreProduct(Integer id, ProductModel product);
 	ProductModel postProduct(ProductModel product);
 	ProductModel getProductById(Integer id);
 	ProductModel deleteProduct(Integer id);

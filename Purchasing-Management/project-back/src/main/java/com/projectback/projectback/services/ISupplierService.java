@@ -8,7 +8,7 @@ public interface ISupplierService {
 
 	List<SupplierModel> getSuppliers();
 	List<SupplierModel> getDeletedSuppliers();
-	SupplierModel restoreSupplier(Integer id);
+	SupplierModel restoreSupplier(Integer id, SupplierModel supplier);
 	SupplierModel deleteSupplier(Integer id);
 	SupplierModel updateSupplier(Integer id,SupplierModel supplier);
 	SupplierModel getSupplierById(Integer id);

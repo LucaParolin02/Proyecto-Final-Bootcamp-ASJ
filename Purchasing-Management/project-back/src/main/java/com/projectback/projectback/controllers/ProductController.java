@@ -129,8 +129,8 @@ public class ProductController {
 	}
 	
 	@PutMapping("/restore/{id}")
-	public ResponseEntity<Object> restoreProduct(@PathVariable Integer id){
-		return new ResponseEntity<Object>(iProductService.restoreProduct(id), HttpStatus.OK);
+	public ResponseEntity<Object> restoreProduct(@PathVariable Integer id, @RequestBody ProductModel product){
+		return new ResponseEntity<Object>(iProductService.restoreProduct(id, product), HttpStatus.OK);
 	}
 	
 	@GetMapping("/images/{id}")

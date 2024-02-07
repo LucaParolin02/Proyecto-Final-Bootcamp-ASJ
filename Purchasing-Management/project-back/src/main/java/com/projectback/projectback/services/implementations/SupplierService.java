@@ -75,7 +75,7 @@ public class SupplierService implements ISupplierService {
     }
 	
 	@Override
-	public SupplierModel restoreSupplier(Integer id) {
+	public SupplierModel restoreSupplier(Integer id, SupplierModel supplier) {
 		SupplierModel existingSupplier = getSupplierById(id);
 		existingSupplier.setDeleted(false);
 		existingSupplier.setUpdated(Timestamp.from(Instant.now()));
