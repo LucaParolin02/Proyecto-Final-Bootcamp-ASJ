@@ -20,35 +20,59 @@
           <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
             <div class="row pb-2 ">
               <label class="form-label ">Name Product</label>
-              <input type="text" class="form-control" placeholder="Enter product name" name="name"
-                [(ngModel)]="product.name" required>
+              <input type="text" class="form-control" placeholder="Enter product name" name="name" #name="ngModel"
+                [(ngModel)]="product.name" required pattern=".{4,20}" [ngClass]="name.errors ? 'is-invalid' : 'is-valid'">
+                <div
+                *ngIf="myForm.controls['name']?.hasError('pattern') && myForm.controls['name'].touched">
+                <p class="text-danger ">The name must be between 4 and 20 characters</p>
+            </div>
             </div>
             <div class="row pb-2 ">
               <label class="form-label ">Sku Product</label>
-              <input type="text" class="form-control" placeholder="Enter product sku" name="sku"
-                [(ngModel)]="product.sku" required>
+              <input type="text" class="form-control" placeholder="Enter product sku" name="sku" #sku="ngModel"
+                [(ngModel)]="product.sku" required pattern=".{4,50}" [ngClass]="sku.errors ? 'is-invalid' : 'is-valid'">
+                <div
+                *ngIf="myForm.controls['sku']?.hasError('pattern') && myForm.controls['sku'].touched">
+                <p class="text-danger ">The sku must be between 4 and 50 characters</p>
+            </div>
             </div>
             <div class="row pb-2">
               <label class="form-label">Choose supplier</label>
-              <select class="form-select" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier.id" required>
+              <select class="form-select" #supplier="ngModel" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier.id" required [ngClass]="supplier.errors ? 'is-invalid' : 'is-valid'">
                 <option *ngFor="let supplier of suppliersList" [value]="supplier.id">{{ supplier.name }}</option>
               </select>
             </div>
             <div class="row pb-2">
               <label class="form-label">Choose category</label>
-              <select name="category" aria-label="Select category" [(ngModel)]="product.category.id" class="form-select">
+              <select name="category" aria-label="Select category" #category="ngModel" [(ngModel)]="product.category.id" class="form-select" required [ngClass]="category.errors ? 'is-invalid' : 'is-valid'">
                 <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
               </select>
             </div>
             <div class="row pb-2 ">
               <label class="form-label ">Description</label>
-              <textarea class="form-control" placeholder="Enter description" name="desc"
-                [(ngModel)]="product.desc"></textarea>
+              <textarea class="form-control" placeholder="Enter description" name="desc" #desc="ngModel"
+                [(ngModel)]="product.desc" required pattern=".{4,255}" [ngClass]="desc.errors ? 'is-invalid' : 'is-valid'"></textarea>
+                <div
+                *ngIf="myForm.controls['desc']?.hasError('pattern') && myForm.controls['desc'].touched">
+                <p class="text-danger ">The description be between 4 and 255 characters</p>
+            </div>
             </div>
             <div class="row pb-2 ">
               <label class="form-label ">Price</label>
-              <input type="number" class="form-control" placeholder="Enter price" name="price"
+              <input type="number" class="form-control" 
+                required [ngClass]="{'is-valid': price.valid && (price.dirty || price.touched),
+                'is-invalid': price.invalid && (price.dirty || price.touched)}" #price="ngModel"
+              placeholder="Enter price" name="price" [min]="1" [max]="1000000"
                 [(ngModel)]="product.price">
+                <div *ngIf="price?.errors?.['required'] && (price?.dirty || price?.touched)" class="invalid-feedback">
+                  Price is required.
+              </div>
+              <div *ngIf="price?.errors?.['min'] && (price?.dirty || price?.touched)" class="invalid-feedback">
+                  Price must be at least $0.
+              </div>
+              <div *ngIf="price?.errors?.['max'] && (price?.dirty || price?.touched)" class="invalid-feedback">
+                  Price cannot exceed $1,000,000.
+              </div>
             </div>
             <div class="container-fluid p-2 ">
               <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">{{ editMode ? 'Save changes' : 'Add'

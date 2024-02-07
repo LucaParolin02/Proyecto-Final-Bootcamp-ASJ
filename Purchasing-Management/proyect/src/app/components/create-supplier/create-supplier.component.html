@@ -20,7 +20,7 @@
                                 <label class="form-label  d-flex">Business Name<h4 class="text-danger"> *</h4></label>
                                 <input type="text" class="form-control" placeholder="Enter the supplier name"
                                     #name="ngModel" name="name" [(ngModel)]="supplier.name" required
-                                    pattern="[a-zA-Z\s]{4,30}" [ngClass]="name.errors ? 'is-invalid' : 'is-valid'" />
+                                    pattern=".{4,30}" [ngClass]="name.errors ? 'is-invalid' : 'is-valid'" />
                                 <div
                                     *ngIf="myForm.controls['name']?.hasError('pattern') && myForm.controls['name'].touched">
                                     <p class="text-danger ">The name must be between 4 and 30 characters</p>
