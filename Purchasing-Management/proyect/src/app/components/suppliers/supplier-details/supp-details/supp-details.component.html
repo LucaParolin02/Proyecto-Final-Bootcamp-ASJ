@@ -5,3 +5,57 @@
         </div>
     </div>
 </section>
+<section class="pri">
+    <div class="container py-5 ">
+        <div class="row text-center">
+            <h2 class="pb-4">Supplier Info</h2>
+        </div>
+        <div class="row py-5 clrs">
+            <div class="col">
+                <img src="{{currentSupplier.logo}}" alt="Img" style="width: 22rem; height: 17rem;">
+            </div>
+            <div class="col">
+                <h3>Info</h3>
+                <p>Code: {{currentSupplier.code}}</p>
+                <p>Name: {{currentSupplier.name}}</p>
+                <p>Email: {{currentSupplier.email}}</p>
+                <p>Phone: {{currentSupplier.phone}}</p>
+                <p *ngIf="currentSupplier.web">Web:{{currentSupplier.web}}</p>
+                <p>Sector: {{currentSupplier.sector.name}}</p>
+            </div>
+            <div class="col">
+                <h3>Location Info</h3>
+                <p>Country: {{currentSupplier.province.country?.name}}</p>
+                <p>Province: {{currentSupplier.province.name}}</p>
+                <p>City: {{currentSupplier.city}}</p>
+                <p>Zip: {{currentSupplier.zip}}</p>
+                <p>Street: {{currentSupplier.street}}</p>
+                <p>S Number: {{currentSupplier.snumber}}</p>
+            </div>
+            <div class="col">
+                <h3>Taxt Info</h3>
+                <p>Cuit: {{currentSupplier.cuit}}</p>
+                <p>Vat: {{currentSupplier.vatCondition.name}}</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <h2 class="py-4">Contact Info</h2>
+        </div>
+        <div class="row py-5 clrs">
+            <div class="col">
+                <h3>Contact Info</h3>
+                <p>First Name: {{currentSupplier.contact.name}}</p>
+                <p>Last Name: {{currentSupplier.contact.lastName}}</p>
+            </div>
+            <div class="col">
+                <h3>Info to contact</h3>
+                <p>Email: {{currentSupplier.contact.email}}</p>
+                <p>Phone: {{currentSupplier.contact.phone}}</p>
+            </div>
+            <div class="col">
+                <h3>Role</h3>
+                <p>{{currentSupplier.contact.role}}</p>
+            </div>
+        </div>
+    </div>
+</section>

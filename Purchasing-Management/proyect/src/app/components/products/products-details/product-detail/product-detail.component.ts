@@ -56,7 +56,7 @@ export class ProductDetailComponent implements OnInit {
   images: imagesInterface[] = [];
   defaultImage = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
-  constructor(private productService: ProductServiceService,private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(private productService: ProductServiceService,private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.productService.getProduct(this.activatedRoute.snapshot.params['id']).subscribe((res) => {
