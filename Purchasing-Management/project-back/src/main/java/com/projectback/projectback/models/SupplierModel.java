@@ -276,6 +276,17 @@ public class SupplierModel {
 	public void setContact(ContactModel contact) {
 		this.contact = contact;
 	}
+
+	@Override
+	public String toString() {
+		return "SupplierModel [id=" + id + ", code=" + code + ", logo=" + logo + ", name=" + name + ", cuit=" + cuit
+				+ ", web=" + web + ", email=" + email + ", phone=" + phone + ", street=" + street + ", snumber="
+				+ snumber + ", zip=" + zip + ", city=" + city + ", created=" + created + ", updated=" + updated
+				+ ", deleted=" + deleted + ", contact=" + contact + ", vatCondition=" + vatCondition + ", sector="
+				+ sector + ", province=" + province + "]";
+	}
+	
+	
 		
 	
 }

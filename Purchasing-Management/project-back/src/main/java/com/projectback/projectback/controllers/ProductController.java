@@ -128,6 +128,11 @@ public class ProductController {
 		return new ResponseEntity<Object>(iProductService.editProduct(id, product), HttpStatus.OK);
 	}
 	
+	@PutMapping("/restore/{id}")
+	public ResponseEntity<Object> restoreProduct(@PathVariable Integer id){
+		return new ResponseEntity<Object>(iProductService.restoreProduct(id), HttpStatus.OK);
+	}
+	
 	@GetMapping("/images/{id}")
 	public ResponseEntity<List<ImageModel>> getImages(@PathVariable Integer id){
 		return ResponseEntity.ok(iImageService.getImagesByProduct(id));

@@ -8,7 +8,8 @@ public interface IProductService {
 	
 	List<ProductModel> getAllProducts();
 	List<ProductModel> getDeletedProducts();
-	public List<ProductModel> getProductsBySupplier(Integer id);
+	List<ProductModel> getProductsBySupplier(Integer id);
+	ProductModel restoreProduct(Integer id);
 	ProductModel postProduct(ProductModel product);
 	ProductModel getProductById(Integer id);
 	ProductModel deleteProduct(Integer id);

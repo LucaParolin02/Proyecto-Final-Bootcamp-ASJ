@@ -75,6 +75,14 @@ public class SupplierService implements ISupplierService {
     }
 	
 	@Override
+	public SupplierModel restoreSupplier(Integer id) {
+		SupplierModel existingSupplier = getSupplierById(id);
+		existingSupplier.setDeleted(false);
+		existingSupplier.setUpdated(Timestamp.from(Instant.now()));
+	    return supplierRepository.save(existingSupplier);
+	}
+	
+	@Override
 	public SupplierModel updateSupplier(Integer id,SupplierModel supplier) {
 		validateEditUniqueFields(supplier,id);
 		SupplierModel existingSupplier = getSupplierById(id);	

@@ -71,6 +71,14 @@ public class ProductService implements IProductService {
 	}
 	
 	@Override
+	public ProductModel restoreProduct(Integer id) {
+		ProductModel existingProduct = getProductById(id);
+		existingProduct.setDeleted(false);
+		existingProduct.setUpdated(Timestamp.from(Instant.now()));
+		return productRepository.save(existingProduct);
+	}
+	
+	@Override
 	public ProductModel editProduct(Integer id, ProductModel product) {
 		validateEditUniqueFields(id, product);
 		ProductModel existingProduct = getProductById(id);

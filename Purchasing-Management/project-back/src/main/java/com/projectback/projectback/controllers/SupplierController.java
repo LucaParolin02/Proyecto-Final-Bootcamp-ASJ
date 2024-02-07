@@ -142,6 +142,7 @@ public class SupplierController {
         } catch (OperationNotAllowedException e) {
             return new ResponseEntity<Object>(e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
+        	e.printStackTrace();
             return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }  	
     }
@@ -176,6 +177,11 @@ public class SupplierController {
     		return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     	}
     	return new ResponseEntity<Object>(iSupplierService.updateSupplier(id, supplier),HttpStatus.OK);
+    }
+    
+    @PutMapping("/restore/{id}")
+    public ResponseEntity<SupplierModel> restoreSupplier(@PathVariable Integer id){
+    	return new ResponseEntity<SupplierModel>(iSupplierService.restoreSupplier(id),HttpStatus.OK);
     }
     
     
