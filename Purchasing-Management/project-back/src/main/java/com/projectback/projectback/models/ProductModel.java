@@ -29,12 +29,12 @@ public class ProductModel {
 	@Column(name = "sku",unique = true)
 	@NotBlank(message = "Sku cannot be blank")
 	@NotNull(message = "Sku cannot be null")
-	@Size(max = 200, message = "Sku must be less than {max} characters")
+	@Size(max = 50, message = "Sku must be less than {max} characters")
 	private String sku;
-	@Column(name = "prod_name",length = 50)
+	@Column(name = "prod_name",length = 20)
 	@NotBlank(message = "Product name cannot be blank")
 	@NotNull(message = "Product name cannot be null")
-	@Size(max = 50 , message = "Product name must be less than {max} characters")
+	@Size(max = 20 , message = "Product name must be less than {max} characters")
 	private String name;
 	@Column(name = "prod_desc", length = 255)
 	@NotBlank(message = "Description cannot be blank")
