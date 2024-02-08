@@ -14,7 +14,6 @@
         <div class="row clrs rounded m-1">
             <div class="col">
                 <div class="mt-4">
-                    <p>aaa/bbb/c</p>
                 </div>
             </div>
             <div class="col">
@@ -98,9 +97,18 @@
                     <td><div>{{supplier.province.country?.name}}</div>
                         <div>{{supplier.province.name}}</div></td>
                     <td>
-                        <div>{{supplier.contact.name}}  {{supplier.contact.lastName}} <button type="button" class="btn btn-outline-secondary me-2" placement="top" ngbTooltip="Tooltip on top">
-                            Tooltip on top
-                        </button></div>
+                        <ng-template #listTooltip>
+                            <div class="d-flex flex-column">
+                              <span>{{ supplier.web }}</span>
+                              <span>{{ supplier.email }}</span>
+                              <span>{{ supplier.phone }}</span>
+                            </div>
+                          </ng-template>
+                        <div>{{supplier.contact.name}}  {{supplier.contact.lastName}}
+                            <button type="button" class="btn  me-2" placement="top" [ngbTooltip]="listTooltip" tooltipClass="tool">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                        </div>
                     </td>
                     <td>
                         <button class="btn btn-success mx-2 " (click)="restSupp(supplier.id!)">Restore</button>

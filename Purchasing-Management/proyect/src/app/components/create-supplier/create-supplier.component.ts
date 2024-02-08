@@ -113,10 +113,10 @@ export class CreateSupplierComponent implements OnInit {
   public submitForm(form: NgForm) {
     const supplier: supplierInterface = this.buildSupplier(form);
     const contact: contactInterface = {
-      name: form.value.name,
+      name: form.value.firstName,
       lastName: form.value.lastName,
       email: form.value.email,
-      phone: form.value.phone,
+      phone: form.value.phoneContact,
       role: form.value.role
     }
     if (this.editMode) {

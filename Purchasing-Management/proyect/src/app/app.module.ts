@@ -23,6 +23,9 @@ import { SearchPipe } from './pipes/search-supp.pipe';
 import { CategoryFilterPipe } from './pipes/category-filter.pipe';
 import { StatusFilterPipe } from './pipes/status-filter.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProductsImagesComponent } from './components/products/products-images/products-images.component';
+import { SectorsComponent } from './components/create-supplier/sectors/sectors.component';
+import { ProductsCategoriesComponent } from './components/products/products-categories/products-categories.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SearchPipe,
     CategoryFilterPipe,
     StatusFilterPipe,
+    ProductsImagesComponent,
+    SectorsComponent,
+    ProductsCategoriesComponent,
   ],
   imports: [
     BrowserModule,

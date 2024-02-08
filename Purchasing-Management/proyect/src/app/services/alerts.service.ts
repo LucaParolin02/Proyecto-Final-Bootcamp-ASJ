@@ -23,4 +23,19 @@ export class AlertsService {
       icon: "success"
     })
   }
+
+  showConfirmation(message: string): Promise<boolean> {
+    return Swal.fire({
+      title: 'Are you sure?',
+      text: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, proceed!'
+    }).then((result) => {
+      return result.isConfirmed;
+    });
+  }
+  
 }
