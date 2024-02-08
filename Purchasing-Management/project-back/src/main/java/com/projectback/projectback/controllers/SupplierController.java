@@ -124,6 +124,11 @@ public class SupplierController {
     	return ResponseEntity.ok(iSupplierService.getDeletedSuppliers());
     }
     
+    @GetMapping("/deleteds/sectors")
+    public ResponseEntity<List<SectorModel>> getDeletedSectors(){
+    	return ResponseEntity.ok(iSectorService.getDeletedSectors());
+    }
+    
     @PostMapping("/add")
     public ResponseEntity<Object> addSupplier(@Valid @RequestBody SupplierModel supplier, BindingResult bindingResult){
     	if (bindingResult.hasErrors()) {
@@ -182,6 +187,11 @@ public class SupplierController {
     @PutMapping("/restore/{id}")
     public ResponseEntity<SupplierModel> restoreSupplier(@PathVariable Integer id,@RequestBody SupplierModel supplier){
     	return new ResponseEntity<SupplierModel>(iSupplierService.restoreSupplier(id,supplier),HttpStatus.OK);
+    }
+    
+    @PutMapping("/restore/sector/{id}")
+    public ResponseEntity<SectorModel> restoreSector(@PathVariable Integer id, @RequestBody SectorModel sector){
+    	return new ResponseEntity<SectorModel>(iSectorService.restoreSector(id, sector),HttpStatus.OK);
     }
     
     

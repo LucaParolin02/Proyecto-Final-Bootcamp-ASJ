@@ -13,4 +13,5 @@ public interface SectorRepository  extends JpaRepository<SectorModel, Integer>{
 
 	Optional<SectorModel> findByNameAndDeletedFalse(String name);
 	List<SectorModel> findByDeletedFalse();
+	List<SectorModel> findByDeletedTrue();
 }

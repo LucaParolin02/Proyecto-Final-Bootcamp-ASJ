@@ -97,6 +97,11 @@ public class ProductController {
 		return ResponseEntity.ok(iProductService.getDeletedProducts());
 	}
 	
+	@GetMapping("/deleted/categories")
+	public ResponseEntity<List<CategoryModel>> getDeletedCategories(){
+		return ResponseEntity.ok(iCategoryService.getDeletedCategories());
+	}
+	
 	@PostMapping("/add")
 	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductModel product, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
@@ -131,6 +136,11 @@ public class ProductController {
 	@PutMapping("/restore/{id}")
 	public ResponseEntity<Object> restoreProduct(@PathVariable Integer id, @RequestBody ProductModel product){
 		return new ResponseEntity<Object>(iProductService.restoreProduct(id, product), HttpStatus.OK);
+	}
+	
+	@PutMapping("/restore/category/{id}")
+	public ResponseEntity<Object> restoreCategory(@PathVariable Integer id, @RequestBody CategoryModel category){
+		return new ResponseEntity<Object>(iCategoryService.restoreCategory(id, category),HttpStatus.OK);
 	}
 	
 	@GetMapping("/images/{id}")

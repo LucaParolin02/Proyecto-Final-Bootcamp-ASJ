@@ -12,5 +12,6 @@ import com.projectback.projectback.models.CategoryModel;
 public interface CategoryRepository extends JpaRepository<CategoryModel, Integer>{
 
 	List<CategoryModel> findByDeletedFalse();
+	List<CategoryModel> findByDeletedTrue();
 	Optional<CategoryModel> findByNameAndDeletedFalse(String name);
 }

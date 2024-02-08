@@ -32,11 +32,24 @@ public class CategoryService implements ICategoryService {
 	}
 	
 	@Override
+	public List<CategoryModel> getDeletedCategories(){
+		return categoryRepository.findByDeletedTrue();
+	}
+	
+	@Override
 	public CategoryModel postCategory(CategoryModel category) {
 		validateCategoryNameUniquess(category.getName());
 		category.setCreated(Timestamp.from(Instant.now()));
 		category.setUpdated(Timestamp.from(Instant.now()));
 		return categoryRepository.save(category);
+	}
+	
+	@Override
+	public CategoryModel restoreCategory(Integer id, CategoryModel category) {
+		CategoryModel existingCategory = getCategoryById(id);
+		existingCategory.setDeleted(false);
+		existingCategory.setUpdated(Timestamp.from(Instant.now()));
+	    return categoryRepository.save(existingCategory);
 	}
 	
 	private void validateCategoryNameUniquess(String name) {

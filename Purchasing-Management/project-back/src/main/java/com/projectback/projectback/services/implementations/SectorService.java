@@ -31,11 +31,24 @@ public class SectorService implements ISectorService {
 	}
 	
 	@Override
+	public List<SectorModel> getDeletedSectors(){
+		return sectorRepository.findByDeletedTrue();
+	}
+	
+	@Override
 	public SectorModel postSector(SectorModel sectorModel) {
 		validateSectorNameUniqueness(sectorModel.getName());
 		sectorModel.setCreated(Timestamp.from(Instant.now()));
 		sectorModel.setUpdated(Timestamp.from(Instant.now()));
 		return sectorRepository.save(sectorModel);
+	}
+	
+	@Override
+	public SectorModel restoreSector(Integer id, SectorModel sector) {
+		SectorModel existingSector = getSectorById(id);
+		existingSector.setDeleted(false);
+		existingSector.setUpdated(Timestamp.from(Instant.now()));
+	    return sectorRepository.save(existingSector);
 	}
 	
 	@Override
