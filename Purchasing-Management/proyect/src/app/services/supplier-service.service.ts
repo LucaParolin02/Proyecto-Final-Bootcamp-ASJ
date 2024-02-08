@@ -3,6 +3,7 @@ import { supplierInterface } from '../interfaces/Suppliers/dataSuppliers';
 import { HttpClient } from '@angular/common/http';
 import { Observable,of } from 'rxjs';
 import { contactInterface } from '../interfaces/Suppliers/dataContact';
+import { sectorInterface } from '../interfaces/Suppliers/dataSector';
 
 
 @Injectable({
@@ -49,7 +50,22 @@ export class SupplierServiceService {
   public getSectors(): Observable<any>{
     return this.http.get(`${this.URL_SUPPLIERS}/sectors`);
   }
-  //TEMRIANR CRUD SECTOR
+
+  public getDeletedSectors(): Observable<any>{
+    return this.http.get(`${this.URL_SUPPLIERS}/deleteds/sectors`);
+  }
+  
+  public addSector(sector: sectorInterface): Observable<sectorInterface>{
+    return this.http.post<sectorInterface>(`${this.URL_SUPPLIERS}/sectors/add`, sector);
+  }
+
+  public deleteSector(id:number): Observable<any>{
+    return this.http.delete(`${this.URL_SUPPLIERS}/sectors/${id}`);
+  }
+
+  public editSector(id:number,sector: sectorInterface): Observable<any>{
+    return this.http.put(`${this.URL_SUPPLIERS}/sectors/${id}`,sector);
+  }
 
   public getVats(): Observable<any>{
     return this.http.get(`${this.URL_SUPPLIERS}/vats`);

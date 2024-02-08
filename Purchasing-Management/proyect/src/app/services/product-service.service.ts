@@ -49,7 +49,11 @@ export class ProductServiceService {
   }
 
   public getDeletedProducts(): Observable<any>{
-    return this.http.get(`${this.URL_PRODUCTS}/deleted`)
+    return this.http.get(`${this.URL_PRODUCTS}/deleted`);
+  }
+
+  public getDeletedCategories(): Observable<any>{
+    return this.http.get(`${this.URL_PRODUCTS}/deleted/categories`);
   }
 
   public restoreProduct(id: number): Observable<productsInterface>{

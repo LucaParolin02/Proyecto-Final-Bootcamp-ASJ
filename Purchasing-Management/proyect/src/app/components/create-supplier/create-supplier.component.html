@@ -109,7 +109,8 @@
                             </div>
                         </div>
                         <div class="row pb-2">
-                            <label class="form-label d-flex">Choose Sector <h4 class="text-danger"> *</h4></label>
+                            <label class="form-label d-flex">Choose Sector <h4 class="text-danger"> *</h4> 
+                                <a type="button" routerLink="/suppliers/sectors" class="btn btn-success btn-sm mx-4 "><i class="fa-solid fa-plus"></i></a></label>
                             <select name="sector" aria-label="Select Sector" [(ngModel)]="supplier.sector.id"
                                 class="form-select" required #sector="ngModel"
                                 [ngClass]="sector.errors ? 'is-invalid' : 'is-valid'">

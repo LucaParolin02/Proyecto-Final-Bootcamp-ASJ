@@ -42,7 +42,9 @@
               <div *ngIf="supplier.errors && supplier.touched" class="text-danger">Please choose a supplier.</div>
           </div>
           <div class="row pb-2">
-              <label class="form-label">Choose category</label>
+              <label class="form-label">Choose category
+                <a type="button" routerLink="/products/categories" class="btn btn-success btn-sm mx-4 "><i class="fa-solid fa-plus"></i></a>
+              </label>
               <select name="category" aria-label="Select category" #category="ngModel" [(ngModel)]="product.category.id" class="form-select" required [ngClass]="category.errors ? 'is-invalid' : 'is-valid'">
                   <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
               </select>

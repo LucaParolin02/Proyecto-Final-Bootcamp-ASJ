@@ -10,6 +10,9 @@ import { CreatePurchaseOrderComponent } from './components/create-purchase-order
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
 import { SuppDetailsComponent } from './components/suppliers/supplier-details/supp-details/supp-details.component';
 import { ProductDetailComponent } from './components/products/products-details/product-detail/product-detail.component';
+import { ProductsImagesComponent } from './components/products/products-images/products-images.component';
+import { ProductsCategoriesComponent } from './components/products/products-categories/products-categories.component';
+import { SectorsComponent } from './components/create-supplier/sectors/sectors.component';
 
 const routes: Routes = [
   {path:'',component:MainMenuComponent},
@@ -17,6 +20,7 @@ const routes: Routes = [
   {path: 'suppliers',
     children:[
     {path:"", component: SuppliersComponent},
+    {path: 'sectors',component: SectorsComponent},
     {path:'form', component: CreateSupplierComponent},
     {path:':id', component: CreateSupplierComponent},
     {path: 'details/:id',component: SuppDetailsComponent}
@@ -24,9 +28,11 @@ const routes: Routes = [
   {path:'products',
     children:[
       {path:"", component: ProductsComponent},
+      {path: 'categories',component: ProductsCategoriesComponent},
       {path:'form',component:CreateProductComponent},
       {path:':id',component:CreateProductComponent},
-      {path:'details/:id',component: ProductDetailComponent}
+      {path:'details/:id',component: ProductDetailComponent},
+      {path: 'images/:id',component: ProductsImagesComponent}
     ]
   },
   {path:'orders',

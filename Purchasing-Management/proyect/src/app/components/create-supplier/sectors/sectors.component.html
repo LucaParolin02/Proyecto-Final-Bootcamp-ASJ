@@ -1,1 +1,49 @@
-<p>sectors works!</p>
+<section class="pb-3 rounded">
+    <div class="container-fluid align-content-center bg-light text-center p-4 row">
+        <div class="col-2">
+            <a routerLink="/suppliers/form" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row pb-2">
+            <div class="col">
+                <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name Sector</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter sector name" name="name" #name="ngModel" [(ngModel)]="sector.name" required pattern=".{4,20}"
+                            [ngClass]="{'is-invalid': (name.errors && name.touched) || (!isNameValid() && name.touched), 'is-valid': (!name.errors && name.touched)}">
+                        <div *ngIf="name.errors?.['required'] && name.touched" class="invalid-feedback">Name is required.</div>
+                        <div *ngIf="name.errors?.['pattern'] && name.touched" class="invalid-feedback">The name must be between 4 and 20 characters.</div>
+                        <div *ngIf="!isNameValid() && name.touched" class="invalid-feedback">Name already exists for another product.</div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-success mt-4" [disabled]="myForm.invalid">Add sector</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <section *ngIf="sectorsList.length > 0 && !deleteMode">
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="bg-dark text-light ">Name</th>
+                            <th scope="col" class="bg-dark text-light">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sector of sectorsList">
+                            <td>{{sector.name}}</td>
+                            <td>
+                                <button class="btn btn-danger mx-2 " (click)="delete(sector.id!)">Delete</button>
+                                <!-- <button class="btn btn-warning mx-2" (click)="edit(supplier.id!)">Edit</button>  -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</section>
