@@ -6,6 +6,7 @@ import { supplierInterface } from '../../interfaces/Suppliers/dataSuppliers';
 import { sectorInterface } from '../../interfaces/Suppliers/dataSector';
 import { vatInterface } from '../../interfaces/Suppliers/dataVat';
 import { contactInterface } from '../../interfaces/Suppliers/dataContact';
+import { AlertsService } from '../../services/alerts.service';
 
 @Component({
   selector: 'app-create-supplier',
@@ -59,6 +60,7 @@ export class CreateSupplierComponent implements OnInit {
     private service: SupplierServiceService,
     private router: Router,
     private route: ActivatedRoute,
+    private alertService: AlertsService
   ) {}
 
   ngOnInit(): void {
@@ -127,6 +129,7 @@ export class CreateSupplierComponent implements OnInit {
           supplier.contact = { id: res.id}        
           if (supplier.id){
             this.service.updateSupplier(supplier.id, supplier).subscribe(() => {
+              this.alertService.showEditedSuccess("Supplier edited successfully!");
               this.router.navigate(['/suppliers']);
             });
           }
@@ -137,6 +140,7 @@ export class CreateSupplierComponent implements OnInit {
         supplier.contact = { id: res.id}
         console.log(supplier);
         this.service.addSupplier(supplier).subscribe(() => {
+          this.alertService.showSuccess("Supplier added successfully!");
           this.router.navigate(['/suppliers']);
         });
       })

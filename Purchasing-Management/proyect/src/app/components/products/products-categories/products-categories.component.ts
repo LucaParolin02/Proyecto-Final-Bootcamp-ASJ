@@ -43,14 +43,17 @@ export class ProductsCategoriesComponent {
       if (myForm.valid && this.isNameValid()) {
         this.prodService.editCategory(this.editCategoryCode, category).subscribe(() => {
           this.loadCategories();
+          this.alertsService.showEditedSuccess('Category edited successfully!');
           this.router.navigate(['/products/categories']);
         });
       }
     } else {
       if (myForm.valid && this.isNameValid()) {
         this.prodService.addCategory(this.category).subscribe(() => {
+          this.alertsService.showSuccess('Category added successfully!');
           this.loadCategories();
           this.category.name = '';
+          myForm.reset();
         });
       }
     }

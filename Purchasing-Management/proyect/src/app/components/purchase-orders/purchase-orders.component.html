@@ -14,7 +14,6 @@
         <div class="row clrs rounded m-1">
             <div class="col">
                 <div class="mt-4">
-                    <p>aaa/bbb/c</p>
                 </div>
             </div>
             <div class="col d-flex justify-content-end ">
@@ -65,7 +64,7 @@
                         date:'dd-MM-yyyy'}}</td>
                     <td [ngClass]="{'text-decoration-line-through': order.status.name ==='Cancel'}">{{order.expected |
                         date:'dd-MM-yyyy'}}</td>
-                    <td [ngClass]="{'text-decoration-line-through': order.status.name ==='Cancel'}">{{order.total}}</td>
+                    <td [ngClass]="{'text-decoration-line-through': order.status.name ==='Cancel'}">{{order.total | currency:'USD':'symbol':'1.2-2'}}</td>
                     <td [ngClass]="{'text-decoration-line-through': order.status.name ==='Cancel'}">
                         {{order.status.name}}</td>
                     <td>

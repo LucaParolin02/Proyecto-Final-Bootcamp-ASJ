@@ -174,6 +174,7 @@ export class CreateProductComponent implements OnInit {
     if (this.editMode) {
       product.id = this.editProductCode || 0;
       this.productService.updateProduct(product.id, product).subscribe(() => {
+        this.alertService.shoewEditedSucces('Product updated successfully!')
         this.router.navigate(['/products']);
       });
     } else {

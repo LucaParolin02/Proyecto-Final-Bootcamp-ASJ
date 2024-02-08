@@ -65,7 +65,7 @@
                 <p>{{detail.product.name}}</p>
             </div>
             <div class="col">
-                <p>{{detail.price}}</p>
+                <p>{{detail.price | currency:'USD':'symbol':'1.2-2'}}</p>
             </div>
             <div class="col">
                 <p>{{((detail.price! * detail.quantity) |

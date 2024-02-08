@@ -44,6 +44,7 @@ export class SectorsComponent implements OnInit{
       if (myForm.valid && this.isNameValid()) {
         this.suppService.editSector(this.editSectorCode, sector).subscribe(() => {
           this.loadSectors();
+          this.alertsService.showEditedSuccess("Sector edited successfully!");
           this.router.navigate(['/suppliers/sectors']);
         });
       }
@@ -52,6 +53,8 @@ export class SectorsComponent implements OnInit{
         this.suppService.addSector(this.sector).subscribe(() => {
           this.loadSectors();
           this.sector.name = '';
+          this.alertsService.showSuccess("Sector added successfully!");
+          myForm.reset();
         });
       }
     }

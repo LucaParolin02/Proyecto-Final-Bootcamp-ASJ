@@ -134,6 +134,7 @@ export class ProductsImagesComponent {
     if (this.editMode) {
       if (myForm.valid && this.isUrlValid()) {
         this.prodService.editImage(this.editImageCode, image).subscribe(() => {
+          this.alertsService.showEditedSuccess('Image edited successfully!');
           this.loadImages(this.actualProduct.id!);
           this.router.navigate(['/products/details', this.actualProduct.id, 'images']);
         });
@@ -141,6 +142,7 @@ export class ProductsImagesComponent {
     } else {
       if (myForm.valid && this.isUrlValid()) {
         this.prodService.addImage(image).subscribe(() => {
+          this.alertsService.showSuccess('Image added successfully!');
           this.loadImages(this.actualProduct.id!);
           this.productImage.url = '';
           myForm.reset();

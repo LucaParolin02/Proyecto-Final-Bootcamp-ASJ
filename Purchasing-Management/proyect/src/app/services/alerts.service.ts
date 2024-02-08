@@ -45,5 +45,13 @@ export class AlertsService {
       icon: "error"
     });
   }
+
+  showEditedSuccess(message: string){
+    Swal.fire({
+      title: "Edit successful!",
+      text: message,
+      icon: "success"
+    });
+  }
   
 }

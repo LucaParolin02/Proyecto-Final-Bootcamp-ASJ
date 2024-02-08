@@ -4,6 +4,7 @@ import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { Router } from '@angular/router';
 import { imagesInterface } from '../../interfaces/Products/dataImages';
 import { categoryInterface } from '../../interfaces/Products/dataCategories';
+import { AlertsService } from '../../services/alerts.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ProductsComponent implements OnInit {
   uniqueCategories: Set<string> = new Set();
   uniqueCategoriesDeleted: Set<string> = new Set();
 
-  constructor(private productService: ProductServiceService, private router: Router) {}
+  constructor(private productService: ProductServiceService, private router: Router, private alertsService: AlertsService) {}
 
   ngOnInit(): void {
     this.loadList();
@@ -54,20 +55,22 @@ export class ProductsComponent implements OnInit {
   }
 
   public deleteProduct(id: number) {
-    const isConfirmed = window.confirm('Are you sure you want to delete this product?');
-    if (isConfirmed) {
-      this.productService.deleteProduct(id).subscribe(() => {
-        this.loadList();
-        this.loadListDeleted();
-      });
-    }
+    this.alertsService.showConfirmation('Are you sure you want to delete this product?').then((isConfirmed) => {
+      if (isConfirmed) {
+        this.productService.deleteProduct(id).subscribe(() => {
+          this.loadList();
+          this.loadListDeleted();
+        });
+      }
+    });
   }
 
   public editProduct(id: number) {
-    const isConfirmed = window.confirm('Are you sure you want to edit this product?');
-    if (isConfirmed) {
-      this.router.navigate(['/products', id]);
-    }
+    this.alertsService.showConfirmation('Are you sure you want to edit this product?').then((isConfirmed) => {
+      if (isConfirmed) {
+        this.router.navigate(['/products', id]);
+      }
+    });
   }
 
   public getImage(id:number): string | null{
@@ -114,13 +117,14 @@ export class ProductsComponent implements OnInit {
   }
 
   public resProd(id: number){
-    const isConfirmed = window.confirm('Are you sure you want to restore this supplier?');
-    if (isConfirmed) {
-      this.productService.restoreProduct(id).subscribe(() => {
-        this.loadList();
-        this.loadListDeleted();
-    })
-  }
+    this.alertsService.showConfirmation('Are you sure you want to restore this product?').then((isConfirmed) => {
+      if (isConfirmed) {
+        this.productService.restoreProduct(id).subscribe(() => {
+          this.loadList();
+          this.loadListDeleted();
+        });
+      }
+    });
   }
 
   public handleImageError(event: any) {

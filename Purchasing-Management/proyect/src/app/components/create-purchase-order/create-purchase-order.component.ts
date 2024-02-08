@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { detailInterface } from '../../interfaces/Orders/dataDetail';
+import { AlertsService } from '../../services/alerts.service';
 
 @Component({
   selector: 'app-create-purchase-order',
@@ -108,7 +109,8 @@ export class CreatePurchaseOrderComponent implements OnInit {
     private supplierService: SupplierServiceService,
     private productService: ProductServiceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertsService: AlertsService
   ) {this.setTodayDate();}
 
   ngOnInit(): void {
@@ -152,6 +154,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
       console.log(editOrder);
       if (editOrder.id){
         this.orderService.updateOrder(editOrder.id , editOrder).subscribe(() => {
+          this.alertsService.shoewEditedSucces('Order updated successfully!');
           this.router.navigate(['/orders']);
         });
       }
@@ -162,8 +165,8 @@ export class CreatePurchaseOrderComponent implements OnInit {
         for(let detail of this.detailList){
           detail.order = {id: res.id}
         }
-        this.orderService.addDetails(this.detailList).subscribe((res) => {
-          console.log(res);
+        this.orderService.addDetails(this.detailList).subscribe(() => {
+          this.alertsService.showSuccess('Order created successfully!');
           this.router.navigate(['/orders']);
         })
       });
@@ -215,7 +218,6 @@ export class CreatePurchaseOrderComponent implements OnInit {
     } else {
     const detail = {product: this.product, price: this.product.price, quantity: this.orderDetail.quantity}
       this.detailList.push(detail);
-      console.log(this.detailList);
   }
 }
 
