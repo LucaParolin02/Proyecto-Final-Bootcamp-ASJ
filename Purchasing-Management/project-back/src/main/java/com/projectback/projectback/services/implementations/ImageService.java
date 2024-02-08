@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.projectback.projectback.exceptions.DuplicateEntityException;
 import com.projectback.projectback.models.ImageModel;
+import com.projectback.projectback.models.SectorModel;
 import com.projectback.projectback.repositories.ImageRepository;
 import com.projectback.projectback.services.IImageService;
 import com.projectback.projectback.services.IProductService;
@@ -35,6 +36,19 @@ public class ImageService implements IImageService{
 	}
 	
 	@Override
+	public List<ImageModel> getImagesDeletedByProduct(Integer id){
+		return imageRepository.findByProduct_IdAndDeletedTrue(id);
+	}
+	
+	@Override
+	public ImageModel restoreImage(Integer id, ImageModel image) {
+		ImageModel existingImage = getImageById(id);
+		existingImage.setDeleted(false);
+		existingImage.setUpdated(Timestamp.from(Instant.now()));
+	    return imageRepository.save(existingImage);
+	}
+	
+	@Override
 	public ImageModel getImageById(Integer id) {
 		Optional<ImageModel> image = imageRepository.findById(id);
 		if (image.isPresent()) {
@@ -45,7 +59,7 @@ public class ImageService implements IImageService{
 	
 	@Override
 	public ImageModel addImage(ImageModel image) {
-		validateCategoryNameUniquess(image.getUrl());
+		validateImageNameUniquess(image.getUrl());
 		Integer productId = image.getProduct().getId();
 		iProductService.getProductById(productId);
 		image.setCreated(Timestamp.from(Instant.now()));
@@ -53,7 +67,7 @@ public class ImageService implements IImageService{
 		return imageRepository.save(image);
 	}
 	
-	private void validateCategoryNameUniquess(String url) {
+	private void validateImageNameUniquess(String url) {
 		Optional<ImageModel> existingImg = imageRepository.findByUrlAndDeletedFalse(url);
 		if (existingImg.isPresent()) {
 			throw new DuplicateEntityException("Image with url '" + url + "' already exists.");

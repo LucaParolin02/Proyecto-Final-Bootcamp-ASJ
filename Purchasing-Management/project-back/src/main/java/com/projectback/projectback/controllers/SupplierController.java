@@ -77,6 +77,11 @@ public class SupplierController {
     	return ResponseEntity.ok(iSectorService.getSectors());
     }
     
+    @GetMapping("/sector/{id}")
+    public ResponseEntity<SectorModel> getSector(@PathVariable Integer id){
+    	return ResponseEntity.ok(iSectorService.getSectorById(id));
+    }
+    
     @PostMapping("/sectors/add")
     public ResponseEntity<Object> postSector(@Valid @RequestBody SectorModel sector, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

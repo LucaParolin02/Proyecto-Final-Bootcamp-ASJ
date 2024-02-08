@@ -46,6 +46,11 @@ public class ProductController {
 		return ResponseEntity.ok(iCategoryService.getAllCategories());
 	}
 	
+	@GetMapping("/category/{id}")
+	public ResponseEntity<CategoryModel> getCategory(@PathVariable Integer id){
+		return ResponseEntity.ok(iCategoryService.getCategoryById(id));
+	}
+	
 	@PostMapping("/categories/add")
 	public ResponseEntity<Object> postCategory(@Valid @RequestBody CategoryModel category, BindingResult bindingResult) {
 	    if (bindingResult.hasErrors()) {
@@ -102,6 +107,11 @@ public class ProductController {
 		return ResponseEntity.ok(iCategoryService.getDeletedCategories());
 	}
 	
+	@GetMapping("/deleted/images/{id}")
+	public ResponseEntity<List<ImageModel>> getDeletedImagesProd(@PathVariable Integer id){
+		return ResponseEntity.ok(iImageService.getImagesDeletedByProduct(id));
+	}
+	
 	@PostMapping("/add")
 	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductModel product, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
@@ -141,6 +151,11 @@ public class ProductController {
 	@PutMapping("/restore/category/{id}")
 	public ResponseEntity<Object> restoreCategory(@PathVariable Integer id, @RequestBody CategoryModel category){
 		return new ResponseEntity<Object>(iCategoryService.restoreCategory(id, category),HttpStatus.OK);
+	}
+	
+	@PutMapping("/restore/image/{id}")
+	public ResponseEntity<Object> restoreImage(@PathVariable Integer id, @RequestBody ImageModel image){
+		return new ResponseEntity<Object>(iImageService.restoreImage(id, image),HttpStatus.OK);
 	}
 	
 	@GetMapping("/images/{id}")

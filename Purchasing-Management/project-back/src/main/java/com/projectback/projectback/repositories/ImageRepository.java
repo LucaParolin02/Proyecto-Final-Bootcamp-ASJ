@@ -12,6 +12,8 @@ import com.projectback.projectback.models.ImageModel;
 public interface ImageRepository extends JpaRepository<ImageModel, Integer>{
 
 	List<ImageModel> findByProduct_IdAndDeletedFalse(Integer productId);
+	List<ImageModel> findByProduct_IdAndDeletedTrue(Integer productId);
 	Optional<ImageModel> findByUrlAndDeletedFalse(String url);
 	List<ImageModel> findByDeletedFalse();
+	
 }
