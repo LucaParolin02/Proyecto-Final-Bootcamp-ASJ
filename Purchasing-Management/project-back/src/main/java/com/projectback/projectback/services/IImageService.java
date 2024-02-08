@@ -9,6 +9,7 @@ public interface IImageService {
 	List<ImageModel> getImagesByProduct(Integer id);
 	List<ImageModel> getImagesDeletedByProduct(Integer id);
 	List<ImageModel> getImages();
+	List<ImageModel> getAllImages();
 	ImageModel restoreImage(Integer id, ImageModel image);
 	ImageModel getImageById(Integer id);
 	ImageModel addImage(ImageModel image);

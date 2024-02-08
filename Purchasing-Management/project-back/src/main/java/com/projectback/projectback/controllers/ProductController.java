@@ -164,8 +164,18 @@ public class ProductController {
 	}
 	
 	@GetMapping("/images")
-	public ResponseEntity<List<ImageModel>> getAllImages(){
+	public ResponseEntity<List<ImageModel>> getImages(){
 		return ResponseEntity.ok(iImageService.getImages());
+	}
+	
+	@GetMapping("/images/all")
+	public ResponseEntity<List<ImageModel>> getAllImages(){
+		return ResponseEntity.ok(iImageService.getAllImages());
+	}
+	
+	@GetMapping("/image/{id}")
+	public ResponseEntity<ImageModel> getImage(@PathVariable Integer id){
+		return ResponseEntity.ok(iImageService.getImageById(id));
 	}
 	
 	@PostMapping("/image/add")
