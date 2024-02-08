@@ -1,1 +1,84 @@
-<p>products-images works!</p>
+<section class="pb-3 rounded">
+    <div class="container-fluid align-content-center bg-light text-center p-4 row">
+        <div class="col-2">
+            <a routerLink="../" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container-fluid">
+        <div class="row pb-2">
+            <div class="col">
+                <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+                    <div class="form-group">
+                        <label for="url" class="form-label">Url Image</label>
+                        <input type="text" class="form-control" id="url" placeholder="Enter image url" name="url" #url="ngModel" [(ngModel)]="productImage.url" required
+                            [ngClass]="{'is-invalid': (url.errors && url.touched) || (!isUrlValid() && url.touched), 'is-valid': (!url.errors && url.touched)}">
+                        <div *ngIf="url.errors?.['required'] && url.touched" class="invalid-feedback">Url is required.</div>
+                        <div *ngIf="!isUrlValid() && url.touched" class="invalid-feedback">url already exists for another Image.</div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-success mt-4" [disabled]="myForm.invalid || !isUrlValid()">{{ editMode ? "Save changes" : "Add image" }}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col d-flex justify-content-end mt-5 ">
+                <div class="mt-4">
+                    <button type="button" class="btn btn-dark" (click)="changeMode()">{{ !deleteMode ? 'Show deleted' : 'Hide deleted' }}</button>
+                </div>
+            </div>
+        </div>
+        <section *ngIf="imagesList.length > 0 && !deleteMode">
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="bg-dark text-light ">Image</th>
+                            <th scope="col" class="bg-dark text-light">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let img of imagesList">
+                            <td><img src="{{img.url}}" alt="" style="height: 50px; width: 50px;" (error)="handleImageError($event)"></td>
+                            <td>
+                                <button class="btn btn-danger mx-2 " (click)="delete(img.id!)">Delete</button>
+                                <button class="btn btn-warning mx-2" (click)="goEdit(img.id!)">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section *ngIf="imagesDeletedList.length > 0 && deleteMode">
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="bg-dark text-light ">Image</th>
+                            <th scope="col" class="bg-dark text-light">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let img of imagesDeletedList">
+                            <td><img src="{{img.url}}" alt="" style="height: 50px; width: 50px;" (error)="handleImageError($event)"></td>
+                            <td>
+                                <button class="btn btn-success mx-2 " (click)="restImage(img.id!)">Restore</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</section>
+<section *ngIf="imagesDeletedList.length == 0 && deleteMode" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There are no deleted categories on the list!</h3>
+     </div>
+</section>
+
+<section *ngIf="imagesList.length == 0 && !deleteMode" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There is not categories on the list!</h3>
+     </div>
+</section>

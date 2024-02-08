@@ -50,6 +50,10 @@ export class ProductServiceService {
     return this.http.get(`${this.URL_PRODUCTS}/images`);
   }
 
+  public getImage(id:number): Observable<any>{
+    return this.http.get(`${this.URL_PRODUCTS}/image/${id}`)
+  }
+
   public getAllImages(): Observable<any>{
     return this.http.get(`${this.URL_PRODUCTS}/images/all`);
   }
@@ -62,8 +66,16 @@ export class ProductServiceService {
     return this.http.get(`${this.URL_PRODUCTS}/deleted/categories`);
   }
 
+  public getDeletedImagesByProd(id:number): Observable<any>{
+    return this.http.get(`${this.URL_PRODUCTS}/deleted/images/${id}`);
+  }
+
   public restoreProduct(id: number): Observable<productsInterface>{
     return this.http.put<productsInterface>(`${this.URL_PRODUCTS}/restore/${id}`, {});
+  }
+
+  public restoreImage(id: number): Observable<imagesInterface>{
+    return this.http.put<imagesInterface>(`${this.URL_PRODUCTS}/restore/image/${id}`, {})
   }
 
   public getCategoryById(id: number): Observable<categoryInterface>{

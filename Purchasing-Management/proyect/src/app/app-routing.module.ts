@@ -34,7 +34,8 @@ const routes: Routes = [
       {path:'form',component:CreateProductComponent},
       {path:':id',component:CreateProductComponent},
       {path:'details/:id',component: ProductDetailComponent},
-      {path: 'images/:id',component: ProductsImagesComponent}
+      {path: 'details/:id/images',component: ProductsImagesComponent},
+      {path: 'details/:id/images/:idImage',component: ProductsImagesComponent}
     ]
   },
   {path:'orders',
