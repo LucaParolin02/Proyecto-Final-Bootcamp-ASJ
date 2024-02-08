@@ -50,8 +50,8 @@ export class CreateSupplierComponent implements OnInit {
   provinces: any[] = [];
   sectorsList: sectorInterface[] = [];
   vatConditionList: vatInterface[] = [];
-
-
+  supplierList: supplierInterface[] = [];
+  supplierListDeleted: supplierInterface[] = [];
   public editMode: boolean = false;
   private editSupplierCode: number | null = null;
 
@@ -62,13 +62,7 @@ export class CreateSupplierComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.getSectors().subscribe((res) => {
-      this.sectorsList = res;
-    });
-
-    this.service.getVats().subscribe((res) => {
-      this.vatConditionList = res;
-    })
+    this.loadData();
 
     this.route.params.subscribe((params) => {
       const codeParam = params['id'];
@@ -83,6 +77,37 @@ export class CreateSupplierComponent implements OnInit {
     this.service.getCountries().subscribe((data: any) => {
       this.countries = data;
     });
+  }
+
+  private loadData(): void{
+    this.loadSectors();
+    this.loadVats();
+    this.loadSuppliers();
+    this.loadSuppliersDeleted();
+  }
+
+  private loadSectors(): void {
+    this.service.getSectors().subscribe((res) => {
+      this.sectorsList = res;
+    });
+  }
+
+  private loadVats(): void {
+    this.service.getVats().subscribe((res) => {
+      this.vatConditionList = res;
+    })
+  }
+
+  private loadSuppliers(): void{
+    this.service.getSuppliers().subscribe((res) => {
+      this.supplierList = res;
+    })
+  }
+
+  private loadSuppliersDeleted(): void {
+    this.service.getDeleteSuppliers().subscribe((res) => {
+      this.supplierListDeleted = res;
+    })
   }
 
   public submitForm(form: NgForm) {
@@ -169,4 +194,41 @@ public selectCountry(id: number) {
       }
     }
   }
+
+  public isNameValid(): boolean {
+    const allSuppliers = [...this.supplierList,...this.supplierListDeleted];
+    return !allSuppliers.some(
+      (s) => s.name === this.supplier.name && s.id !== this.supplier.id
+      );
+  }
+
+  public isCodeValid(): boolean {
+    const allSuppliers = [...this.supplierList,...this.supplierListDeleted];
+    return !allSuppliers.some(
+      (s) => s.code === this.supplier.code && s.id !== this.supplier.id
+      );
+  }
+
+  public isCuitValid(): boolean {
+    const allSuppliers = [...this.supplierList,...this.supplierListDeleted];
+    return !allSuppliers.some(
+      (s) => s.cuit === this.supplier.cuit && s.id !== this.supplier.id
+      );
+  }
+
+  public isEmailValid(): boolean {
+    const allSuppliers = [...this.supplierList,...this.supplierListDeleted];
+    return !allSuppliers.some(
+      (s) => s.email === this.supplier.email && s.id !== this.supplier.id
+      );
+  }
+
+  public isPhoneValid(): boolean {
+    const allSuppliers = [...this.supplierList,...this.supplierListDeleted];
+    return !allSuppliers.some(
+      (s) => s.phone === this.supplier.phone && s.id !== this.supplier.id
+      );
+  }
+
+
 }

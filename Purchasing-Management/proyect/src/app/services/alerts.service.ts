@@ -15,4 +15,12 @@ export class AlertsService {
       icon: "success"
     });
     }
+
+  shoewEditedSucces(message: string){
+    Swal.fire({
+      title: "Edit successfully!",
+      text: message,
+      icon: "success"
+    })
+  }
 }

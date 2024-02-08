@@ -60,6 +60,7 @@ export class CreateProductComponent implements OnInit {
   suppliersList: supplierInterface[] = [];
   categoryList: categoryInterface[] = [];
   productList: productsInterface[] = [];
+  productListDeleted: productsInterface[] = [];
   editMode: boolean = false;
   private editProductCode: number | null = null;
 
@@ -72,18 +73,7 @@ export class CreateProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.supplierService.getSuppliers().subscribe((resp) => {
-      this.suppliersList = resp;
-    });
-
-    this.productService.getCategories().subscribe((res) => {
-      console.log(res);
-      this.categoryList = res;
-    });
-
-    this.productService.getProducts().subscribe((res) => {
-      this.productList = res;
-    })
+    this.loadData();
 
     this.route.params.subscribe((params) => {
       const codeParam = params['id'];
@@ -92,6 +82,38 @@ export class CreateProductComponent implements OnInit {
         this.editProductCode = +codeParam;
         this.loadProductData();
       }
+    });
+  }
+
+  private loadData(): void {
+    this.loadSuppliers();
+    this.loadCategories();
+    this.loadProducts();
+    this.loadDeletedProducts();
+  }
+  
+  private loadSuppliers(): void {
+    this.supplierService.getSuppliers().subscribe((resp) => {
+      this.suppliersList = resp;
+    });
+  }
+  
+  private loadCategories(): void {
+    this.productService.getCategories().subscribe((res) => {
+      console.log(res);
+      this.categoryList = res;
+    });
+  }
+  
+  private loadProducts(): void {
+    this.productService.getProducts().subscribe((res) => {
+      this.productList = res;
+    });
+  }
+  
+  private loadDeletedProducts(): void {
+    this.productService.getDeletedProducts().subscribe((res) => {
+      this.productListDeleted = res;
     });
   }
 
@@ -132,14 +154,16 @@ export class CreateProductComponent implements OnInit {
   }
 
   public isSkuValid(): boolean {
-    return !this.productList.some(
+    const allProducts = [...this.productList, ...this.productListDeleted];
+    return !allProducts.some(
       (p) => p.sku === this.product.sku && p.id !== this.product.id
     );
   }
 
   public isNameValid(): boolean {
-    return !this.productList.some(
+    const allProducts = [...this.productList, ...this.productListDeleted];
+    return !allProducts.some(
       (p) => p.name === this.product.name && p.id !== this.product.id
-    )
+    );
   }
 }
