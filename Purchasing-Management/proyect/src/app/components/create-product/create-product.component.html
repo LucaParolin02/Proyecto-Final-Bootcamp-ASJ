@@ -1,8 +1,5 @@
 <div class="card mb-5">
   <div class="row g-0 ">
-    <div class="col-6 border">
-      <img src="assets/add-product.png" class="img-fluid rounded-start w-75" id="imagen" alt="...">
-    </div>
     <div class="col-6">
       <div class="card-body">
         <div class="col">
@@ -19,7 +16,7 @@
         <div class="container-fluid p-2 ">
           <form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
             <div class="row pb-2 ">
-              <label class="form-label ">Name Product</label>
+              <label class="form-label d-flex ">Name Product <h4 class="text-danger"> *</h4></label>
               <input type="text" class="form-control" placeholder="Enter product name" name="name" #name="ngModel"
                 [(ngModel)]="product.name" required pattern=".{4,20}" [ngClass]="{'is-invalid': (name.errors && name.touched) || (!isNameValid() && name.touched), 'is-valid': (!name.errors && name.touched)}">
               <div *ngIf="name.errors?.['required'] && name.touched" class="text-danger">Name is required.</div>
@@ -27,22 +24,31 @@
               <div *ngIf="!isNameValid() && name.touched" class="text-danger">Name already exists for another product.</div>
             </div>
             <div class="row pb-2 ">
-              <label class="form-label ">Sku Product</label>
+              <label class="form-label d-flex">Sku Product<h4 class="text-danger"> *</h4></label>
               <input type="text" class="form-control" placeholder="Enter product sku" name="sku" #sku="ngModel"
                 [(ngModel)]="product.sku" required pattern=".{4,50}" [ngClass]="{'is-invalid': (sku.errors && sku.touched) || (!isSkuValid() && sku.touched), 'is-valid': (!sku.errors && sku.touched)}">
               <div *ngIf="sku.errors?.['required'] && sku.touched" class="text-danger">SKU is required.</div>
               <div *ngIf="sku.errors?.['pattern'] && sku.touched" class="text-danger">The sku must be between 4 and 50 characters</div>
               <div *ngIf="!isSkuValid() && sku.touched" class="text-danger">SKU already exists for another product.</div>
             </div>
+
+            <div class="row pb-2" *ngIf="!editMode">
+                <label class="form-label">Product Image</label>
+                <input type="text" class="form-control" placeholder="Enter your url image" name="url"
+                    #url="ngModel" [(ngModel)]="productImage.url"
+                    [ngClass]="{'is-invalid': (url.errors && url.touched && productImage.url) || (!isUrlValid() && url.touched && productImage.url), 'is-valid': (!url.errors && url.touched && productImage.url)}">
+                    <div *ngIf="!isUrlValid() && url.touched && productImage.url" class="text-danger">Url Image already exists for another product.</div>
+            </div>
+
             <div class="row pb-2">
-              <label class="form-label">Choose supplier</label>
+              <label class="form-label d-flex">Choose supplier<h4 class="text-danger"> *</h4></label>
               <select class="form-select" #supplier="ngModel" name="supplier" aria-label="Select supplier" [(ngModel)]="product.supplier.id" required [ngClass]="supplier.errors ? 'is-invalid' : 'is-valid'">
                   <option *ngFor="let supplier of suppliersList" [value]="supplier.id">{{ supplier.name }}</option>
               </select>
               <div *ngIf="supplier.errors && supplier.touched" class="text-danger">Please choose a supplier.</div>
           </div>
           <div class="row pb-2">
-              <label class="form-label">Choose category
+              <label class="form-label d-flex">Choose category<h4 class="text-danger"> *</h4>
                 <a type="button" routerLink="/products/categories" class="btn btn-success btn-sm mx-4 "><i class="fa-solid fa-plus"></i></a>
               </label>
               <select name="category" aria-label="Select category" #category="ngModel" [(ngModel)]="product.category.id" class="form-select" required [ngClass]="category.errors ? 'is-invalid' : 'is-valid'">
@@ -51,14 +57,14 @@
               <div *ngIf="category.errors && category.touched" class="text-danger">Please choose a category.</div>
           </div>
             <div class="row pb-2 ">
-              <label class="form-label ">Description</label>
+              <label class="form-label d-flex ">Description<h4 class="text-danger"> *</h4></label>
               <textarea class="form-control" placeholder="Enter description" name="desc" #desc="ngModel"
                 [(ngModel)]="product.desc" required pattern=".{4,255}" [ngClass]="{'is-invalid': (desc.errors && desc.touched), 'is-valid': (!desc.errors && desc.touched)}"></textarea>
               <div *ngIf="desc.errors?.['required'] && desc.touched" class="text-danger">Description is required.</div>
               <div *ngIf="desc.errors?.['pattern'] && desc.touched" class="text-danger">The description must be between 4 and 255 characters</div>
             </div>
             <div class="row pb-2 ">
-              <label class="form-label ">Price</label>
+              <label class="form-label d-flex">Price<h4 class="text-danger"> *</h4></label>
               <input type="number" class="form-control" 
                 required [ngClass]="{'is-valid': price.valid && (price.dirty || price.touched),
                 'is-invalid': price.invalid && (price.dirty || price.touched)}" #price="ngModel"

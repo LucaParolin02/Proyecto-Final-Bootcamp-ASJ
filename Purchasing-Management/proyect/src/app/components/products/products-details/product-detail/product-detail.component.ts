@@ -52,7 +52,7 @@ export class ProductDetailComponent implements OnInit {
     }
   };
 
-  principalImg!: string;
+  principalImg!: string | null;
   images: imagesInterface[] = [];
   defaultImage = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
@@ -78,5 +78,9 @@ export class ProductDetailComponent implements OnInit {
   public changeImage(url: string): void {
     this.principalImg = url;
   }
+
+  public handleImageError(event: any) {
+    event.target.src = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
+}
 
 }

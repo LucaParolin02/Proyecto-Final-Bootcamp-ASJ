@@ -86,4 +86,12 @@ export class SupplierServiceService {
   public restoreSupplier(id: number): Observable<supplierInterface> {
     return this.http.put<supplierInterface>(`${this.URL_SUPPLIERS}/restore/${id}`, {});
   }
+
+  public restoreSector(id:number): Observable<sectorInterface>{
+    return this.http.put<sectorInterface>(`${this.URL_SUPPLIERS}/restore/sector/${id}`, {});
+  }
+
+  public getSectorById(id:number): Observable<sectorInterface>{
+    return this.http.get<sectorInterface>(`${this.URL_SUPPLIERS}/sector/${id}`);
+  }
 }

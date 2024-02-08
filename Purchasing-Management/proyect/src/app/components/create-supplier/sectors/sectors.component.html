@@ -16,12 +16,17 @@
                             [ngClass]="{'is-invalid': (name.errors && name.touched) || (!isNameValid() && name.touched), 'is-valid': (!name.errors && name.touched)}">
                         <div *ngIf="name.errors?.['required'] && name.touched" class="invalid-feedback">Name is required.</div>
                         <div *ngIf="name.errors?.['pattern'] && name.touched" class="invalid-feedback">The name must be between 4 and 20 characters.</div>
-                        <div *ngIf="!isNameValid() && name.touched" class="invalid-feedback">Name already exists for another product.</div>
+                        <div *ngIf="!isNameValid() && name.touched" class="invalid-feedback">Name already exists for another sector.</div>
                     </div>
                     <div class="col">
-                        <button type="submit" class="btn btn-success mt-4" [disabled]="myForm.invalid">Add sector</button>
+                        <button type="submit" class="btn btn-success mt-4" [disabled]="myForm.invalid || !isNameValid()">{{ editMode ? "Save changes" : "Add sector" }}</button>
                     </div>
                 </form>
+            </div>
+            <div class="col d-flex justify-content-end mt-5 ">
+                <div class="mt-4">
+                    <button type="button" class="btn btn-dark" (click)="changeMode()">{{ !deleteMode ? 'Show deleted' : 'Hide deleted' }}</button>
+                </div>
             </div>
         </div>
         <section *ngIf="sectorsList.length > 0 && !deleteMode">
@@ -38,7 +43,27 @@
                             <td>{{sector.name}}</td>
                             <td>
                                 <button class="btn btn-danger mx-2 " (click)="delete(sector.id!)">Delete</button>
-                                <!-- <button class="btn btn-warning mx-2" (click)="edit(supplier.id!)">Edit</button>  -->
+                                <button class="btn btn-warning mx-2" (click)="goEdit(sector.id!)">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section *ngIf="sectorsDeletedList.length > 0 && deleteMode">
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="bg-dark text-light ">Name</th>
+                            <th scope="col" class="bg-dark text-light">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sector of sectorsDeletedList">
+                            <td>{{sector.name}}</td>
+                            <td>
+                                <button class="btn btn-success mx-2 " (click)="restSector(sector.id!)">Restore</button>
                             </td>
                         </tr>
                     </tbody>
@@ -46,4 +71,16 @@
             </div>
         </section>
     </div>
+</section>
+
+<section *ngIf="sectorsDeletedList.length == 0 && deleteMode" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There are no deleted sectors on the list!</h3>
+     </div>
+</section>
+
+<section *ngIf="sectorsList.length == 0 && !deleteMode" class="pb-3 rounded">
+    <div class="col text-center">
+        <h3>There is not sectors on the list!</h3>
+     </div>
 </section>

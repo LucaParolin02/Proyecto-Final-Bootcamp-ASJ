@@ -14,7 +14,6 @@
         <div class="row clrs rounded m-1">
             <div class="col">
                 <div class="mt-4">
-                    <p>aaa/bbb/c</p>
                 </div>
             </div>
             <div class="col">
@@ -105,7 +104,7 @@
             <tbody>
                 <tr *ngFor="let product of productsList | categoryFilter: categoryFilter | search: searchTerm ">
                     <td>
-                        <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;">
+                        <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
                     </td>
                     <td> <div>{{product.sku}}</div>
                          <div class="d-flex ">{{product.name}} <span class="badge mx-3 text-bg-danger" *ngIf="product.supplier.deleted">Supplier deleted</span></div> </td>
@@ -139,7 +138,7 @@
             <tbody>
                 <tr *ngFor="let product of productsListDeleted | categoryFilter: categoryFilter | search: searchTerm">
                     <td>
-                        <img src="{{getImage(product.id!)}}" alt="Image" style="height: 50px; width: 50px;">
+                        <img src="{{getImage(product.id)}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
                     </td>
                     <td> <div>{{product.sku}}</div>
                          <div>{{product.name}}</div> </td>

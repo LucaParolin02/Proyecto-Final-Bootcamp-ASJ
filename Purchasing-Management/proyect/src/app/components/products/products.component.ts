@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
   }
 
   private loadImages(){
-    this.productService.getAllImages().subscribe((image) => {
+    this.productService.getImages().subscribe((image) => {
       this.arrayImages = image;
     })
   }
@@ -70,7 +70,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  public getImage(id:number): string{
+  public getImage(id:number): string | null{
   const productImage = this.arrayImages.find(image => image.product.id === id);
   return productImage ? productImage.url : 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
   }
@@ -122,6 +122,10 @@ export class ProductsComponent implements OnInit {
     })
   }
   }
+
+  public handleImageError(event: any) {
+    event.target.src = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
+}
 
 
 }

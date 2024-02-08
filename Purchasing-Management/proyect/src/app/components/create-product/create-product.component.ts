@@ -7,6 +7,7 @@ import { productsInterface } from '../../interfaces/Products/dataProducts';
 import { SupplierServiceService } from '../../services/supplier-service.service';
 import { categoryInterface } from '../../interfaces/Products/dataCategories';
 import { AlertsService } from '../../services/alerts.service';
+import { imagesInterface } from '../../interfaces/Products/dataImages';
 
 
 @Component({
@@ -57,10 +58,54 @@ export class CreateProductComponent implements OnInit {
     }
   };
 
+  productImage: imagesInterface = {
+    url: null,
+    product: {
+      name: '',
+      sku: '',
+      supplier: {
+      name: '',
+      code: '',
+      logo: undefined,
+      cuit: '',
+      web: undefined,
+      email: '',
+      phone: '',
+      street: undefined,
+      zip: '',
+      city: '',
+      contact:{
+        name: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        role: '',
+      },
+      vatCondition:{
+          name: '',
+      },
+      sector:{
+        name: '',
+      },
+      province:{
+          name: '',
+          country: {
+            name: ''
+          }
+      }},
+      desc: '',
+      price: 0,
+      category: {
+        name: ''
+      }
+    }
+  }
+
   suppliersList: supplierInterface[] = [];
   categoryList: categoryInterface[] = [];
   productList: productsInterface[] = [];
   productListDeleted: productsInterface[] = [];
+  imagesList: imagesInterface[] = [];
   editMode: boolean = false;
   private editProductCode: number | null = null;
 
@@ -90,6 +135,7 @@ export class CreateProductComponent implements OnInit {
     this.loadCategories();
     this.loadProducts();
     this.loadDeletedProducts();
+    this.loadImages();
   }
   
   private loadSuppliers(): void {
@@ -117,6 +163,12 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
+  private loadImages(): void {
+    this.productService.getAllImages().subscribe((res) => {
+      this.imagesList = res;
+    })
+  }
+
   submitForm(form: NgForm): void {
     const product: productsInterface = this.buildProduct(form);
     if (this.editMode) {
@@ -125,7 +177,15 @@ export class CreateProductComponent implements OnInit {
         this.router.navigate(['/products']);
       });
     } else {
-      this.productService.addProduct(product).subscribe(() => {
+      this.productService.addProduct(product).subscribe((addedProduct) => {
+        const imageAdd: imagesInterface = {
+            url: this.productImage.url || null,
+            product: addedProduct
+        }
+        if(this.productImage.url){
+          this.productService.addImage(imageAdd).subscribe(() => {
+          })
+        }
         this.alertService.showSuccess('Product added');
         this.router.navigate(['/products']);
       });
@@ -166,4 +226,11 @@ export class CreateProductComponent implements OnInit {
       (p) => p.name === this.product.name && p.id !== this.product.id
     );
   }
+
+  public isUrlValid(): boolean {
+    return !this.imagesList.some(
+      (i) => i.url === this.productImage.url && i.id !== this.productImage.id
+    )
+  }
+  
 }

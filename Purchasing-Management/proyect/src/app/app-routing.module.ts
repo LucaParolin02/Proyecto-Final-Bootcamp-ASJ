@@ -20,6 +20,7 @@ const routes: Routes = [
   {path: 'suppliers',
     children:[
     {path:"", component: SuppliersComponent},
+    {path:"sectors/:id",component: SectorsComponent},
     {path: 'sectors',component: SectorsComponent},
     {path:'form', component: CreateSupplierComponent},
     {path:':id', component: CreateSupplierComponent},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path:'products',
     children:[
       {path:"", component: ProductsComponent},
+      {path: 'categories/:id',component: ProductsCategoriesComponent},
       {path: 'categories',component: ProductsCategoriesComponent},
       {path:'form',component:CreateProductComponent},
       {path:':id',component:CreateProductComponent},

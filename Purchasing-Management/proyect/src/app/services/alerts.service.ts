@@ -37,5 +37,13 @@ export class AlertsService {
       return result.isConfirmed;
     });
   }
+
+  showError(message: string) {
+    Swal.fire({
+      title: "Error!",
+      text: message,
+      icon: "error"
+    });
+  }
   
 }

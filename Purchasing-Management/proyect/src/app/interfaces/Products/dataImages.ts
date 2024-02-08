@@ -2,6 +2,6 @@ import { productsInterface } from "./dataProducts";
 
 export interface imagesInterface {
     id?:number;
-    url:string;
+    url:string | null;
     product: productsInterface;
 }
