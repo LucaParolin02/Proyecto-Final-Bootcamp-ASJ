@@ -98,7 +98,7 @@ export class CreatePurchaseOrderComponent implements OnInit {
   editMode: boolean = false;
   private editOrderCode: number | null = null;
   supplierList: supplierInterface[] = [];
-  detailList: any = [];
+  detailList: any[] = [];
   selectedProductsList: productsInterface[] = [];
   statusList: any = [];
   isSupplierSelectDisabled = false;
@@ -212,13 +212,26 @@ export class CreatePurchaseOrderComponent implements OnInit {
 
   public addProductToOrder(id: number): void {
     this.isSupplierSelectDisabled = true;
-    const index:any = this.detailList.findIndex((detail:any) => detail.product.id === id);
-    if (index !== -1) {
-        this.detailList[index].quantity += this.orderDetail.quantity;
+    const selectedProduct = this.selectedProductsList.find(product => product.id === id);
+    
+    if (selectedProduct) {
+      const existingDetailIndex = this.detailList.findIndex((detail: detailInterface) => {
+        return Number(detail.product.id) === Number(id);
+      }); 
+      
+      if (existingDetailIndex !== -1) {
+        this.detailList[existingDetailIndex].quantity += 1; 
+      } else {
+        const newDetail = {
+          product: selectedProduct,
+          price: selectedProduct.price, 
+          quantity: 1 
+        };
+        this.detailList.push(newDetail);
+      }
     } else {
-    const detail = {product: this.product, price: this.product.price, quantity: this.orderDetail.quantity}
-      this.detailList.push(detail);
-  }
+      console.log('Product not found');
+    }
 }
 
 public calculateTotal(): number{
@@ -230,7 +243,7 @@ public calculateTotal(): number{
 }
 
   public loadProduct(id: number): void {
-    this.productService.getProduct(id).subscribe((res) => {
+    this.productService.getProduct(id).subscribe((res:productsInterface) => {
       this.product = res;
     })
   }

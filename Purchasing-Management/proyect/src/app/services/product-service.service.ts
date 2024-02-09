@@ -18,8 +18,8 @@ export class ProductServiceService {
     return this.http.get(this.URL_PRODUCTS);
   }
 
-  public getProduct(id: number): Observable<any> {
-    return this.http.get(`${this.URL_PRODUCTS}/${id}`);
+  public getProduct(id: number): Observable<productsInterface> {
+    return this.http.get<productsInterface>(`${this.URL_PRODUCTS}/${id}`);
   }
 
   public addProduct(product: productsInterface): Observable<any> {
