@@ -47,9 +47,6 @@
                     <td> <img src="{{supplier.logo}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
                     </td>
                     <td>{{supplier.code}}</td>
-                    <td>{{supplier.name}}</td>
-                    <td><div>{{supplier.province.country?.name}}</div>
-                        <div>{{supplier.province.name}}</div></td>
                     <td>
                         <ng-template #listTooltip>
                             <div class="d-flex flex-column">
@@ -58,10 +55,15 @@
                               <span>{{ supplier.phone }}</span>
                             </div>
                           </ng-template>
+                        {{supplier.name}}
+                        <button type="button" class="btn  me-2" placement="top" [ngbTooltip]="listTooltip" tooltipClass="tool">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+                    </td>
+                    <td><div>{{supplier.province.country?.name}}</div>
+                        <div>{{supplier.province.name}}</div></td>
+                    <td>
                         <div>{{supplier.contact.name}}  {{supplier.contact.lastName}}
-                            <button type="button" class="btn  me-2" placement="top" [ngbTooltip]="listTooltip" tooltipClass="tool">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
                         </div>
                     </td>
                     <td>
@@ -93,9 +95,6 @@
                     <td> <img src="{{supplier.logo}}" alt="Image" style="height: 50px; width: 50px;" (error)="handleImageError($event)">
                     </td>
                     <td>{{supplier.code}}</td>
-                    <td>{{supplier.name}}</td>
-                    <td><div>{{supplier.province.country?.name}}</div>
-                        <div>{{supplier.province.name}}</div></td>
                     <td>
                         <ng-template #listTooltip>
                             <div class="d-flex flex-column">
@@ -104,10 +103,15 @@
                               <span>{{ supplier.phone }}</span>
                             </div>
                           </ng-template>
+                        {{supplier.name}}
+                        <button type="button" class="btn  me-2" placement="top" [ngbTooltip]="listTooltip" tooltipClass="tool">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+                    </td>
+                    <td><div>{{supplier.province.country?.name}}</div>
+                        <div>{{supplier.province.name}}</div></td>
+                    <td>
                         <div>{{supplier.contact.name}}  {{supplier.contact.lastName}}
-                            <button type="button" class="btn  me-2" placement="top" [ngbTooltip]="listTooltip" tooltipClass="tool">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </button>
                         </div>
                     </td>
                     <td>

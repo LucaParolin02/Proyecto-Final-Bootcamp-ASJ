@@ -8,7 +8,12 @@
                 <img src="assets/supplier-icon.jpg" class="card-img-top" alt="suppliers"
                     style="height: 40vh;">
                 <div class="card-body text-center p-2">
-                    <a routerLink="/suppliers" class="btn boton p-2">See suppliers</a>
+                    <div class="row my-2">
+                        <h1>{{suppliersList.length}} Suppliers </h1>
+                    </div>
+                    <div class="row">
+                        <a routerLink="/suppliers" class="btn boton p-2">See suppliers</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -17,7 +22,12 @@
                 <img src="assets/products-icons.webp" class="card-img-top" alt="products"
                     style="height: 40vh;">
                 <div class="card-body text-center p-2">
-                    <a routerLink="/products" class="btn boton p-2">See products</a>
+                    <div class="row my-2">
+                        <h1>{{productsList.length}} Products </h1>
+                    </div>
+                    <div class="row">
+                        <a routerLink="/products" class="btn boton p-2">See products</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,7 +36,12 @@
                 <img src="assets/orden de compra.jpg" class="card-img-top" alt="orden-de-compra"
                     style="height: 40vh;">
                 <div class="card-body text-center p-2">
-                    <a routerLink="/orders" class="btn boton p-2">Place Purchase Order</a>
+                    <div class="row my-2">
+                        <h1>{{ordersList.length}} Orders </h1>
+                    </div>
+                    <div class="row">
+                        <a routerLink="/orders" class="btn boton p-2">Place Purchase Order</a>
+                    </div>
                 </div>
             </div>
         </div>
