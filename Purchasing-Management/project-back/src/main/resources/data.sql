@@ -34,7 +34,7 @@ VALUES ('Jane', 'Tesk', '987654321', 'jane@example.com', 'Employee', CURRENT_TIM
 INSERT INTO suppliers (supp_code, supp_logo, supp_name, supp_cuit, web, email, phone, street, snumber, zip, city, created_at, updated_at, is_deleted, vat_id, sector_id, province_id, contact_id)
 VALUES ('SUP001', 'https://th.bing.com/th/id/R.5c9ac9b6ffb1dc3d82471746047a5451?rik=KowRz4U1DFLOVQ&riu=http%3a%2f%2f1000logos.net%2fwp-content%2fuploads%2f2016%2f11%2fcoca-cola-emblem.jpg&ehk=oCRNNGPmRI0Ip5p4pqw3T38bl8ECsPu%2bdsknO%2bI5%2fAg%3d&risl=&pid=ImgRaw&r=0', 'Coca Cola', '12345678901', 'http://www.cocacola.com', 'proveedor@coca.com', '123456789', 'Calle Principal', '123', '1234AB', 'San Miguel', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 1, 1, 1, 1);
 INSERT INTO suppliers (supp_code, supp_logo, supp_name, supp_cuit, web, email, phone, street, snumber, zip, city, created_at, updated_at, is_deleted, vat_id, sector_id, province_id, contact_id)
-VALUES ('NVD001', 'https://logodix.com/logo/21837.jpg', 'Nvidia', '12345658901', 'https://www.nvidia.com', 'info@nvidia.com', '12345678923', '123 Graphics Street', '1A', '12345', 'Silicon Valley', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 1, 1, 1, 2);
+VALUES ('NVD001', 'https://logodix.com/logo/21837.jpg', 'Nvidia', '12345658901', 'https://www.nvidia.com', 'info@nvidia.com', '12345678923', '123 Graphics Street', '1342', '12345', 'Silicon Valley', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE, 1, 1, 1, 2);
 
 INSERT INTO categories (cat_name, created_at, updated_at, is_deleted) 
 VALUES ('Soda', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE);
