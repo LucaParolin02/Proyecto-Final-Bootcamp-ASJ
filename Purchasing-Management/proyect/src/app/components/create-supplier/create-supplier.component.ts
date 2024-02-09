@@ -192,7 +192,7 @@ public selectCountry(id: number) {
 
   public selectSector() {
     if (this.supplier.sector && this.sectorsList) {
-      const selectedSector = this.sectorsList.find(sector => sector.name === this.supplier.sector.name);
+      const selectedSector = this.sectorsList.find(sector => sector.name === this.supplier.sector.name );
       if (selectedSector) {
         this.supplier.sector = selectedSector;
       }

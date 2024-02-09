@@ -112,7 +112,7 @@
                             <label class="form-label d-flex">Choose Sector <h4 class="text-danger"> *</h4> 
                                 <a type="button" routerLink="/suppliers/sectors" class="btn btn-success btn-sm mx-4 "><i class="fa-solid fa-plus"></i></a></label>
                             <select name="sector" aria-label="Select Sector" [(ngModel)]="supplier.sector.id"
-                                class="form-select" required #sector="ngModel"
+                                class="form-select" required #sector="ngModel" 
                                 [ngClass]="sector.errors ? 'is-invalid' : 'is-valid'">
                                 <option *ngFor="let sector of sectorsList" [value]="sector.id">{{ sector.name }}
                                 </option>

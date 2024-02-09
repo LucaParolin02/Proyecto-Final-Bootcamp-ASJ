@@ -34,7 +34,7 @@
             </div>
             <div class="col">
                 <h3>Taxt Info</h3>
-                <p>Cuit: {{currentSupplier.cuit}}</p>
+                <p>Cuit: {{currentSupplier.cuit | cuitPipe}}</p>
                 <p>Vat: {{currentSupplier.vatCondition.name}}</p>
             </div>
         </div>

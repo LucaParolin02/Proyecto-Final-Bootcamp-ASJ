@@ -220,12 +220,12 @@ export class CreatePurchaseOrderComponent implements OnInit {
       }); 
       
       if (existingDetailIndex !== -1) {
-        this.detailList[existingDetailIndex].quantity += 1; 
+        this.detailList[existingDetailIndex].quantity += this.orderDetail.quantity; 
       } else {
         const newDetail = {
           product: selectedProduct,
           price: selectedProduct.price, 
-          quantity: 1 
+          quantity: this.orderDetail.quantity
         };
         this.detailList.push(newDetail);
       }
