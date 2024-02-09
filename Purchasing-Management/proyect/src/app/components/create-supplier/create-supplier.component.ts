@@ -155,7 +155,6 @@ export class CreateSupplierComponent implements OnInit {
           console.log(currentSupplier);
           this.supplier = { ...currentSupplier};
           this.selectCountry(currentSupplier.province.country.id);
-          this.selectSector();
         }
       });
     }
@@ -189,15 +188,6 @@ public selectCountry(id: number) {
     });
   }
 }
-
-  public selectSector() {
-    if (this.supplier.sector && this.sectorsList) {
-      const selectedSector = this.sectorsList.find(sector => sector.name === this.supplier.sector.name );
-      if (selectedSector) {
-        this.supplier.sector = selectedSector;
-      }
-    }
-  }
 
   public isNameValid(): boolean {
     const allSuppliers = [...this.supplierList,...this.supplierListDeleted];
