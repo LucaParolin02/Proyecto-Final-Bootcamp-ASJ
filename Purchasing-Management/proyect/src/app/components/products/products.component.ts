@@ -36,7 +36,6 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts().subscribe((products) => {
       this.productsList = products;
       this.filterUniqueCategory();
-      this.filterUniqueCategoryDeleted();
       this.sortProducts();
     });
   }
@@ -44,6 +43,7 @@ export class ProductsComponent implements OnInit {
   private loadListDeleted(){
     this.productService.getDeletedProducts().subscribe((productsDeleted) => {
       this.productsListDeleted = productsDeleted;
+      this.filterUniqueCategoryDeleted();
     })
   }
 
