@@ -29,16 +29,15 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.loadList();
     this.loadListDeleted();
-    this.sortProducts();
     this.loadImages();
   }
 
   private loadList() {
     this.productService.getProducts().subscribe((products) => {
-      console.log(products);
       this.productsList = products;
       this.filterUniqueCategory();
       this.filterUniqueCategoryDeleted();
+      this.sortProducts();
     });
   }
 
