@@ -20,6 +20,16 @@
                 <label class="form-label" for="form1">Search</label>
                 <input type="search" class="form-control" [(ngModel)]="searchTerm" >
             </div>
+            <div class="col d-flex justify-content-end">
+              <div class="row">
+                <label class="form-label" for="form1">Prices</label>
+                <select class="form-select" [(ngModel)]="priceFilter" (change)="onPriceFilterChange()">
+                    <option value="noFilter">No filter</option>
+                    <option value="ascending">Less to greater</option>
+                    <option value="descending">Greater to lesser</option>
+                </select>
+              </div>
+          </div>
             <div class="col d-flex justify-content-end ">
                 <div class="dropdown mt-4" *ngIf="!deleteMode">
                     <button

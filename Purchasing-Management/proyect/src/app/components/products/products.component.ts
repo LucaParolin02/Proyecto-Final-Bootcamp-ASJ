@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit {
   searchTerm: string  = '';
   uniqueCategories: Set<string> = new Set();
   uniqueCategoriesDeleted: Set<string> = new Set();
+  priceFilter: string = 'noFilter';
 
   constructor(private productService: ProductServiceService, private router: Router, private alertsService: AlertsService) {}
 
@@ -128,6 +129,19 @@ export class ProductsComponent implements OnInit {
 
   public handleImageError(event: any) {
     event.target.src = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
+}
+
+onPriceFilterChange() {
+  if (this.priceFilter === 'ascending') {
+    this.productsList.sort((a, b) => a.price - b.price);
+    this.productsListDeleted.sort((a, b) => a.price - b.price); 
+  } else if (this.priceFilter === 'descending') {
+    this.productsList.sort((a, b) => b.price - a.price);
+    this.productsListDeleted.sort((a, b) => b.price - a.price); 
+  } else if (this.priceFilter === 'noFilter') {
+    this.loadList();
+    this.loadListDeleted(); 
+  }
 }
 
 
