@@ -2,13 +2,17 @@
     background-color: #212121;
     min-height: 85vh;
     overflow-y: auto;
-    color: #dfd0d0; 
+    color: #dfd0d0;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-.clrs{
-    background: #16222a; 
-    background: -webkit-linear-gradient(to right, #16222a, #3a6073); 
-    background: linear-gradient(to right, #16222a, #3a6073); 
+.clrs {
+    background: #16222a;
+    background: -webkit-linear-gradient(to right, #16222a, #3a6073);
+    background: linear-gradient(to right, #16222a, #3a6073);
 }
 
+.bg-perso {
+    background: rgb(58, 96, 115);
+    background: linear-gradient(144deg, rgba(58, 96, 115, 1) 0%, rgba(2, 0, 36, 1) 100%);
+}
