@@ -103,6 +103,8 @@ export class CreatePurchaseOrderComponent implements OnInit {
   statusList: any = [];
   isSupplierSelectDisabled = false;
   selectedSupplierId:string = "-1";
+  supplierImageUrl: string = '';
+  defaultImageURL: string = 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png';
 
   constructor(
     private orderService: PurchaseOrderServiceService,
@@ -186,11 +188,20 @@ export class CreatePurchaseOrderComponent implements OnInit {
 
   public selectSupplier(id: number): void {  
     if (id) {
-      this.productService.getProductsBySupplier(id).subscribe(products => {
-        this.selectedProductsList = products;
-      });
+        this.productService.getProductsBySupplier(id).subscribe(products => {
+            this.selectedProductsList = products;
+        });
+
+        const selectedSupp = this.supplierList.find(
+            (supplier) => supplier.id === Number(id)
+        );
+
+        this.supplierImageUrl = selectedSupp ? selectedSupp.logo || this.defaultImageURL : this.defaultImageURL;
+    } else {
+        this.selectedProductsList = [];
+        this.supplierImageUrl = this.defaultImageURL;
     }
-  }
+}
 
   setTodayDate(): void {
     const today = new Date(); 
@@ -278,6 +289,11 @@ public calculateTotal(): number{
     const maxDate = new Date(this.getMaxDate());
 
     return deliveryDate >= minDate && deliveryDate <= maxDate;
+  }
+
+  public handleImageError(event: any) {
+    console.log(event);
+    event.target.src = this.defaultImageURL;
   }
 
 }
