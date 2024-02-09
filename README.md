@@ -24,6 +24,7 @@ Once Angular is installed, you can simply run ng serve -o, and you will be able 
 Once you run the backend for the first time, if you stop the execution of the backend, remember that you need to comment out these 2 lines in the application.properties file:
 
 spring.jpa.defer-datasource-initialization=true
+
 spring.sql.init.mode=always
 
 and save changes. This way, if you want to use the same database again, you won't encounter any issues.
